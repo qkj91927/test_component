@@ -53,7 +53,22 @@ Strict constraints:
 2. Keep canonical component naming, class naming, and token naming unchanged.
 3. Keep style/layout values aligned to library definitions; do not invent ad-hoc styles.
 4. Keep page composition as legal combinations of library components only.
-5. If requested UI cannot be represented by existing components/variants, stop implementation and report exact gap; do not fabricate unofficial components.
+5. If one-to-one exact component/variant match is unavailable, select the nearest legal component/variant from the library first.
+6. If no acceptable approximate component exists, pause generation and ask user whether to continue and which continuation strategy to use; continue only after explicit user response.
+7. Never fabricate unofficial components or bypass library constraints.
+
+### Gate D: Matching Fallback and User Confirmation (Required)
+Run fallback resolution before implementation when exact match is missing.
+
+Execution requirements:
+1. Evaluate exact match first.
+2. If exact match fails, evaluate approximate candidates by structure, interaction, token compatibility, and layout deviation.
+3. If approximate candidate exists, select best candidate and record rationale.
+4. If no approximate candidate exists, stop output generation and ask user:
+   - whether to continue
+   - which strategy to continue with (for example: relax strictness, redesign requirement with existing components, or wait for new component definition)
+5. Resume generation only after explicit user reply.
+6. Record decision evidence in delivery report.
 
 ## Compliance Level
 Default to **L4** for page generation unless user explicitly lowers it:
@@ -174,7 +189,8 @@ Template enforcement rules:
 1. If section 2 or 3 is missing, treat delivery as invalid.
 2. If section 4 is FAIL, delivery must be marked non-compliant.
 3. If any required checklist item is unknown/unverified, mark FAIL, not PASS.
-4. Never output “Fully compliant” when any checklist or matrix row is FAIL.
+4. If exact match is missing and no approximate candidate exists, user confirmation must be obtained before continuation.
+5. Never output “Fully compliant” when any checklist or matrix row is FAIL.
 
 ## Non-Negotiable Rules
 1. Never generate page UI before full `component_specs` ingestion.
