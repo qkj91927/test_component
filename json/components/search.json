@@ -1,0 +1,55 @@
+{
+  "id": "search",
+  "name": "搜索框 Search",
+  "category": "操作",
+  "description": "用于内容检索的搜索输入组件，支持多种交互状态与布局形式，引导用户快速定位目标内容。",
+
+  "totalVariants": 6,
+
+  "variants": [
+    { "id": "A1", "name": "默认态·居中", "state": "default", "hasBack": false, "inputWidth": 396, "placeholderAlign": "center" },
+    { "id": "A2", "name": "默认态·左对齐", "state": "default", "hasBack": false, "inputWidth": 396, "placeholderAlign": "left" },
+    { "id": "B1", "name": "激活态·无返回", "state": "focused", "hasBack": false, "inputWidth": 350, "hasCursor": true, "hasCancel": true },
+    { "id": "B2", "name": "激活态·有返回", "state": "focused", "hasBack": true, "inputWidth": 328, "hasCursor": true, "hasCancel": true },
+    { "id": "C1", "name": "输入态·无返回", "state": "typing", "hasBack": false, "inputWidth": 350, "hasCursor": true, "hasCancel": true, "hasClear": true },
+    { "id": "C2", "name": "输入态·有返回", "state": "typing", "hasBack": true, "inputWidth": 328, "hasCursor": true, "hasCancel": true, "hasClear": true }
+  ],
+
+  "layout": {
+    "outerContainer": { "width": 428, "height": 60, "background": "white", "padding": "0 16px" },
+    "inputBox": { "height": 36, "background": "token:fill_standard_brand", "radius": 12 }
+  },
+
+  "style": {
+    "icons": {
+      "searchDefault": { "size": 18, "color": "#929296" },
+      "searchTyping": { "size": 18, "color": "#1A1A1A" },
+      "cursor": { "width": 1, "height": 18, "color": "token:brand_standard" },
+      "clear": { "size": 20, "color": "#929296" },
+      "backArrow": { "size": 24, "color": "#1A1A1A" }
+    },
+    "text": {
+      "placeholder": { "fontSize": 17, "fontWeight": 400, "color": "token:text_tertiary" },
+      "input": { "fontSize": 17, "fontWeight": 400, "color": "token:text_primary" },
+      "cancel": { "fontSize": 16, "fontWeight": 400, "color": "token:text_link" }
+    },
+    "backArrowLayout": { "containerWidth": 12, "svgSize": 24, "marginLeft": -6, "gapToInput": 12 }
+  },
+
+  "interaction": {
+    "defaultToFocused": "点击默认态输入框 → 激活态，显示光标和取消按钮",
+    "focusedToTyping": "开始输入文字 → 输入态，搜索图标变深色，显示清除按钮",
+    "clearAction": "点击清除按钮 → 清空文字，回到激活态",
+    "cancelAction": "点击取消按钮 → 回到默认态",
+    "backAction": "点击返回箭头 → 返回上一级页面"
+  },
+
+  "figmaMapping": {
+    "A1": "state=default, align=center",
+    "A2": "state=default, align=left",
+    "B1": "state=focused, hasBack=false",
+    "B2": "state=focused, hasBack=true",
+    "C1": "state=typing, hasBack=false",
+    "C2": "state=typing, hasBack=true"
+  }
+}
