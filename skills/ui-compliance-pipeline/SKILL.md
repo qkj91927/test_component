@@ -1,6 +1,6 @@
 ---
 name: ui-compliance-pipeline
-description: This skill should be used when generating or modifying any UI/page/component. Enforce a mandatory, gate-based compliance pipeline: full spec ingestion, full component-matrix style parsing, component-library-only implementation, token/state/accessibility validation, and evidence-based delivery verdict.
+description: "This skill should be used when generating or modifying any UI/page/component. Enforce a mandatory, gate-based compliance pipeline: full spec ingestion, full component-matrix style parsing, component-library-only implementation, token/state/accessibility validation, and evidence-based delivery verdict."
 ---
 
 # UI Compliance Pipeline Skill
