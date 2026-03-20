@@ -1,6 +1,8 @@
 ---
 name: ui-compliance-pipeline
-description: "This skill should be used when generating or modifying any UI/page/component. Enforce a mandatory, gate-based compliance pipeline: full spec/component-code/style-token ingestion, component-library-only implementation, icons-first asset policy, token/state/accessibility validation, and evidence-based delivery verdict."
+description: This skill should be used when generating or modifying any UI/page/component. Enforce a mandatory, gate-based compliance pipeline: full spec/style-token ingestion, component-library-only implementation, icons-first asset policy, token/state/accessibility validation, and evidence-based delivery verdict.
+allowed-tools: 
+disable: true
 ---
 
 # UI Compliance Pipeline Skill
@@ -45,18 +47,16 @@ Execution requirements:
 3. Build a style-token-layout mapping aligned to spec constraints.
 4. Record coverage evidence that full matrix styles were ingested.
 
-### Gate C: Full Component Code and Style-Token Ingestion (Required for page generation)
-Read implementation sources before UI generation:
-- `/UXworkflow/component_json/` (component code)
+### Gate C: Full Style-Token Ingestion (Required for page generation)
+Read style-token source before UI generation:
 - `/UXworkflow/style_css/` (component style tokens)
 
 Execution requirements:
-1. Discover all files in `component_json` and read every file completely.
-2. Discover all files in `style_css` and read every file completely.
-3. Build a normalized implementation map (component naming/structure/props/events) from `component_json`.
-4. Build a normalized token map (token naming/value/usage constraints) from `style_css`.
-5. Record full file coverage evidence for both folders.
-6. Block implementation if either folder coverage is incomplete.
+1. Discover all files in `style_css` and read every file completely.
+2. Build a normalized token map (token naming/value/usage constraints) from `style_css`.
+3. Generate UI styles using `style_css` tokens only; do not use hard-coded visual values.
+4. Record full file coverage evidence for `style_css`.
+5. Block implementation if folder coverage is incomplete.
 
 ### Gate D: Icon Asset Priority Policy (Required)
 When UI generation needs icon resources, apply icon priority strictly.
@@ -71,7 +71,7 @@ Execution requirements:
 Generate page UI using **100% component-library components only**.
 
 Strict constraints:
-1. Use only documented components and documented variants from `component_specs` + `component-matrix` + `component_json` + `style_css`.
+1. Use only documented components and documented variants from `component_specs` + `component-matrix` + `style_css`.
 2. Keep canonical component naming, class naming, and token naming unchanged.
 3. Keep style/layout values aligned to library definitions; do not invent ad-hoc styles.
 4. Keep page composition as legal combinations of library components only.
@@ -116,11 +116,10 @@ Default to **L4** for page generation unless user explicitly lowers it:
 - Build class/token/layout/state mapping.
 - Block implementation if matrix parsing is incomplete.
 
-### Step 4: Run Gate C (Full `component_json` + `style_css` ingestion)
-- Complete full-folder ingestion for `component_json` and `style_css`.
-- Build component implementation map from `component_json`.
+### Step 4: Run Gate C (Full `style_css` ingestion)
+- Complete full-folder ingestion for `style_css`.
 - Build style-token map from `style_css`.
-- Block implementation if any file in either folder is unread.
+- Block implementation if any file in folder is unread.
 
 ### Step 5: Run Gate D (Icon source priority)
 - Resolve icon needs from `icons` folder first.
@@ -161,12 +160,11 @@ Output must include:
 1. What changed
 2. Full spec ingestion evidence (`component_specs` file list)
 3. Full matrix ingestion evidence (`component-matrix.html` coverage statement)
-4. Full component code ingestion evidence (`component_json` file list)
-5. Full style-token ingestion evidence (`style_css` file list)
-6. Icon source decision evidence (`icons` first, fallback reasons if any)
-7. Acceptance matrix results (pass/fail per item)
-8. Remaining risks or "none"
-9. Final verdict:
+4. Full style-token ingestion evidence (`style_css` file list)
+5. Icon source decision evidence (`icons` first, fallback reasons if any)
+6. Acceptance matrix results (pass/fail per item)
+7. Remaining risks or "none"
+8. Final verdict:
    - "Fully compliant at Lx"
    - or "Not fully compliant, gaps: ..."
 
@@ -201,71 +199,65 @@ Use the following structure in every UI/page delivery. Do not omit sections.
   - [ ] states/interaction styles
 - Coverage verdict: PASS | FAIL
 
-### 4) Component Code Coverage Checklist (`component_json` full ingestion)
-- Source folder: /UXworkflow/component_json/
-- [ ] All component code files read in full
-- [ ] Naming/structure/props/events map extracted
-- Coverage verdict: PASS | FAIL
-
-### 5) Style Token Coverage Checklist (`style_css` full ingestion)
+### 4) Style Token Coverage Checklist (`style_css` full ingestion)
 - Source folder: /UXworkflow/style_css/
 - [ ] All style token files read in full
 - [ ] Token naming/value/usage map extracted
 - Coverage verdict: PASS | FAIL
 
-### 6) Icon Source Priority Checklist (`icons` first)
+### 5) Icon Source Priority Checklist (`icons` first)
 - Source folder: /UXworkflow/icons/
 - [ ] Icon demand resolved from `icons` first
 - [ ] Fallback (if any) has explicit reason and approved source
 - [ ] No external/unofficial icons without user confirmation
 - Coverage verdict: PASS | FAIL
 
-### 7) Component Purity Checklist (100% library-only)
+### 6) Component Purity Checklist (100% library-only)
 - [ ] All rendered units map to documented library components
-- [ ] All variants are legal variants from specs/matrix/code/token sources
+- [ ] All variants are legal variants from specs/matrix/token sources
 - [ ] No unofficial components introduced
 - [ ] No ad-hoc token names
 - [ ] No ad-hoc layout/style values that bypass library rules
 - Purity verdict: PASS | FAIL
 
-### 8) Matching Fallback Decision (when exact match missing)
+### 7) Matching Fallback Decision (when exact match missing)
 - Exact match found: YES | NO
 - Approximate candidate evaluated: YES | NO
 - Selected approximate component/variant: <name> | none
 - If none, user confirmation asked: YES | NO
 - User decision summary: <reply> | pending
 
-### 9) Acceptance Matrix Result
+### 8) Acceptance Matrix Result
 | Component | Structure | Geometry | Typography | Token Name/Value | State Machine | Accessibility | Result |
 |-----------|-----------|----------|------------|------------------|---------------|---------------|--------|
 | ...       | PASS/FAIL | PASS/FAIL| PASS/FAIL  | PASS/FAIL        | PASS/FAIL     | PASS/FAIL     | PASS/FAIL |
 
-### 10) Risks
+### 9) Risks
 - none | <explicit risks>
 
-### 11) Final Verdict
+### 10) Final Verdict
 - Fully compliant at Lx
 - OR Not fully compliant, gaps: <explicit gap list>
 ```
 
 Template enforcement rules:
 1. If section 2 or 3 is missing, treat delivery as invalid.
-2. If section 4 or 5 is missing, treat delivery as invalid.
-3. If section 6 is FAIL, icon usage is non-compliant.
-4. If section 7 is FAIL, delivery must be marked non-compliant.
-5. If any required checklist item is unknown/unverified, mark FAIL, not PASS.
-6. If exact match is missing and no approximate candidate exists, user confirmation must be obtained before continuation.
-7. Never output "Fully compliant" when any checklist or matrix row is FAIL.
+2. If section 4 is missing, treat delivery as invalid.
+3. If section 4 contains hard-coded visual values, delivery is non-compliant.
+4. If section 5 is FAIL, icon usage is non-compliant.
+5. If section 6 is FAIL, delivery must be marked non-compliant.
+6. If any required checklist item is unknown/unverified, mark FAIL, not PASS.
+7. If exact match is missing and no approximate candidate exists, user confirmation must be obtained before continuation.
+8. Never output "Fully compliant" when any checklist or matrix row is FAIL.
 
 ## Non-Negotiable Rules
 1. Never generate page UI before full `component_specs` ingestion.
 2. Never generate page UI before full `component-matrix.html` style ingestion.
-3. Never generate page UI before full `component_json` ingestion.
-4. Never generate page UI before full `style_css` token ingestion.
-5. Always resolve icon usage from `icons` folder first.
-6. If no suitable icon exists in `icons`, use only approved fallback source with explicit reason.
-7. Never use components/styles/naming/tokens/layout outside the component library.
-8. Never silently approximate token names/values when strict compliance is required.
-9. If exact match and approximate match both fail, pause and ask user how to proceed; continue only after explicit reply.
-10. Never skip state-machine or accessibility checks when interactions exist.
-11. Never skip evidence-based compliance reporting.
+3. Never generate page UI before full `style_css` token ingestion.
+4. Always resolve icon usage from `icons` folder first.
+5. If no suitable icon exists in `icons`, use only approved fallback source with explicit reason.
+6. Never use components/styles/naming/tokens/layout outside the component library.
+7. Never silently approximate token names/values when strict compliance is required.
+8. If exact match and approximate match both fail, pause and ask user how to proceed; continue only after explicit reply.
+9. Never skip state-machine or accessibility checks when interactions exist.
+10. Never skip evidence-based compliance reporting.
