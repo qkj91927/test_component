@@ -1,6 +1,6 @@
 ---
 name: ui-compliance-pipeline
-description: This skill should be used when generating or modifying any UI/page/component. Enforce a mandatory, gate-based compliance pipeline: full spec/style-token ingestion, component-library-only implementation, icons-first asset policy, token/state/accessibility validation, and evidence-based delivery verdict.
+description: "This skill should be used when generating or modifying any UI/page/component. Enforce a mandatory, gate-based compliance pipeline: full spec/style-token ingestion, component-library-only implementation, icons-first asset policy, token/state/accessibility validation, and evidence-based delivery verdict."
 allowed-tools: 
 disable: true
 ---
