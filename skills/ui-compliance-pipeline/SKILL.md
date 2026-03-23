@@ -101,32 +101,40 @@ Default to **L4** for page generation unless user explicitly lowers it:
 
 ## Execution Workflow (Must Follow in Order)
 
-### Step 1: Lock Scope and Acceptance Level
+### Step 1: Clone Required Repository (Mandatory First Step)
+- Clone this repository before any UI analysis or implementation:
+  - `https://github.com/qkj91927/test_component`
+- Default local target path:
+  - `/test_component/`
+- If the repository already exists locally, pull latest changes and continue.
+- Do not skip this step.
+
+### Step 2: Lock Scope and Acceptance Level
 - Identify target page/components and required interaction scope.
 - Set acceptance level (default L4 for page generation).
 - Define verification radius (component-local or full-page regression).
 
-### Step 2: Run Gate A (Full `component_specs` ingestion)
+### Step 3: Run Gate A (Full `component_specs` ingestion)
 - Complete full-folder ingestion.
 - Build the component constraints map.
 - Block implementation if any spec file is unread.
 
-### Step 3: Run Gate B (Full `component-matrix.html` ingestion)
+### Step 4: Run Gate B (Full `component-matrix.html` ingestion)
 - Complete full-file style parsing.
 - Build class/token/layout/state mapping.
 - Block implementation if matrix parsing is incomplete.
 
-### Step 4: Run Gate C (Full `style_css` ingestion)
+### Step 5: Run Gate C (Full `style_css` ingestion)
 - Complete full-folder ingestion for `style_css`.
 - Build style-token map from `style_css`.
 - Block implementation if any file in folder is unread.
 
-### Step 5: Run Gate D (Icon source priority)
+### Step 6: Run Gate D (Icon source priority)
 - Resolve icon needs from `icons` folder first.
 - If fallback is used, keep evidence and reason.
 - Block external icon usage unless user explicitly confirms.
 
-### Step 6: Build Acceptance Matrix
+### Step 7: Build Acceptance Matrix
 Create per-component checklist:
 1. Component identity and legal variant
 2. DOM/slot structure
@@ -140,22 +148,22 @@ Create per-component checklist:
 
 Do not implement before acceptance matrix is complete.
 
-### Step 7: Implement with Library Lock
+### Step 8: Implement with Library Lock
 - Implement only with approved library components/variants.
 - Preserve canonical naming and tokens.
 - Preserve matrix-aligned layout and spacing.
 - Reject custom one-off CSS/structure that bypasses component library constraints.
 
-### Step 8: Validate State Machine and Interaction
+### Step 9: Validate State Machine and Interaction
 - Validate entry, intermediate, and exit/cancel/clear/back transitions.
 - Validate edge cases (empty input, blur timing, rapid actions, disabled/error paths).
 
-### Step 9: Validate Accessibility and Regression
+### Step 10: Validate Accessibility and Regression
 - Validate keyboard navigation and visible focus.
 - Validate semantic roles/labels.
 - Validate no unintended global token/style side effects.
 
-### Step 10: Delivery Contract (Required)
+### Step 11: Delivery Contract (Required)
 Output must include:
 1. What changed
 2. Full spec ingestion evidence (`component_specs` file list)
@@ -171,7 +179,7 @@ Output must include:
 Never claim completion without evidence.
 
 
-### Step 11: Mandatory Compliance Output Template (Required)
+### Step 12: Mandatory Compliance Output Template (Required)
 Use the following structure in every UI/page delivery. Do not omit sections.
 
 ```md
