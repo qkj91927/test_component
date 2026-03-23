@@ -37,15 +37,15 @@ Execution requirements:
 3. Build a normalized component constraints map (API, structure, variants, states, tokens, spacing/layout rules).
 4. Record file coverage evidence (list of files read).
 
-### Gate B: Full Component Matrix Style Ingestion (Required for page generation)
-Read full component style source from:
+### Gate B: Component Matrix Style Reference (Optional but Recommended)
+Use component style reference from:
 - `/UXworkflow/component-matrix.html`
 
 Execution requirements:
-1. Read the full file.
-2. Parse all component-related style blocks and naming conventions (class names, tokens, geometry, typography, spacing, states).
-3. Build a style-token-layout mapping aligned to spec constraints.
-4. Record coverage evidence that full matrix styles were ingested.
+1. Read relevant matrix sections as needed for style alignment.
+2. Parse component-related style blocks and naming conventions when the target page/component needs them.
+3. Use matrix-derived class/token/layout/state information as a reference source.
+4. Record what matrix scope was referenced (targeted evidence).
 
 ### Gate C: Full Style-Token Ingestion (Required for page generation)
 Read style-token source before UI generation:
@@ -65,7 +65,10 @@ Execution requirements:
 1. Resolve icons from `/UXworkflow/icons/` first.
 2. If no semantically suitable icon exists in `icons`, fallback to already approved project icon assets and record fallback reason.
 3. Never import external/unofficial icons without explicit user confirmation.
-4. Record icon source decisions in delivery report.
+4. Do not modify original icon SVG stroke/weight settings when generating UI.
+5. Ensure icon stroke/weight is consistent across the same page.
+6. Ensure icon color matches the corresponding component-spec-defined icon color and use icon color tokens from `style_css` tokens.
+7. Record icon source decisions and icon consistency checks in delivery report.
 
 ### Gate E: Component-Library-Only Composition (Required for page generation)
 Generate page UI using **100% component-library components only**.
@@ -119,20 +122,23 @@ Default to **L4** for page generation unless user explicitly lowers it:
 - Build the component constraints map.
 - Block implementation if any spec file is unread.
 
-### Step 4: Run Gate B (Full `component-matrix.html` ingestion)
-- Complete full-file style parsing.
-- Build class/token/layout/state mapping.
-- Block implementation if matrix parsing is incomplete.
+### Step 4: Run Gate B (Targeted `component-matrix.html` reference)
+- Read and parse relevant matrix sections as needed.
+- Build class/token/layout/state mapping for the target scope.
+- Record referenced matrix scope evidence.
 
 ### Step 5: Run Gate C (Full `style_css` ingestion)
 - Complete full-folder ingestion for `style_css`.
 - Build style-token map from `style_css`.
 - Block implementation if any file in folder is unread.
 
-### Step 6: Run Gate D (Icon source priority)
+### Step 6: Run Gate D (Icon source + consistency)
 - Resolve icon needs from `icons` folder first.
 - If fallback is used, keep evidence and reason.
 - Block external icon usage unless user explicitly confirms.
+- Do not alter original icon SVG stroke/weight.
+- Keep icon stroke/weight consistent across the same page.
+- Use component-spec-aligned icon colors via icon color tokens.
 
 ### Step 7: Build Acceptance Matrix
 Create per-component checklist:
@@ -141,7 +147,7 @@ Create per-component checklist:
 3. Geometry (W/H/padding/gap/radius)
 4. Typography (family/size/weight/line-height)
 5. Token naming + value consistency
-6. Asset source/semantics/size/color
+6. Asset source/semantics/size/color/stroke consistency
 7. States and event-driven transitions
 8. Accessibility (ARIA, keyboard, focus, labels)
 9. Regression impact
@@ -151,7 +157,7 @@ Do not implement before acceptance matrix is complete.
 ### Step 8: Implement with Library Lock
 - Implement only with approved library components/variants.
 - Preserve canonical naming and tokens.
-- Preserve matrix-aligned layout and spacing.
+- Preserve matrix-aligned layout and spacing where referenced.
 - Reject custom one-off CSS/structure that bypasses component library constraints.
 
 ### Step 9: Validate State Machine and Interaction
@@ -163,23 +169,30 @@ Do not implement before acceptance matrix is complete.
 - Validate semantic roles/labels.
 - Validate no unintended global token/style side effects.
 
-### Step 11: Delivery Contract (Required)
+### Step 11: Reverse Regression Backtest After Page Generation (Required)
+- After page generation, run reverse regression checks.
+- Verify all page styles and rendered units use repository-internal components, tokens, and icons only.
+- Verify no external component/token/icon source is introduced.
+- Record backtest evidence and verdict.
+
+### Step 12: Delivery Contract (Required)
 Output must include:
 1. What changed
 2. Full spec ingestion evidence (`component_specs` file list)
-3. Full matrix ingestion evidence (`component-matrix.html` coverage statement)
+3. Matrix reference evidence (`component-matrix.html` referenced scope statement)
 4. Full style-token ingestion evidence (`style_css` file list)
-5. Icon source decision evidence (`icons` first, fallback reasons if any)
+5. Icon source + stroke/weight consistency + icon token-color evidence
 6. Acceptance matrix results (pass/fail per item)
-7. Remaining risks or "none"
-8. Final verdict:
+7. Reverse regression backtest results (components/tokens/icons source audit)
+8. Remaining risks or "none"
+9. Final verdict:
    - "Fully compliant at Lx"
    - or "Not fully compliant, gaps: ..."
 
 Never claim completion without evidence.
 
 
-### Step 12: Mandatory Compliance Output Template (Required)
+### Step 13: Mandatory Compliance Output Template (Required)
 Use the following structure in every UI/page delivery. Do not omit sections.
 
 ```md
@@ -196,16 +209,16 @@ Use the following structure in every UI/page delivery. Do not omit sections.
 - [ ] ...all files listed
 - Coverage verdict: PASS | FAIL
 
-### 3) Matrix Coverage Checklist (`component-matrix.html` full ingestion)
+### 3) Matrix Reference Checklist (`component-matrix.html` targeted reference)
 - Source file: /UXworkflow/component-matrix.html
-- Read mode: full
-- Parsed style domains:
+- Reference mode: targeted/as-needed
+- Referenced style domains (if used):
   - [ ] component class naming
   - [ ] token naming/value
   - [ ] geometry/spacing/radius
   - [ ] typography
   - [ ] states/interaction styles
-- Coverage verdict: PASS | FAIL
+- Coverage verdict: PASS | N/A | FAIL
 
 ### 4) Style Token Coverage Checklist (`style_css` full ingestion)
 - Source folder: /UXworkflow/style_css/
@@ -218,6 +231,9 @@ Use the following structure in every UI/page delivery. Do not omit sections.
 - [ ] Icon demand resolved from `icons` first
 - [ ] Fallback (if any) has explicit reason and approved source
 - [ ] No external/unofficial icons without user confirmation
+- [ ] Original icon SVG stroke/weight not modified
+- [ ] Icon stroke/weight is consistent across the same page
+- [ ] Icon color matches component spec and uses icon color token
 - Coverage verdict: PASS | FAIL
 
 ### 6) Component Purity Checklist (100% library-only)
@@ -240,32 +256,41 @@ Use the following structure in every UI/page delivery. Do not omit sections.
 |-----------|-----------|----------|------------|------------------|---------------|---------------|--------|
 | ...       | PASS/FAIL | PASS/FAIL| PASS/FAIL  | PASS/FAIL        | PASS/FAIL     | PASS/FAIL     | PASS/FAIL |
 
-### 9) Risks
+### 9) Reverse Regression Backtest Result
+- [ ] All page styles are from repository components/tokens/icons only
+- [ ] No external component/token/icon source introduced
+- Backtest verdict: PASS | FAIL
+
+### 10) Risks
 - none | <explicit risks>
 
-### 10) Final Verdict
+### 11) Final Verdict
 - Fully compliant at Lx
 - OR Not fully compliant, gaps: <explicit gap list>
 ```
 
 Template enforcement rules:
-1. If section 2 or 3 is missing, treat delivery as invalid.
+1. If section 2 is missing, treat delivery as invalid.
 2. If section 4 is missing, treat delivery as invalid.
 3. If section 4 contains hard-coded visual values, delivery is non-compliant.
 4. If section 5 is FAIL, icon usage is non-compliant.
 5. If section 6 is FAIL, delivery must be marked non-compliant.
-6. If any required checklist item is unknown/unverified, mark FAIL, not PASS.
-7. If exact match is missing and no approximate candidate exists, user confirmation must be obtained before continuation.
-8. Never output "Fully compliant" when any checklist or matrix row is FAIL.
+6. If section 9 is FAIL, delivery must be marked non-compliant.
+7. If any required checklist item is unknown/unverified, mark FAIL, not PASS.
+8. If exact match is missing and no approximate candidate exists, user confirmation must be obtained before continuation.
+9. Never output "Fully compliant" when any checklist or matrix row is FAIL.
 
 ## Non-Negotiable Rules
 1. Never generate page UI before full `component_specs` ingestion.
-2. Never generate page UI before full `component-matrix.html` style ingestion.
-3. Never generate page UI before full `style_css` token ingestion.
-4. Always resolve icon usage from `icons` folder first.
-5. If no suitable icon exists in `icons`, use only approved fallback source with explicit reason.
-6. Never use components/styles/naming/tokens/layout outside the component library.
-7. Never silently approximate token names/values when strict compliance is required.
-8. If exact match and approximate match both fail, pause and ask user how to proceed; continue only after explicit reply.
-9. Never skip state-machine or accessibility checks when interactions exist.
-10. Never skip evidence-based compliance reporting.
+2. Never generate page UI before full `style_css` token ingestion.
+3. Always resolve icon usage from `icons` folder first.
+4. If no suitable icon exists in `icons`, use only approved fallback source with explicit reason.
+5. Never modify original icon SVG stroke/weight.
+6. Keep icon stroke/weight consistent across the same page.
+7. Use component-spec-aligned icon colors via icon color tokens.
+8. Never use components/styles/naming/tokens/layout outside the component library.
+9. Never silently approximate token names/values when strict compliance is required.
+10. If exact match and approximate match both fail, pause and ask user how to proceed; continue only after explicit reply.
+11. Never skip state-machine or accessibility checks when interactions exist.
+12. After page generation, reverse-regression-test component/token/icon source compliance.
+13. Never skip evidence-based compliance reporting.
