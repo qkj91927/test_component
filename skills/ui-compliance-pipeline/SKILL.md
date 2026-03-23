@@ -29,7 +29,7 @@ Apply these gates in order. Do not implement UI code before all required gates p
 ### Gate A: Full Component Spec Ingestion (Required for page generation)
 Read **all** component docs under project `component_specs` folder (full files, not partial snippets).
 Default project path:
-- `/UXworkflow/component_specs/`
+- `/test_component/component_specs/`
 
 Execution requirements:
 1. Discover all spec files in `component_specs`.
@@ -39,7 +39,7 @@ Execution requirements:
 
 ### Gate B: Component Matrix Style Reference (Optional but Recommended)
 Use component style reference from:
-- `/UXworkflow/component-matrix.html`
+- `/test_component/component-matrix.html`
 
 Execution requirements:
 1. Read relevant matrix sections as needed for style alignment.
@@ -49,7 +49,7 @@ Execution requirements:
 
 ### Gate C: Full Style-Token Ingestion (Required for page generation)
 Read style-token source before UI generation:
-- `/UXworkflow/style_css/` (component style tokens)
+- `/test_component/style_css/` (component style tokens)
 
 Execution requirements:
 1. Discover all files in `style_css` and read every file completely.
@@ -62,7 +62,7 @@ Execution requirements:
 When UI generation needs icon resources, apply icon priority strictly.
 
 Execution requirements:
-1. Resolve icons from `/UXworkflow/icons/` first.
+1. Resolve icons from `/test_component/icons/` first.
 2. If no semantically suitable icon exists in `icons`, fallback to already approved project icon assets and record fallback reason.
 3. Never import external/unofficial icons without explicit user confirmation.
 4. Do not modify original icon SVG stroke/weight settings when generating UI.
@@ -169,11 +169,17 @@ Do not implement before acceptance matrix is complete.
 - Validate semantic roles/labels.
 - Validate no unintended global token/style side effects.
 
-### Step 11: Reverse Regression Backtest After Page Generation (Required)
+### Step 11: Reverse Regression Backtest + Auto-Repair Loop After Page Generation (Required)
 - After page generation, run reverse regression checks.
 - Verify all page styles and rendered units use repository-internal components, tokens, and icons only.
 - Verify no external component/token/icon source is introduced.
-- Record backtest evidence and verdict.
+- If any item fails component spec / token spec / icon spec compliance:
+  1. self-fix the non-compliant parts,
+  2. regenerate the page,
+  3. rerun reverse regression backtest.
+- Repeat the above loop until compliance reaches 100%.
+- Only output the final page after 100% compliance is achieved.
+- Record each iteration evidence and final pass verdict.
 
 ### Step 12: Delivery Contract (Required)
 Output must include:
@@ -183,10 +189,10 @@ Output must include:
 4. Full style-token ingestion evidence (`style_css` file list)
 5. Icon source + stroke/weight consistency + icon token-color evidence
 6. Acceptance matrix results (pass/fail per item)
-7. Reverse regression backtest results (components/tokens/icons source audit)
+7. Reverse regression backtest loop results (components/tokens/icons source audit + iteration history)
 8. Remaining risks or "none"
 9. Final verdict:
-   - "Fully compliant at Lx"
+   - "Fully compliant at Lx (100%)"
    - or "Not fully compliant, gaps: ..."
 
 Never claim completion without evidence.
@@ -210,7 +216,7 @@ Use the following structure in every UI/page delivery. Do not omit sections.
 - Coverage verdict: PASS | FAIL
 
 ### 3) Matrix Reference Checklist (`component-matrix.html` targeted reference)
-- Source file: /UXworkflow/component-matrix.html
+- Source file: /test_component/component-matrix.html
 - Reference mode: targeted/as-needed
 - Referenced style domains (if used):
   - [ ] component class naming
@@ -221,13 +227,13 @@ Use the following structure in every UI/page delivery. Do not omit sections.
 - Coverage verdict: PASS | N/A | FAIL
 
 ### 4) Style Token Coverage Checklist (`style_css` full ingestion)
-- Source folder: /UXworkflow/style_css/
+- Source folder: /test_component/style_css/
 - [ ] All style token files read in full
 - [ ] Token naming/value/usage map extracted
 - Coverage verdict: PASS | FAIL
 
 ### 5) Icon Source Priority Checklist (`icons` first)
-- Source folder: /UXworkflow/icons/
+- Source folder: /test_component/icons/
 - [ ] Icon demand resolved from `icons` first
 - [ ] Fallback (if any) has explicit reason and approved source
 - [ ] No external/unofficial icons without user confirmation
@@ -256,16 +262,22 @@ Use the following structure in every UI/page delivery. Do not omit sections.
 |-----------|-----------|----------|------------|------------------|---------------|---------------|--------|
 | ...       | PASS/FAIL | PASS/FAIL| PASS/FAIL  | PASS/FAIL        | PASS/FAIL     | PASS/FAIL     | PASS/FAIL |
 
-### 9) Reverse Regression Backtest Result
+### 9) Reverse Regression Backtest + Auto-Repair Loop Result
 - [ ] All page styles are from repository components/tokens/icons only
 - [ ] No external component/token/icon source introduced
-- Backtest verdict: PASS | FAIL
+- [ ] If FAIL occurred, self-fix + regenerate + retest loop executed
+- Iteration count: <n>
+- Per-iteration summary:
+  - Iteration 1: FAIL/PASS, fixes: <summary>
+  - Iteration 2: FAIL/PASS, fixes: <summary>
+  - ...
+- Final backtest verdict: PASS (100%) | FAIL
 
 ### 10) Risks
 - none | <explicit risks>
 
 ### 11) Final Verdict
-- Fully compliant at Lx
+- Fully compliant at Lx (100%)
 - OR Not fully compliant, gaps: <explicit gap list>
 ```
 
@@ -275,10 +287,11 @@ Template enforcement rules:
 3. If section 4 contains hard-coded visual values, delivery is non-compliant.
 4. If section 5 is FAIL, icon usage is non-compliant.
 5. If section 6 is FAIL, delivery must be marked non-compliant.
-6. If section 9 is FAIL, delivery must be marked non-compliant.
+6. If section 9 final verdict is not PASS (100%), delivery must be marked non-compliant.
 7. If any required checklist item is unknown/unverified, mark FAIL, not PASS.
 8. If exact match is missing and no approximate candidate exists, user confirmation must be obtained before continuation.
 9. Never output "Fully compliant" when any checklist or matrix row is FAIL.
+10. If reverse regression finds component/token/icon non-compliance, repair+regenerate+retest loop is mandatory.
 
 ## Non-Negotiable Rules
 1. Never generate page UI before full `component_specs` ingestion.
@@ -293,4 +306,6 @@ Template enforcement rules:
 10. If exact match and approximate match both fail, pause and ask user how to proceed; continue only after explicit reply.
 11. Never skip state-machine or accessibility checks when interactions exist.
 12. After page generation, reverse-regression-test component/token/icon source compliance.
-13. Never skip evidence-based compliance reporting.
+13. If reverse regression finds non-compliance, self-fix + regenerate + retest until 100% compliance.
+14. Only output final page when reverse regression final verdict is PASS (100%).
+15. Never skip evidence-based compliance reporting.
