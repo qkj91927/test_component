@@ -68,7 +68,8 @@ Execution requirements:
 4. Do not modify original icon SVG stroke/weight settings when generating UI.
 5. Ensure icon stroke/weight is consistent across the same page.
 6. Ensure icon color matches the corresponding component-spec-defined icon color and use icon color tokens from `style_css` tokens.
-7. Record icon source decisions and icon consistency checks in delivery report.
+7. Do not add non-spec decorative icon styles when generating pages (for example: icon background fills, glow, shadow, blur, or any extra visual effects not defined in component specs/tokens).
+8. Record icon source decisions and icon consistency checks in delivery report.
 
 ### Gate E: Component-Library-Only Composition (Required for page generation)
 Generate page UI using **100% component-library components only**.
@@ -139,6 +140,7 @@ Default to **L4** for page generation unless user explicitly lowers it:
 - Do not alter original icon SVG stroke/weight.
 - Keep icon stroke/weight consistent across the same page.
 - Use component-spec-aligned icon colors via icon color tokens.
+- Do not add any icon decorative styles outside component spec/token rules (e.g., background fill, shadow, glow, blur).
 
 ### Step 7: Build Acceptance Matrix
 Create per-component checklist:
@@ -177,9 +179,9 @@ Do not implement before acceptance matrix is complete.
   1. self-fix the non-compliant parts,
   2. regenerate the page,
   3. rerun reverse regression backtest.
-- Repeat the above loop until compliance reaches 100%.
-- Only output the final page after 100% compliance is achieved.
-- Record each iteration evidence and final pass verdict.
+- Maximum auto-repair loop count is 10 iterations.
+- Stop looping immediately once compliance passes; if still non-compliant after 10 iterations, stop auto-repair and output explicit gap list + unresolved reasons.
+- Record each iteration evidence and final verdict (PASS/FAIL).
 
 ### Step 12: Delivery Contract (Required)
 Output must include:
@@ -187,7 +189,7 @@ Output must include:
 2. Full spec ingestion evidence (`component_specs` file list)
 3. Matrix reference evidence (`component-matrix.html` referenced scope statement)
 4. Full style-token ingestion evidence (`style_css` file list)
-5. Icon source + stroke/weight consistency + icon token-color evidence
+5. Icon source + stroke/weight consistency + icon token-color + no extra decorative icon-style evidence
 6. Acceptance matrix results (pass/fail per item)
 7. Reverse regression backtest loop results (components/tokens/icons source audit + iteration history)
 8. Remaining risks or "none"
@@ -240,6 +242,7 @@ Use the following structure in every UI/page delivery. Do not omit sections.
 - [ ] Original icon SVG stroke/weight not modified
 - [ ] Icon stroke/weight is consistent across the same page
 - [ ] Icon color matches component spec and uses icon color token
+- [ ] No non-spec decorative icon styles added (e.g., background fill, shadow, glow, blur)
 - Coverage verdict: PASS | FAIL
 
 ### 6) Component Purity Checklist (100% library-only)
@@ -271,7 +274,7 @@ Use the following structure in every UI/page delivery. Do not omit sections.
   - Iteration 1: FAIL/PASS, fixes: <summary>
   - Iteration 2: FAIL/PASS, fixes: <summary>
   - ...
-- Final backtest verdict: PASS (100%) | FAIL
+- Final backtest verdict: PASS | FAIL (after max 10 iterations)
 
 ### 10) Risks
 - none | <explicit risks>
@@ -287,7 +290,7 @@ Template enforcement rules:
 3. If section 4 contains hard-coded visual values, delivery is non-compliant.
 4. If section 5 is FAIL, icon usage is non-compliant.
 5. If section 6 is FAIL, delivery must be marked non-compliant.
-6. If section 9 final verdict is not PASS (100%), delivery must be marked non-compliant.
+6. If section 9 final verdict is FAIL after max 10 iterations, delivery must be marked non-compliant.
 7. If any required checklist item is unknown/unverified, mark FAIL, not PASS.
 8. If exact match is missing and no approximate candidate exists, user confirmation must be obtained before continuation.
 9. Never output "Fully compliant" when any checklist or matrix row is FAIL.
@@ -301,11 +304,12 @@ Template enforcement rules:
 5. Never modify original icon SVG stroke/weight.
 6. Keep icon stroke/weight consistent across the same page.
 7. Use component-spec-aligned icon colors via icon color tokens.
-8. Never use components/styles/naming/tokens/layout outside the component library.
-9. Never silently approximate token names/values when strict compliance is required.
-10. If exact match and approximate match both fail, pause and ask user how to proceed; continue only after explicit reply.
-11. Never skip state-machine or accessibility checks when interactions exist.
-12. After page generation, reverse-regression-test component/token/icon source compliance.
-13. If reverse regression finds non-compliance, self-fix + regenerate + retest until 100% compliance.
-14. Only output final page when reverse regression final verdict is PASS (100%).
-15. Never skip evidence-based compliance reporting.
+8. Never add non-spec icon decorative styles (e.g., icon background fill, shadow, glow, blur).
+9. Never use components/styles/naming/tokens/layout outside the component library.
+10. Never silently approximate token names/values when strict compliance is required.
+11. If exact match and approximate match both fail, pause and ask user how to proceed; continue only after explicit reply.
+12. Never skip state-machine or accessibility checks when interactions exist.
+13. After page generation, reverse-regression-test component/token/icon source compliance.
+14. If reverse regression finds non-compliance, self-fix + regenerate + retest, with a maximum of 10 iterations.
+15. If still FAIL after 10 iterations, stop and output explicit non-compliant gaps and reasons.
+16. Never skip evidence-based compliance reporting.
