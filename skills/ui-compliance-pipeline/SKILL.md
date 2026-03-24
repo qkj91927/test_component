@@ -27,12 +27,12 @@ Run this skill before any of the following:
 Apply these gates in order. Do not implement UI code before all required gates pass.
 
 ### Gate A: Full Component Spec Ingestion (Required for page generation)
-Read **all** component docs under project `component_specs` folder (full files, not partial snippets).
+Read **all** component docs under project `component_spec` folder (full files, not partial snippets).
 Default project path:
-- `/test_component/component_specs/`
+- `/test_component/component_spec/`
 
 Execution requirements:
-1. Discover all spec files in `component_specs`.
+1. Discover all spec files in `component_spec`.
 2. Read every spec file completely.
 3. Build a normalized component constraints map (API, structure, variants, states, tokens, spacing/layout rules).
 4. Record file coverage evidence (list of files read).
@@ -62,20 +62,21 @@ Execution requirements:
 When UI generation needs icon resources, apply icon priority strictly.
 
 Execution requirements:
-1. Resolve icons from `/test_component/icons/` first.
-2. If no semantically suitable icon exists in `icons`, fallback to already approved project icon assets and record fallback reason.
-3. Never import external/unofficial icons without explicit user confirmation.
-4. Do not modify original icon SVG stroke/weight settings when generating UI.
-5. Ensure icon stroke/weight is consistent across the same page.
-6. Ensure icon color matches the corresponding component-spec-defined icon color and use icon color tokens from `style_css` tokens.
-7. Do not add non-spec decorative icon styles when generating pages (for example: icon background fills, glow, shadow, blur, or any extra visual effects not defined in component specs/tokens).
-8. Record icon source decisions and icon consistency checks in delivery report.
+1. Resolve icons from `/test_component/icons/` only.
+2. If no semantically suitable icon exists in `icons`, use an icon placeholder to represent the missing icon and record the placeholder reason.
+3. Never import external/unofficial icons and never use icon sources outside `icons`.
+4. Never self-draw or fabricate new icons.
+5. Do not modify original icon SVG stroke/weight settings when generating UI.
+6. Ensure icon stroke/weight is consistent across the same page.
+7. Ensure icon color matches the corresponding component-spec-defined icon color and use icon color tokens from `style_css` tokens.
+8. Do not add non-spec decorative icon styles when generating pages (for example: icon background fills, glow, shadow, blur, or any extra visual effects not defined in component specs/tokens).
+9. Record icon source decisions, placeholder usage, and icon consistency checks in delivery report.
 
 ### Gate E: Component-Library-Only Composition (Required for page generation)
 Generate page UI using **100% component-library components only**.
 
 Strict constraints:
-1. Use only documented components and documented variants from `component_specs` + `component-matrix` + `style_css`.
+1. Use only documented components and documented variants from `component_spec` + `component-matrix` + `style_css`.
 2. Keep canonical component naming, class naming, and token naming unchanged.
 3. Keep style/layout values aligned to library definitions; do not invent ad-hoc styles.
 4. Keep page composition as legal combinations of library components only.
@@ -118,7 +119,7 @@ Default to **L4** for page generation unless user explicitly lowers it:
 - Set acceptance level (default L4 for page generation).
 - Define verification radius (component-local or full-page regression).
 
-### Step 3: Run Gate A (Full `component_specs` ingestion)
+### Step 3: Run Gate A (Full `component_spec` ingestion)
 - Complete full-folder ingestion.
 - Build the component constraints map.
 - Block implementation if any spec file is unread.
@@ -134,9 +135,10 @@ Default to **L4** for page generation unless user explicitly lowers it:
 - Block implementation if any file in folder is unread.
 
 ### Step 6: Run Gate D (Icon source + consistency)
-- Resolve icon needs from `icons` folder first.
-- If fallback is used, keep evidence and reason.
-- Block external icon usage unless user explicitly confirms.
+- Resolve icon needs from `icons` folder only.
+- If no matching icon exists, use icon placeholder and record reason.
+- Never use icon resources outside `icons`.
+- Never self-draw or fabricate icons.
 - Do not alter original icon SVG stroke/weight.
 - Keep icon stroke/weight consistent across the same page.
 - Use component-spec-aligned icon colors via icon color tokens.
@@ -186,10 +188,10 @@ Do not implement before acceptance matrix is complete.
 ### Step 12: Delivery Contract (Required)
 Output must include:
 1. What changed
-2. Full spec ingestion evidence (`component_specs` file list)
+2. Full spec ingestion evidence (`component_spec` file list)
 3. Matrix reference evidence (`component-matrix.html` referenced scope statement)
 4. Full style-token ingestion evidence (`style_css` file list)
-5. Icon source + stroke/weight consistency + icon token-color + no extra decorative icon-style evidence
+5. Icon source-from-icons-only + placeholder-usage(if any) + no-self-drawn-icon + stroke/weight consistency + icon token-color + no extra decorative icon-style evidence
 6. Acceptance matrix results (pass/fail per item)
 7. Reverse regression backtest loop results (components/tokens/icons source audit + iteration history)
 8. Remaining risks or "none"
@@ -211,7 +213,7 @@ Use the following structure in every UI/page delivery. Do not omit sections.
 - Requested acceptance level:
 - Effective acceptance level:
 
-### 2) Spec Coverage Checklist (`component_specs` full ingestion)
+### 2) Spec Coverage Checklist (`component_spec` full ingestion)
 - [ ] File 1: <path> (read: full)
 - [ ] File 2: <path> (read: full)
 - [ ] ...all files listed
@@ -236,9 +238,10 @@ Use the following structure in every UI/page delivery. Do not omit sections.
 
 ### 5) Icon Source Priority Checklist (`icons` first)
 - Source folder: /test_component/icons/
-- [ ] Icon demand resolved from `icons` first
-- [ ] Fallback (if any) has explicit reason and approved source
-- [ ] No external/unofficial icons without user confirmation
+- [ ] Icon demand resolved from `icons` only
+- [ ] If no matching icon exists, placeholder icon is used with explicit reason
+- [ ] No icon source outside `icons`
+- [ ] No self-drawn/fabricated icon
 - [ ] Original icon SVG stroke/weight not modified
 - [ ] Icon stroke/weight is consistent across the same page
 - [ ] Icon color matches component spec and uses icon color token
@@ -297,19 +300,21 @@ Template enforcement rules:
 10. If reverse regression finds component/token/icon non-compliance, repair+regenerate+retest loop is mandatory.
 
 ## Non-Negotiable Rules
-1. Never generate page UI before full `component_specs` ingestion.
+1. Never generate page UI before full `component_spec` ingestion.
 2. Never generate page UI before full `style_css` token ingestion.
-3. Always resolve icon usage from `icons` folder first.
-4. If no suitable icon exists in `icons`, use only approved fallback source with explicit reason.
-5. Never modify original icon SVG stroke/weight.
-6. Keep icon stroke/weight consistent across the same page.
-7. Use component-spec-aligned icon colors via icon color tokens.
-8. Never add non-spec icon decorative styles (e.g., icon background fill, shadow, glow, blur).
-9. Never use components/styles/naming/tokens/layout outside the component library.
-10. Never silently approximate token names/values when strict compliance is required.
-11. If exact match and approximate match both fail, pause and ask user how to proceed; continue only after explicit reply.
-12. Never skip state-machine or accessibility checks when interactions exist.
-13. After page generation, reverse-regression-test component/token/icon source compliance.
-14. If reverse regression finds non-compliance, self-fix + regenerate + retest, with a maximum of 10 iterations.
-15. If still FAIL after 10 iterations, stop and output explicit non-compliant gaps and reasons.
-16. Never skip evidence-based compliance reporting.
+3. Always resolve icon usage from `icons` folder only.
+4. If no suitable icon exists in `icons`, use icon placeholder with explicit reason.
+5. Never use icon sources outside `icons`.
+6. Never self-draw or fabricate icons.
+7. Never modify original icon SVG stroke/weight.
+8. Keep icon stroke/weight consistent across the same page.
+9. Use component-spec-aligned icon colors via icon color tokens.
+10. Never add non-spec icon decorative styles (e.g., icon background fill, shadow, glow, blur).
+11. Never use components/styles/naming/tokens/layout outside the component library.
+12. Never silently approximate token names/values when strict compliance is required.
+13. If exact match and approximate match both fail, pause and ask user how to proceed; continue only after explicit reply.
+14. Never skip state-machine or accessibility checks when interactions exist.
+15. After page generation, reverse-regression-test component/token/icon source compliance.
+16. If reverse regression finds non-compliance, self-fix + regenerate + retest, with a maximum of 10 iterations.
+17. If still FAIL after 10 iterations, stop and output explicit non-compliant gaps and reasons.
+18. Never skip evidence-based compliance reporting.
