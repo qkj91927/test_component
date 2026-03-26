@@ -23,6 +23,69 @@ Run this skill before any of the following:
 3. Modify existing UI styles, structure, naming, token usage, or interactions
 4. Refactor UI/component implementation
 
+## README-Synced Test Component Usage Baseline (Merged)
+The following constraints are merged from project `README.md` and are mandatory when working on `test_component`/design-system tasks.
+
+### 0) Mandatory Entry Read and File Order (README First)
+Before any UI implementation, read the entry guide and follow this order:
+1. `README.md` (entry constraints, global checks, background rules)
+2. `json/index.json` (token system, component index, composition/background constraints)
+3. `css/tokens.css` (non-color tokens)
+4. `css/QQ_color_tokens.css` (qq-light / qq-dark color tokens)
+5. `icons/QUI_24_icons/` (icon library)
+6. `md/<COMPONENT>_SPEC.md` (hard component constraints)
+7. `json/components/<component>.json` (structured component geometry/layout)
+
+If the project uses an equivalent folder layout (for example `component_spec` / `style_css`), map to equivalent files but do not skip the semantic order above.
+
+### 1) Device and Grid Baseline (Mandatory)
+- Device baseline: iOS, iPhone 13 Pro Max width `428px`
+- Status bar height: `54px`
+- Bottom safe area: `34px`
+- Default font: PingFang SC
+- Spacing grid: all spacing must be multiples of `4px`
+
+### 2) Component Scope Baseline (20 Parent Components)
+Coverage must align to the 20 parent components grouped as:
+- Navigation: `navbar`, `hs_navbar`
+- Data: `list`, `form`, `card`, `message`, `text_block`, `image_block`, `data_filter`, `grid`, `divider_spacing`
+- Action: `button`, `action`, `menu`, `search`, `textfield`, `aio_input`
+- Modal: `action_sheet`, `dialog`, `half_screen_overlay`
+
+### 3) Page Background Color Hard Constraint (Non-Bypassable)
+Background must be selected by component composition, not personal preference:
+- Use `bg_bottom_standard` (`#F0F0F2`) when page contains `Grouped List` or `Card`
+- Use `bg_bottom_light` (`#FFFFFF`) only when neither `Grouped List` nor `Card` exists
+- `bg_bottom_brand` (`#EFF4FF`) only for brand-custom scenarios
+- Priority rule: if both white and gray requirements appear, gray wins (`#F0F0F2`)
+
+### 4) StatusBar Is Mandatory for Every Page
+Every generated page must include iOS status bar at top:
+- Fixed size: `428×54`
+- Time fixed as `9:41`
+- Use `icons/network.svg`, `icons/wifi.svg`, `icons/battery.svg`
+- StatusBar background must follow the immediate NavBar background
+- StatusBar is display-only, non-interactive, and excluded from parent-component counting
+
+### 5) Icon Replacement and Source Rule
+- `empty_icon.svg` is placeholder only; replace with real icon in practical delivery
+- Prefer icons from `icons/QUI_24_icons/`
+- Keep path format: `icons/QUI_24_icons/<icon>.svg`
+- No external icon source, no fabricated icon, no non-spec decorative icon effects
+
+### 6) Pre-Output Mandatory Checklist (Merged)
+Before final output, explicitly verify:
+1. Component spec constraints are read for each used component
+2. Combination legality is validated (list/grouped list/navbar/modal linkage rules)
+3. Color usage comes from token files and theme is explicit (`qq-light` / `qq-dark`)
+4. Common hard rules pass (list consistency, modal non-nesting, divider rule, 4px grid)
+5. Placeholder icon replacement status is clear
+6. Final review includes:
+   - missing components
+   - missing variants
+   - unreasonable constraints vs requirement
+   - comparison insights against mainstream systems (Apple HIG / Material 3 / One UI)
+
 ## Hard Gating Rules (Non-Bypassable)
 Apply these gates in order. Do not implement UI code before all required gates pass.
 
