@@ -58,11 +58,13 @@ description: 该 skill 用于基于 basic-v1.0 设计系统资源包产出移动
 - 拉取仓库：`https://github.com/qkj91927/test_component/tree/basic1.0`
 - 确保本地工作目录基于远程 `basic1.0` 最新内容
 - 本地已存在仓库时，先同步后继续
+- 拉取完成后，先完整读取 `README.md`，再进入后续 Gate
 
 通过条件：
 
 - 已确认 `basic1.0` 分支可用
 - 已确认本地资源版本为最新或已说明差异
+- 已完整读取 `README.md`
 
 ### Gate 2：锁定目标与组件候选
 
@@ -123,12 +125,16 @@ description: 该 skill 用于基于 basic-v1.0 设计系统资源包产出移动
 ### Gate 7：图标替换与路径校验
 
 - 将所有 `empty_icon.svg` 替换为真实图标
-- 图标来自 `icons/QUI_24_icons/`
+- 必须使用项目图标库 `icons/` 内对应图标（优先 `icons/QUI_24_icons/`），禁止自绘图标
+- 禁止使用 emoji 作为图标
 - 路径格式：`icons/QUI_24_icons/<icon-name>.svg`
+- 若找不到匹配图标，必须输出问题报告（缺失图标需求、影响位置、临时处理建议）
 
 通过条件：
 
 - 占位图标残留数量为 0
+- 图标来源均为项目 `icons/` 图标库且无自绘/emoji
+- 无匹配图标时已输出问题报告
 
 ### Gate 8：初次产出
 
