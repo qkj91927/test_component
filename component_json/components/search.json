@@ -20,8 +20,8 @@
   },
 
   "layout": {
-    "outerContainer": { "width": 428, "height": 60, "background": "white", "padding": "0 16px" },
-    "inputBox": { "height": 36, "background": { "token": "fill_standard_brand", "value": "rgba(0, 81, 254, 0.04)" }, "radius": 12 }
+    "outerContainer": { "width": 428, "height": 60, "background": { "token": "bg_item", "value": "#FFFFFF" }, "padding": "0 16px" },
+    "inputBox": { "height": 36, "background": { "token": "fill_standard_brand", "value": "rgba(13, 16, 49, 0.04)" }, "radius": 12 }
   },
 
   "style": {

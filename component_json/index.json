@@ -35,9 +35,12 @@
       "fill_tertiary": "rgba(118, 118, 128, 0.12)",
       "fill_standard_primary": "rgba(13, 16, 49, 0.04)",
       "fill_pressed": "rgba(0, 0, 0, 0.04)",
-      "fill_standard_brand": "rgba(0, 81, 254, 0.04)",
+      "fill_standard_brand": "rgba(13, 16, 49, 0.04)",
       "icon_secondary": "#929296",
-      "icon_primary": "#1A1A1A"
+      "icon_primary": "#1A1A1A",
+      "bg_bottom_light": "#FFFFFF",
+      "bg_bottom_standard": "#F0F0F2",
+      "bg_bottom_brand": "#EFF4FF"
     },
     "typography": {
       "largeTitle": { "size": 26, "weight": 600, "lineHeight": 34 },
@@ -58,8 +61,6 @@
       "gridUnit": 4
     },
     "radius": {
-      "card": 12,
-      "cardLarge": 24,
       "button": 18,
       "buttonPill": 9999,
       "thumbSmall": 4,
@@ -97,10 +98,11 @@
     "数据": [
       { "id": "list", "name": "通栏式列表 Plain List", "file": "components/plain-list.json" },
       { "id": "form", "name": "卡片式列表 Grouped List", "file": "components/grouped-list.json" },
+      { "id": "card", "name": "卡片 Card", "file": "components/card.json" },
+      { "id": "message", "name": "消息 Message", "file": "components/message.json" },
       { "id": "text_block", "name": "文本块 TextBlock", "file": "components/text-block.json" },
       { "id": "image_block", "name": "图片块 ImageBlock", "file": "components/image-block.json" },
       { "id": "data_filter", "name": "数据筛选 DataFilter", "file": "components/data-filter.json" },
-      { "id": "card", "name": "卡片 Card", "file": "components/card.json" },
       { "id": "grid", "name": "宫格 Grid", "file": "components/grid.json" },
       { "id": "divider_spacing", "name": "分隔与间距 Divider & Spacing", "file": "components/divider-spacing.json" }
     ],
@@ -109,7 +111,8 @@
       { "id": "action", "name": "操作组合 ActionCombo", "file": "components/action-combo.json" },
       { "id": "menu", "name": "菜单 Menu", "file": "components/menu.json" },
       { "id": "search", "name": "搜索框 Search", "file": "components/search.json" },
-      { "id": "textfield", "name": "输入框 Textfield", "file": "components/textfield.json" }
+      { "id": "textfield", "name": "输入框 Textfield", "file": "components/textfield.json" },
+      { "id": "aio_input", "name": "AIO 输入框 AIOInput", "file": "components/ai-input.json" }
     ],
     "模态": [
       { "id": "action_sheet", "name": "操作面板 ActionSheet", "file": "components/action-sheet.json" },
@@ -131,8 +134,32 @@
       "卡片式列表同一卡片内允许不同 L×R 类型混排",
       "分段选择和下拉筛选可与其他组件同行排列，间距 16px",
       "分割线不在列表最后一行底部显示",
-      "间距高度为 4px 整数倍，遵循 4px 网格系统"
+      "间距高度为 4px 整数倍，遵循 4px 网格系统",
+      "页面包含卡片式列表(Grouped List)或卡片(Card)时，页面背景色必须为 #F0F0F2 (bg_bottom_standard)",
+      "页面默认背景色为 #FFFFFF (bg_bottom_light)，仅当无卡片式列表和卡片组件时使用"
     ],
+    "pageBackgroundConstraint": {
+      "description": "组件与页面背景色的对应关系",
+      "grayBackground": {
+        "token": "bg_bottom_standard",
+        "value": "#F0F0F2",
+        "requiredBy": ["form", "card"],
+        "reason": "白色卡片容器需要浅灰色页面背景形成视觉层级分离"
+      },
+      "whiteBackground": {
+        "token": "bg_bottom_light",
+        "value": "#FFFFFF",
+        "usedBy": ["list", "text_block", "image_block", "data_filter", "grid", "search", "textfield", "button", "action", "aio_input", "message"],
+        "reason": "默认背景色，通栏组件与白色底融为一体"
+      },
+      "brandBackground": {
+        "token": "bg_bottom_brand",
+        "value": "#EFF4FF",
+        "usedBy": [],
+        "reason": "品牌定制页面，按业务需要使用"
+      },
+      "priority": "当页面同时包含需要灰色背景和白色背景的组件时，以灰色背景(#F0F0F2)为准"
+    },
     "modalBehavior": {
       "ActionSheet": { "position": "bottom", "overlay": true, "closeOnOverlay": true },
       "Dialog": { "position": "center", "overlay": true, "closeOnOverlay": false },

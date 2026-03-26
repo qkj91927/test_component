@@ -61,6 +61,11 @@
     "cardRadius": 12,
     "rowPadding": "0 16px",
     "background": { "page": { "token": "bg_page", "value": "#F0F0F2" }, "card": { "token": "bg_item", "value": "#FFFFFF" } },
+  "pageBackgroundConstraint": {
+    "required": "bg_bottom_standard",
+    "value": "#F0F0F2",
+    "reason": "白色卡片容器需要浅灰色页面背景形成视觉层级分离"
+  },
     "sectionGap": "≥8px",
     "rightAreaGap": 4,
     "rightAreaMarginLeft": 12,
@@ -98,16 +103,16 @@
     "R1": { "tapTarget": "整行", "behavior": "Push 跳转新页面" },
     "R2": { "tapTarget": "整行", "behavior": "弹出有勾选菜单(Menu-C)，选中后更新辅助信息文字" },
     "R3": { "tapTarget": "头像+箭头区域", "behavior": "Push 跳转新页面" },
-    "R4": { "tapTarget": "仅开关", "behavior": "切换开关状态，可触发父子联动" },
-    "R5": { "tapTarget": "整行", "behavior": "触发勾选/取消，互斥关系中联动" }
+    "R4": { "tapTarget": "仅开关", "behavior": "切换开关状态，可触发父子联动", "cssToggle": "classList.toggle('off')", "onClass": "form-switch", "offClass": "form-switch off" },
+    "R5": { "tapTarget": "整行", "behavior": "触发勾选/取消，互斥关系中联动", "checkedIcon": "Checkbox_filled.svg", "uncheckedIcon": "Checkbox.svg" }
   },
 
   "states": {
     "default": { "background": { "token": "bg_item", "value": "#FFFFFF" }, "textColor": { "token": "text_primary", "value": "rgba(0, 0, 0, 0.90)" } },
     "pressed": { "background": { "token": "fill_pressed", "value": "rgba(0, 0, 0, 0.04)" } },
     "disabled": { "opacity": 0.40, "pointerEvents": "none" },
-    "switchOn": { "background": { "token": "brand_standard", "value": "#0099FF" }, "thumbPosition": "right" },
-    "switchOff": { "background": "rgba(120,120,128,0.16)", "thumbPosition": "left" }
+    "switchOn": { "background": { "token": "brand_standard", "value": "#0099FF" }, "thumbPosition": "right", "cssClass": "form-switch" },
+    "switchOff": { "background": "rgba(120,120,128,0.16)", "thumbPosition": "left", "cssClass": "form-switch off" }
   },
 
   "animation": {

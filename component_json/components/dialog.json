@@ -13,7 +13,7 @@
     ],
     "body": [
       { "id": "P", "name": "纯文本", "padding_withTitle": "4px 28px 20px", "padding_noTitle": "20px 28px 20px" },
-      { "id": "C", "name": "文本+勾选", "padding_withTitle": "4px 28px 20px", "padding_noTitle": "20px 28px 20px", "checkIcon": { "size": 20, "marginTop": 12, "gap": 8 } },
+      { "id": "C", "name": "文本+勾选", "padding_withTitle": "4px 28px 20px", "padding_noTitle": "20px 28px 20px", "checkIcon": { "size": 20, "marginTop": 12, "gap": 8, "unchecked": "Checkbox.svg", "checked": "Checkbox_filled.svg" } },
       { "id": "I", "name": "输入框", "padding": "16px 24px 24px", "requiresTitle": true, "inputSize": [248, 48], "inputBg": "rgba(116,116,128,0.08)", "inputRadius": 12, "inputTextLeft": 16 }
     ],
     "action": [

@@ -45,7 +45,16 @@
   },
 
   "interaction": {
-    "carousel": "滑动切换由业务层实现，组件仅渲染静态",
+    "carouselIndicator": {
+      "type": "点击切换",
+      "trigger": "click",
+      "behavior": "点击某个圆点后该圆点变为激活态(active)，其余变为非激活态(inactive)",
+      "cssClass": { "active": "dot active", "inactive": "dot inactive" },
+      "transition": "background 200ms ease-out",
+      "cursor": "pointer",
+      "eventDelegation": "document.addEventListener('click', ...) 匹配 .image-block-dots .dot"
+    },
+    "carouselSwipe": "左右滑动切换图片由业务层实现，滑动时同步更新指示器激活态",
     "gridTap": "点击单张图片打开大图预览由业务层实现"
   },
 

@@ -2,19 +2,24 @@
   "id": "text_block",
   "name": "文本块 TextBlock",
   "category": "数据",
-  "description": "纯文本内容的排版区域，涵盖标题、正文、辅助说明等层级，用于构建页面的信息层次与阅读节奏。",
+  "description": "纯文本内容的排版区域，涵盖标题、正文、摘要、提示等层级，支持居左与居中两种对齐方式，用于构建页面的信息层次与阅读节奏。",
 
-  "totalVariants": 8,
+  "totalVariants": 13,
 
   "variants": [
-    { "id": "A1", "name": "大标题·单行", "textType": "title", "height": 50, "fontSize": 26, "fontWeight": 600, "lineHeight": 34, "color": { "token": "text_primary", "value": "rgba(0, 0, 0, 0.90)" }, "textTop": 8 },
-    { "id": "A2", "name": "大标题·双行", "textType": "title", "height": 84, "fontSize": 26, "fontWeight": 600, "lineHeight": 34, "color": { "token": "text_primary", "value": "rgba(0, 0, 0, 0.90)" }, "textTop": 8 },
-    { "id": "A3", "name": "一级标题", "textType": "subtitle", "height": 44, "fontSize": 22, "fontWeight": 500, "lineHeight": 28, "color": { "token": "text_primary", "value": "rgba(0, 0, 0, 0.90)" }, "textTop": 8 },
-    { "id": "A4", "name": "二级标题", "textType": "aux-title", "height": 42, "fontSize": 18, "fontWeight": 500, "lineHeight": 26, "color": { "token": "text_primary", "value": "rgba(0, 0, 0, 0.90)" }, "textTop": 8 },
-    { "id": "A5", "name": "正文段落", "textType": "body", "height": 80, "fontSize": 17, "fontWeight": 400, "lineHeight": 24, "color": { "token": "text_primary", "value": "rgba(0, 0, 0, 0.90)" }, "textTop": 4 },
-    { "id": "A6", "name": "前缀正文", "textType": "body", "height": 80, "fontSize": 17, "fontWeight": 400, "lineHeight": 24, "color": { "token": "text_primary", "value": "rgba(0, 0, 0, 0.90)" }, "textTop": 4, "note": "用于需要前缀标识(序号/标记)的段落" },
-    { "id": "A7", "name": "链接文本", "textType": "link", "height": 32, "fontSize": 17, "fontWeight": 400, "lineHeight": 24, "color": { "token": "text_link", "value": "#214CA5" }, "textTop": 4 },
-    { "id": "A8", "name": "辅助说明", "textType": "caption", "height": 28, "fontSize": 14, "fontWeight": 400, "lineHeight": 20, "color": { "token": "text_secondary", "value": "rgba(60, 60, 67, 0.76)" }, "textTop": 4 }
+    { "id": "A1", "name": "大标题", "group": "A.居左", "textType": "title", "textAlign": "left", "height": 50, "fontSize": 26, "fontWeight": 600, "lineHeight": 34, "color": { "token": "text_primary", "value": "rgba(0, 0, 0, 0.90)" }, "textTop": 8 },
+    { "id": "A2", "name": "一级标题", "group": "A.居左", "textType": "subtitle", "textAlign": "left", "height": 44, "fontSize": 22, "fontWeight": 500, "lineHeight": 28, "color": { "token": "text_primary", "value": "rgba(0, 0, 0, 0.90)" }, "textTop": 8 },
+    { "id": "A3", "name": "二级标题", "group": "A.居左", "textType": "aux-title", "textAlign": "left", "height": 42, "fontSize": 18, "fontWeight": 500, "lineHeight": 26, "color": { "token": "text_primary", "value": "rgba(0, 0, 0, 0.90)" }, "textTop": 8 },
+    { "id": "A4", "name": "正文段落", "group": "A.居左", "textType": "body", "textAlign": "left", "height": 56, "fontSize": 17, "fontWeight": 400, "lineHeight": 24, "color": { "token": "text_primary", "value": "rgba(0, 0, 0, 0.90)" }, "textTop": 4 },
+    { "id": "A5", "name": "前缀正文", "group": "A.居左", "textType": "body", "textAlign": "left", "height": 56, "fontSize": 17, "fontWeight": 400, "lineHeight": 24, "color": { "token": "text_primary", "value": "rgba(0, 0, 0, 0.90)" }, "textTop": 4, "note": "用于需要前缀标识(序号/标记)的段落" },
+    { "id": "A6", "name": "摘要文本", "group": "A.居左", "textType": "summary", "textAlign": "left", "height": 48, "fontSize": 14, "fontWeight": 400, "lineHeight": 20, "color": { "token": "text_primary", "value": "rgba(0, 0, 0, 0.90)" }, "textTop": 4 },
+    { "id": "A7", "name": "提示文本", "group": "A.居左", "textType": "hint", "textAlign": "left", "height": 42, "fontSize": 12, "fontWeight": 400, "lineHeight": 20, "color": { "token": "text_primary", "value": "rgba(0, 0, 0, 0.90)" }, "textTop": 4 },
+    { "id": "B1", "name": "大标题", "group": "B.居中", "textType": "title", "textAlign": "center", "height": 50, "fontSize": 26, "fontWeight": 600, "lineHeight": 34, "color": { "token": "text_primary", "value": "rgba(0, 0, 0, 0.90)" }, "textTop": 8 },
+    { "id": "B2", "name": "一级标题", "group": "B.居中", "textType": "subtitle", "textAlign": "center", "height": 44, "fontSize": 22, "fontWeight": 500, "lineHeight": 28, "color": { "token": "text_primary", "value": "rgba(0, 0, 0, 0.90)" }, "textTop": 8 },
+    { "id": "B3", "name": "二级标题", "group": "B.居中", "textType": "aux-title", "textAlign": "center", "height": 42, "fontSize": 18, "fontWeight": 500, "lineHeight": 26, "color": { "token": "text_primary", "value": "rgba(0, 0, 0, 0.90)" }, "textTop": 8 },
+    { "id": "B4", "name": "正文段落", "group": "B.居中", "textType": "body", "textAlign": "center", "height": 56, "fontSize": 17, "fontWeight": 400, "lineHeight": 24, "color": { "token": "text_primary", "value": "rgba(0, 0, 0, 0.90)" }, "textTop": 4 },
+    { "id": "B5", "name": "摘要文本", "group": "B.居中", "textType": "summary", "textAlign": "center", "height": 48, "fontSize": 14, "fontWeight": 400, "lineHeight": 20, "color": { "token": "text_primary", "value": "rgba(0, 0, 0, 0.90)" }, "textTop": 4 },
+    { "id": "B6", "name": "提示文本", "group": "B.居中", "textType": "hint", "textAlign": "center", "height": 42, "fontSize": 12, "fontWeight": 400, "lineHeight": 20, "color": { "token": "text_primary", "value": "rgba(0, 0, 0, 0.90)" }, "textTop": 4 }
   ],
 
   "layout": {
@@ -27,17 +32,16 @@
   },
 
   "interaction": {
-    "editable": "组件构建器中支持内联编辑（.editable-text）",
-    "linkClick": "A7 链接文本暗示可点击，实际跳转由业务层实现"
+    "editable": "组件构建器中支持内联编辑（.editable-text）"
   },
 
   "usage": {
-    "A1_A2": "页面/模块大标题",
-    "A3": "内容区段标题",
-    "A4": "二级分类标题",
-    "A5": "说明文案/详情描述",
-    "A6": "带序号/标记的段落",
-    "A7": "可点击的文字链",
-    "A8": "底部辅助提示"
+    "A1_B1": "页面/模块大标题",
+    "A2_B2": "内容区段标题",
+    "A3_B3": "二级分类标题",
+    "A4_B4": "说明文案/详情描述",
+    "A5": "带序号/标记的段落（居左专用）",
+    "A6_B5": "次要摘要信息",
+    "A7_B6": "底部提示/辅助文字"
   }
 }
