@@ -144,10 +144,10 @@
 .df-tab-container {
     width: 428px;
     height: 48px;
-    background: white;
+    background: var(--color-bg-item);
     position: relative;
     overflow: hidden;
-    border-bottom: 0.5px solid rgba(0, 0, 0, 0.10);
+    border-bottom: 0.5px solid var(--color-border-standard);
 }
 .df-tab-inner {
     width: 428px;
@@ -169,7 +169,7 @@
     font-size: 16px;
     font-family: 'PingFang SC', -apple-system, sans-serif;
     font-weight: 400;
-    color: rgba(0, 0, 0, 0.90);
+    color: var(--color-text-primary);
     text-align: center;
     line-height: 22px;
 }
@@ -184,7 +184,7 @@
     width: 32px;
     height: 3px;
     border-radius: 1.5px;
-    background: #0099FF;
+    background: var(--color-brand-standard);
 }
 .df-tab-item:not(.selected) .df-tab-indicator {
     opacity: 0;
@@ -196,13 +196,13 @@
 ```css
 .df-segment-row {
     display: inline-flex;
-    background: white;
+    background: var(--color-bg-item);
     padding: 6px 16px;
     box-sizing: border-box;
 }
 .df-segment-bar {
     height: 36px;
-    background: rgba(13, 16, 49, 0.04);
+    background: var(--color-fill-standard-primary);
     border-radius: 6px;
     display: flex;
     align-items: center;
@@ -222,17 +222,17 @@
     font-size: 14px;
     font-family: 'PingFang SC', -apple-system, sans-serif;
     font-weight: 400;
-    color: #6A6B6D;
+    color: var(--color-text-secondary);
     line-height: 20px;
 }
 .df-segment-item.selected .df-seg-label {
     font-weight: 500;
-    color: #1A1C1E;
+    color: var(--color-text-primary);
 }
 .df-segment-divider {
     width: 0.5px;
     height: 16px;
-    background: rgba(0, 0, 0, 0.10);
+    background: var(--color-border-standard);
     flex-shrink: 0;
 }
 ```
@@ -242,13 +242,13 @@
 ```css
 .df-dropdown-row {
     display: inline-flex;
-    background: white;
+    background: var(--color-bg-item);
     padding: 6px 16px;
     box-sizing: border-box;
 }
 .df-dropdown-btn {
     height: 36px;
-    background: rgba(13, 16, 49, 0.04);
+    background: var(--color-fill-standard-primary);
     border-radius: 6px;
     display: flex;
     align-items: center;
@@ -259,7 +259,7 @@
     font-size: 14px;
     font-family: 'PingFang SC', -apple-system, sans-serif;
     font-weight: 400;
-    color: rgba(0, 0, 0, 0.90);
+    color: var(--color-text-primary);
     line-height: 20px;
 }
 .df-dropdown-btn .df-dd-arrow {
@@ -273,7 +273,7 @@
 ```css
 .df-tag-container {
     width: 428px;
-    background: white;
+    background: var(--color-bg-item);
     display: flex;
     align-items: center;
     overflow: hidden;
@@ -295,7 +295,7 @@
 .df-tag-inner.scroll-mode::-webkit-scrollbar { display: none; }
 .df-tag-item {
     height: 40px;
-    background: rgba(13, 16, 49, 0.04);
+    background: var(--color-fill-standard-primary);
     border-radius: 12px;
     display: flex;
     align-items: center;
@@ -306,13 +306,13 @@
     font-size: 15px;
     font-family: 'PingFang SC', -apple-system, sans-serif;
     font-weight: 400;
-    color: rgba(60, 60, 67, 0.76);
+    color: var(--color-text-secondary);
     line-height: 20px;
     white-space: nowrap;
 }
 .df-tag-item.selected .df-tag-label {
     font-weight: 500;
-    color: rgba(0, 0, 0, 0.90);
+    color: var(--color-text-primary);
 }
 /* 双行标签 D5 */
 .df-tag-item.df-tag-double {
@@ -322,22 +322,24 @@
 }
 .df-tag-item .df-tag-title {
     font-size: 15px;
+    font-family: 'PingFang SC', -apple-system, sans-serif;
     font-weight: 400;
-    color: rgba(60, 60, 67, 0.76);
+    color: var(--color-text-secondary);
     line-height: 20px;
 }
 .df-tag-item .df-tag-desc {
     font-size: 14px;
+    font-family: 'PingFang SC', -apple-system, sans-serif;
     font-weight: 400;
-    color: rgba(60, 60, 67, 0.56);
+    color: var(--color-text-tertiary);
     line-height: 20px;
 }
 .df-tag-item.selected .df-tag-title {
     font-weight: 500;
-    color: rgba(0, 0, 0, 0.90);
+    color: var(--color-text-primary);
 }
 .df-tag-item.selected .df-tag-desc {
-    color: rgba(60, 60, 67, 0.76);
+    color: var(--color-text-secondary);
 }
 ```
 
@@ -347,7 +349,7 @@
 .df-breadcrumb-container {
     width: 428px;
     height: 48px;
-    background: white;
+    background: var(--color-bg-item);
     display: flex;
     align-items: center;
     padding: 0 16px;
@@ -361,7 +363,7 @@
     left: 0; top: 0;
     width: 24px;
     height: 100%;
-    background: linear-gradient(to right, white 49.5%, rgba(255, 255, 255, 0) 100%);
+    background: linear-gradient(to right, var(--color-bg-item) 49.5%, rgba(255, 255, 255, 0) 100%);
     z-index: 1;
     pointer-events: none;
     opacity: 0;
@@ -379,12 +381,12 @@
     font-size: 14px;
     font-family: 'PingFang SC', -apple-system, sans-serif;
     font-weight: 500;
-    color: rgba(60, 60, 67, 0.76);
+    color: var(--color-text-secondary);
     line-height: 20px;
     flex-shrink: 0;
 }
 .df-breadcrumb-item.current {
-    color: rgba(0, 0, 0, 0.90);
+    color: var(--color-text-primary);
 }
 .df-breadcrumb-sep {
     width: 12px;
@@ -396,3 +398,48 @@
     flex-shrink: 0;
 }
 ```
+
+---
+
+## 10. 交互行为
+
+### 10.1 页签 Tab 切换（组件内交互）
+
+- 点击任一页签项后：该项添加 `.selected` class（文字加粗 500 + 显示指示器），其余项移除 `.selected`（文字 400 + 指示器隐藏）
+- 同一时刻只有一个页签处于选中态（互斥）
+- `cursor: pointer` 提供视觉反馈
+
+**事件委托（全局）**：
+```javascript
+document.addEventListener('click', function(e) {
+    const tabItem = e.target.closest('.df-tab-item');
+    if (tabItem) {
+        const container = tabItem.closest('.df-tab-inner');
+        container.querySelectorAll('.df-tab-item').forEach(t => t.classList.remove('selected'));
+        tabItem.classList.add('selected');
+    }
+});
+```
+
+### 10.2 分段选择 Segment 切换（组件内交互）
+
+- 点击任一分段选项后：该选项变为选中态（白色背景滑块），其余恢复非选中态
+- 选中项两侧相邻分隔线隐藏（`opacity: 0`）
+- 过渡动画：`transition: all 200ms ease-out`
+
+### 10.3 标签 Tag 切换（组件内交互）
+
+- 点击任一标签后：该标签添加 `.selected` class（font-weight 500 + 深色文字），其余移除 `.selected`（font-weight 400 + 浅色文字）
+- 单行标签：选中/未选中态仅改变文字粗细和颜色
+- 双行标签(D5)：选中描述色 `rgba(60,60,67,0.76)`，未选中描述色 `rgba(60,60,67,0.56)`
+
+### 10.4 下拉筛选 Dropdown（业务层）
+
+- 组件仅渲染按钮态（含展开箭头图标）
+- 点击后弹出有勾选菜单（Menu-C）由业务层实现
+- 选中后按钮文字更新为选中项文案
+
+### 10.5 面包屑 Breadcrumb（业务层）
+
+- 点击面包屑中非当前级别的目录项由业务层实现页面导航
+- 组件本身仅渲染静态层级展示

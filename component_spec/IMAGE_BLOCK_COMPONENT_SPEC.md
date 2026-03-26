@@ -51,7 +51,7 @@
 ```css
 .image-block-container {
     width: 428px;
-    background: white;
+    background: var(--color-bg-item);
     display: flex;
     flex-direction: column;
     position: relative;
@@ -144,13 +144,26 @@
     position: absolute;
     left: 0;
 }
-.dot {
+.image-block-dots .dot {
     width: 8px;
     height: 8px;
     border-radius: 50%;
 }
-.dot.active { background: #0099FF; }     /* 品牌蓝 */
-.dot.inactive { background: rgba(13, 16, 49, 0.04); }
+.image-block-dots .dot.active { background: var(--color-brand-standard); }     /* 品牌蓝 */
+.image-block-dots .dot.inactive { background: var(--color-fill-standard-primary); }
+```
+
+**图片样式**：
+```css
+.image-block-container.full-width .image-block-img {
+    width: 428px;
+    display: block;
+}
+.image-block-container.inset .image-block-img {
+    width: 396px;
+    margin: 16px 16px 0 16px;
+    display: block;
+}
 ```
 
 - **数量**: 6 个圆点（1 个激活 + 5 个非激活）
@@ -216,19 +229,56 @@
 
 ## 七、交互行为
 
-### 7.1 轮播滑动（业务层）
-- 组件本身仅渲染静态展示（当前图片 + 分页指示器状态）
-- 左右滑动切换图片、指示器激活态联动由业务层实现
-- 变体矩阵和组件构建器中不实现滑动交互
+### 7.1 轮播指示器点击切换（组件内交互）
+- 轮播类变体（A1-A3、B1-B3）的 6 个分页指示器圆点支持**点击切换激活态**
+- 点击某个圆点后：该圆点变为激活态（`#0099FF`），其余圆点变为非激活态（`rgba(13, 16, 49, 0.04)`）
+- 状态切换通过添加/移除 CSS class `active` / `inactive` 实现
+- 过渡动画：`transition: background 200ms ease-out`
+- 圆点设置 `cursor: pointer` 提供视觉反馈
 
-### 7.2 宫格点击（业务层）
+### 7.2 轮播滑动（业务层）
+- 左右滑动切换图片由业务层实现
+- 滑动时需同步更新指示器激活态（与 7.1 相同的 class 切换逻辑）
+- 变体矩阵和组件构建器中不实现滑动交互，仅实现指示器点击切换
+
+### 7.3 宫格点击（业务层）
 - 组件仅渲染宫格布局的静态图片
 - 点击单张图片打开大图预览由业务层实现
 
-### 7.3 组件构建器特有行为
+### 7.4 组件构建器特有行为
 - ImageBlock 在侧边栏预览中使用 A1（通栏·单图轮播·短）缩略展示
 - 画布中拖入后以原始 428px 宽度渲染
 - 图片不可编辑（与 TextBlock 的文本可编辑不同）
+
+### 7.5 交互状态 CSS 参考
+
+```css
+.image-block-dots .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background 200ms ease-out;
+}
+.image-block-dots .dot.active { background: var(--color-brand-standard); }
+.image-block-dots .dot.inactive { background: var(--color-fill-standard-primary); }
+```
+
+**事件委托（全局）**：
+```javascript
+document.addEventListener('click', function(e) {
+    const dot = e.target.closest('.image-block-dots .dot');
+    if (dot) {
+        const dotsBar = dot.parentElement;
+        dotsBar.querySelectorAll('.dot').forEach(d => {
+            d.classList.remove('active');
+            d.classList.add('inactive');
+        });
+        dot.classList.remove('inactive');
+        dot.classList.add('active');
+    }
+});
+```
 
 ---
 

@@ -9,7 +9,7 @@
 ```
 ┌──────────────────────────────┐
 │        全屏遮罩层 Overlay       │
-│   rgba(0, 0, 0, 0.40)        │
+│   var(--color-overlay-dialog)        │
 │                              │
 │   ┌──────────────────────┐   │  ← border-radius: 14px
 │   │    标题（可选）          │   │  ← 标题区域
@@ -39,23 +39,23 @@
 | 输入框内文本区 left | 16px | 内部文本距左 16px |
 | 操作按钮高度 | 54px | 所有按钮统一高度 |
 | 分割线高度 | 0.5px | 操作区域顶部及按钮间 |
-| 勾选项 SVG 图标 | 20 × 20px | 圆形单选样式 |
+| 勾选项 SVG 图标 | 20 × 20px | 圆形样式，`Checkbox.svg`(未选中) / `Checkbox_filled.svg`(选中)，SVG 固有尺寸均为 20×20 |
 
 ### 3.2 颜色规范
 
 | 元素 | 色值 | Token |
 |------|------|-------|
-| 遮罩层 | rgba(0, 0, 0, 0.40) | overlay_dark |
-| 对话框背景 | #FFFFFF | 背景色-Tertiary |
-| 标题文字 | rgba(0, 0, 0, 0.90) | 文本色-text_primary |
-| 正文文字 | rgba(0, 0, 0, 0.90) | 文本色-text_primary |
-| 辅助信息文案 | rgba(60, 60, 67, 0.56) | 文本色-text_secondary |
-| 输入框背景 | rgba(116, 116, 128, 0.08) | 透明填充色-Quaternary |
-| 输入框placeholder | rgba(60, 60, 67, 0.26) | 文本色-text_tertiary |
-| 输入框光标 | #0099FF | brand_standard |
-| 操作按钮文字 | #214CA5 | 文本色-text_link |
-| 分割线 | rgba(0, 0, 0, 0.10) | 描边分割色-border_standard |
-| 阴影 | 0 8px 32px rgba(0,0,0,0.12) | shadow-dialog |
+| 遮罩层 | rgba(0, 0, 0, 0.40) | `--color-overlay-dialog` |
+| 对话框背景 | #FFFFFF | `--color-bg-item` |
+| 标题文字 | rgba(0, 0, 0, 0.90) | `--color-text-primary` |
+| 正文文字 | rgba(0, 0, 0, 0.90) | `--color-text-primary` |
+| 辅助信息文案 | rgba(60, 60, 67, 0.56) | `--color-text-tertiary` |
+| 输入框背景 | rgba(116, 116, 128, 0.08) | `--color-btn-bg` |
+| 输入框placeholder | rgba(60, 60, 67, 0.26) | `--color-text-quaternary` |
+| 输入框光标 | #0099FF | `--color-brand-standard` |
+| 操作按钮文字 | #214CA5 | `--color-text-link` |
+| 分割线 | rgba(0, 0, 0, 0.10) | `--color-border-standard` |
+| 阴影 | 0 8px 32px rgba(0,0,0,0.12) | `--shadow-dialog` |
 
 ### 3.3 字体规范
 
@@ -127,6 +127,7 @@
 - 居中弹出，配合遮罩层淡入
 - 点击操作按钮关闭对话框
 - 弹窗打开时，背景页面不可操作（模态遮罩阻断底层交互）
+- **禁止**与其他模态组件（ActionSheet、HalfScreenOverlay）相互嵌套
 - 注意：变体矩阵和组件构建器中仅渲染对话框本体，不渲染遮罩层
 
 ### 6.2 操作反馈
@@ -179,10 +180,10 @@
 ```css
 .dialog-outer {
     width: 296px;
-    background: white;
+    background: var(--color-bg-item);
     border-radius: 14px;
     overflow: hidden;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+    box-shadow: var(--shadow-dialog);
 }
 ```
 
@@ -197,7 +198,7 @@
     font-size: 17px;
     font-family: 'PingFang SC', sans-serif;
     font-weight: 600;
-    color: rgba(0, 0, 0, 0.90);
+    color: var(--color-text-primary);
     line-height: 1.35;
 }
 ```
@@ -213,7 +214,7 @@
     font-size: 14px;          /* 有标题: 14px/22px, 无标题: 17px/24px */
     font-family: 'PingFang SC', sans-serif;
     font-weight: 400;
-    color: rgba(0, 0, 0, 0.90);
+    color: var(--color-text-primary);
     line-height: 22px;
     word-wrap: break-word;
 }
@@ -233,7 +234,7 @@
 .dialog-check-label {
     font-size: 14px;
     font-weight: 400;
-    color: rgba(60, 60, 67, 0.56);
+    color: var(--color-text-tertiary);
     white-space: nowrap;
 }
 ```
@@ -247,7 +248,7 @@
 .dialog-input-box {
     width: 248px;
     height: 48px;
-    background: rgba(116, 116, 128, 0.08);
+    background: var(--color-btn-bg);
     border-radius: 12px;
     position: relative;
     overflow: hidden;
@@ -311,7 +312,7 @@
     font-size: 17px;
     font-family: 'PingFang SC', sans-serif;
     font-weight: 400;
-    color: #214CA5;
+    color: var(--color-text-link);
 }
 
 /* 分割线 */
@@ -321,7 +322,7 @@
     top: 0;
     width: 100%;
     height: 0.5px;
-    background: rgba(0, 0, 0, 0.10);
+    background: var(--color-border-standard);
 }
 .dialog-divider-v {
     position: absolute;
@@ -329,6 +330,6 @@
     top: 0;
     width: 0.5px;
     height: 54px;
-    background: rgba(0, 0, 0, 0.10);
+    background: var(--color-border-standard);
 }
 ```

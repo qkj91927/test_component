@@ -9,7 +9,7 @@
 ```
 ┌──────────────────────────────┐
 │        半屏遮罩层 Overlay       │
-│   rgba(0, 0, 0, 0.50)        │
+│   var(--color-overlay-dark)        │
 ├──────────────────────────────┤  ← border-radius: 16px (顶部)
 │   ┌──────────────────────┐   │
 │   │    操作提示（可选）      │   │  ← 标题行 56px
@@ -20,7 +20,7 @@
 │   ├──────────────────────┤   │  ← divider 0.5px
 │   │    警示操作（可选）      │   │  ← 警示行 56px
 │   └──────────────────────┘   │
-│          10px 间距            │  ← 背景色 #F3F3F7 露出
+│          10px 间距            │  ← 背景色 var(--color-bg-secondary) 露出
 │   ┌──────────────────────┐   │
 │   │       取消              │   │  ← 取消行 56px
 │   │    ▬▬▬ Home Bar ▬▬▬   │   │  ← 安全区域 34px
@@ -46,15 +46,15 @@
 
 | 元素 | 色值 | Token |
 |------|------|-------|
-| 遮罩层 | rgba(0, 0, 0, 0.50) | overlay_dark |
-| 面板背景 | #F3F3F7 | 背景色-Secondary |
-| 行背景 | #FFFFFF | 背景色-Tertiary |
-| 操作提示文字 | rgba(60, 60, 67, 0.76) | 文本色-text_secondary |
-| 常规操作文字 | rgba(0, 0, 0, 0.90) | 文本色-text_primary |
-| 警示操作文字 | #F74C30 | 反馈色-feedback_error |
-| 取消文字 | rgba(0, 0, 0, 0.90) | 文本色-text_primary |
-| 分割线 | rgba(0, 0, 0, 0.08) | 分割色-Separators |
-| Home Bar 指示条 | rgba(0, 0, 0, 0.90) | 文本-Text-ultrastrong |
+| 遮罩层 | rgba(0, 0, 0, 0.50) | `--color-overlay-dark` |
+| 面板背景 | #F3F3F7 | `--color-bg-secondary` |
+| 行背景 | #FFFFFF | `--color-bg-item` |
+| 操作提示文字 | rgba(60, 60, 67, 0.76) | `--color-text-secondary` |
+| 常规操作文字 | rgba(0, 0, 0, 0.90) | `--color-text-primary` |
+| 警示操作文字 | #F74C30 | `--color-feedback-error` |
+| 取消文字 | rgba(0, 0, 0, 0.90) | `--color-text-primary` |
+| 分割线 | rgba(0, 0, 0, 0.08) | `--color-separator` |
+| Home Bar 指示条 | rgba(0, 0, 0, 0.90) | `--color-text-primary` |
 
 ### 3.3 字体规范
 
@@ -169,6 +169,10 @@
 - 警示操作行：可移除（操作数 > 0 时）
 - 取消按钮：**不可移除**，始终固定在底部
 
+### 6.4 模态组件嵌套约束
+- **禁止**与其他模态组件（Dialog、HalfScreenOverlay）相互嵌套
+- ActionSheet 打开时不可再弹出另一个 ActionSheet、Dialog 或 HalfScreenOverlay
+
 ## 7. 布局规则
 
 1. **主操作区块**与**取消区块**之间固定 **10px** 间距，间距区域由 outer 容器的 `#F3F3F7` 背景色填充露出
@@ -187,7 +191,7 @@
     width: 428px;
     height: /* totalHeight，由JS动态设置 */;
     position: relative;
-    background: var(--背景色-Secondary, #F3F3F7);  /* 间距区域的背景色 */
+    background: var(--color-bg-secondary);  /* 间距区域的背景色 #F3F3F7 */
     border-top-left-radius: 16px;
     border-top-right-radius: 16px;
     overflow: hidden;
@@ -203,7 +207,7 @@
     top: 0;
     width: 428px;
     height: /* mainBlockHeight，由JS动态设置 */;
-    background: var(--背景色-Tertiary, white);
+    background: var(--color-bg-item);
 }
 ```
 
@@ -221,7 +225,7 @@
 }
 ```
 
-### 8.5 分割线与文字样式
+### 8.4 分割线与文字样式
 
 ```css
 .actionsheet-row .as-divider {
@@ -230,32 +234,32 @@
     top: 0;
     width: 428px;
     height: 0.5px;
-    background: var(--分割色-Separators, rgba(0, 0, 0, 0.08));
+    background: var(--color-separator);
 }
 .actionsheet-row .as-title-text {
     font-size: 14px;
     font-family: 'PingFang SC', sans-serif;
     font-weight: 400;
-    color: var(--文本色-text_secondary, rgba(60, 60, 67, 0.76));
+    color: var(--color-text-secondary);
     text-align: center;
 }
 .actionsheet-row .as-action-text {
     font-size: 17px;
     font-family: 'PingFang SC', sans-serif;
     font-weight: 400;
-    color: var(--文本色-text_primary, rgba(0, 0, 0, 0.90));
+    color: var(--color-text-primary);
     text-align: center;
 }
 .actionsheet-row .as-danger-text {
     font-size: 17px;
     font-family: 'PingFang SC', sans-serif;
     font-weight: 400;
-    color: var(--反馈色-feedback_error, #F74C30);
+    color: var(--color-feedback-error);
     text-align: center;
 }
 ```
 
-### 8.6 取消区块
+### 8.5 取消区块
 
 ```css
 .actionsheet-cancel-block {
@@ -263,7 +267,7 @@
     left: 0;
     top: /* mainBlockHeight + 10 */px;
     width: 428px;
-    background: var(--背景色-Tertiary, white);
+    background: var(--color-bg-item);
 }
 .actionsheet-cancel-row {
     width: 428px;
@@ -276,26 +280,11 @@
     font-size: 17px;
     font-family: 'PingFang SC', sans-serif;
     font-weight: 400;
-    color: var(--文本色-text_primary, rgba(0, 0, 0, 0.90));
+    color: var(--color-text-primary);
     text-align: center;
 }
 ```
 
-### 8.7 Home Bar 指示条
+### 8.6 Home Bar 指示条
 
 ```css
-.actionsheet-homebar {
-    width: 428px;
-    height: 34px;
-    position: relative;
-}
-.actionsheet-homebar-indicator {
-    width: 168.92px;
-    height: 5.71px;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    bottom: 6.72px;               /* 距底部 6.72px */
-    background: rgba(0, 0, 0, 0.90);
-    border-radius: 2.85px;
-}

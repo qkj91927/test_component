@@ -19,7 +19,7 @@
 
 ## 2. 属性定义 (Properties)
 
-### 2.1 A. 操作行 (Action Bar) — 7 种变体
+### 2.1 A. 操作行 (Action Bar) — 9 种变体
 
 | 标识 | 名称 | 构成 | 高度 | 来源 Frame |
 | :--- | :--- | :--- | :--- | :--- |
@@ -29,7 +29,9 @@
 | A4 | 单按钮（二级满宽） | 1 个二级按钮，满宽 | 84px | 1_9731 |
 | A5 | 图标按钮组+一级按钮 | 3 个圆形图标按钮 + 1 个一级按钮 | 84px | 1_9731 |
 | A6 | 四宫格操作 | 4 个图标+文字操作项，等宽排列 | 72px | 1_9731 |
-| A7 | 操作+勾选+按钮 | 文字操作 + 2 个勾选项 + 小一级按钮 | 72px | 1_9731 |
+| A7 | 六图标横排 | 6 个纯图标按钮，横向均匀分布 | 48px | 3462_5192 |
+| A8 | 四图标文字行 | 4 个图标+文字操作项，等宽排列 | 48px | 3467_2977 |
+| A9 | 操作+勾选+按钮 | 文字操作 + 2 个勾选项 + 小一级按钮 | 72px | 1_9731 |
 
 ### 2.2 B. 辅助操作行 (Auxiliary Action Bar) — 5 种变体
 
@@ -109,9 +111,11 @@
 | 属性 | 值 |
 | :--- | :--- |
 | 容器宽度 | 428px (适配 iOS 标准宽度) |
-| 内边距 | A1-A4: `16px 24px`; A5: `16px`; A6: `16px`; A7: `16px` |
+| 内边距 | A1-A4: `16px 24px`; A5: `16px`; A6: `16px`; A7: `12px 32px`; A8: `12px 16px`; A9: `16px` |
 | 按钮间距 | 12px |
 | A6 每项宽度 | 99px |
+| A7 图标间距 | 68px |
+| A8 每项宽度 | 99px |
 
 ### B. 辅助操作行布局
 | 属性 | 值 |
@@ -139,18 +143,32 @@
 
 ## 7. 资源映射 (Asset Mapping)
 
-### Frame 1_9731 (操作行 A)
+### Frame 1_9731 (操作行 A1-A6, A9)
 | 文件 | 用途 |
 | :--- | :--- |
 | `2.svg` | 图标按钮内图标 (24×24) |
 | `6.svg` | 四宫格操作项图标 (24×24) |
-| `9.svg` | 勾选框图标 (20×20) |
+| `Checkbox.svg` | 勾选框未选中态 (SVG 固有尺寸 20×20，A9 渲染为 20×20) |
+| `Checkbox_filled.svg` | 勾选框选中态 (SVG 固有尺寸 20×20，A9 渲染为 20×20) |
+
+### Frame 3462_5192 (操作行 A7)
+| 文件 | 用途 |
+| :--- | :--- |
+| `6.svg` | 图标按钮 (24×24) |
+
+### Frame 3467_2977 (操作行 A8)
+| 文件 | 用途 |
+| :--- | :--- |
+| `4.svg` | 图标+文字操作项图标 (24×24) |
 
 ### Frame 1_9746 (辅助操作行 B)
 | 文件 | 用途 |
 | :--- | :--- |
-| `1.svg` | Checkbox 勾选框 (16×16) |
+| `Checkbox.svg` | Checkbox 勾选框未选中态 (SVG 固有尺寸 20×20，B1 通过 CSS 缩放为 16×16) |
+| `Checkbox_filled.svg` | Checkbox 勾选框选中态 (SVG 固有尺寸 20×20，B1 通过 CSS 缩放为 16×16) |
 | `3.svg` | Action 分隔线 SVG |
+
+> **注意**: `Checkbox.svg` 和 `Checkbox_filled.svg` 的 SVG 固有尺寸必须一致（均为 20×20），以确保切换选中/未选中状态时不会改变图标大小。不同场景通过 CSS `width`/`height` 控制渲染尺寸。
 
 ---
 
@@ -187,15 +205,10 @@
     align-items: center;
     justify-content: center;
     padding: 16px 24px;
-    background: white;
+    background: var(--color-bg-item);
     width: 428px;
     box-sizing: border-box;
     gap: 12px;
-}
-.action-button-row.grid-row {
-    padding: 16px;
-    gap: 0;
-    justify-content: flex-start;
 }
 .action-button-row.mixed-row {
     padding: 16px;
@@ -208,14 +221,14 @@
 ```css
 .action-btn-primary {
     height: 52px;
-    background: #0099FF;
+    background: var(--color-brand-standard);
     border-radius: 999px;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 17px;
     font-weight: 600;
-    color: white;
+    color: var(--color-text-allwhite);
     flex: 1;
     min-width: 0;
 }
@@ -232,21 +245,21 @@
 }
 .action-btn-secondary {
     height: 52px;
-    background: rgba(118, 118, 128, 0.12);
+    background: var(--color-fill-tertiary);
     border-radius: 999px;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 17px;
     font-weight: 600;
-    color: rgba(0, 0, 0, 0.90);
+    color: var(--color-text-primary);
     flex: 1;
     min-width: 0;
 }
 .action-icon-btn {
     width: 52px;
     height: 52px;
-    background: rgba(118, 118, 128, 0.12);
+    background: var(--color-fill-tertiary);
     border-radius: 999px;
     display: flex;
     align-items: center;
@@ -259,30 +272,140 @@
 }
 ```
 
-### 9.4 宫格操作项
+### 9.4 宫格操作项 (A6) - 绝对定位
 
 ```css
+/* A6: 四宫格操作 (72px) */
+.action-button-row.grid-row {
+    position: relative;
+    width: 428px;
+    height: 72px;
+    background: white;
+    padding: 0;
+}
 .action-grid-item {
+    position: absolute;
     width: 99px;
     height: 72px;
+    top: 0px;
+}
+.action-grid-item:nth-child(1) { left: 16px; }
+.action-grid-item:nth-child(2) { left: 115px; }
+.action-grid-item:nth-child(3) { left: 214px; }
+.action-grid-item:nth-child(4) { left: 313px; }
+.action-grid-item-inner {
+    position: absolute;
+    width: 34px;
+    height: 52px;
+    left: 32.5px;
+    top: 10px;
+}
+.action-grid-item-inner img {
+    position: absolute;
+    left: 5px;
+    top: 0px;
+    width: 24px;
+    height: 24px;
+}
+.action-grid-item-inner span {
+    position: absolute;
+    left: 0px;
+    top: 28px;
+    width: 34px;
+    text-align: center;
+    font-size: 17px;
+    font-weight: 400;
+    color: var(--color-text-primary);
+}
+```
+
+### 9.5 六图标横排 (A7) 和 四图标文字行 (A8)
+
+```css
+/* A7: 六图标横排 - 使用绝对定位精确还原 Figma */
+.action-button-row.icon-6-row {
+    position: relative;
+    width: 428px;
+    height: 48px;
+    background: white;
+    padding: 0;
+}
+.action-icon-btn-24 {
+    position: absolute;
+    top: 12px;
+    width: 24px;
+    height: 24px;
+}
+.action-icon-btn-24 img {
+    width: 24px;
+    height: 24px;
+}
+/* 6个图标精确位置 */
+.action-icon-btn-24:nth-child(1) { left: 32px; }
+.action-icon-btn-24:nth-child(2) { left: 100px; }
+.action-icon-btn-24:nth-child(3) { left: 168px; }
+.action-icon-btn-24:nth-child(4) { left: 236px; }
+.action-icon-btn-24:nth-child(5) { left: 304px; }
+.action-icon-btn-24:nth-child(6) { left: 372px; }
+
+/* A8: 四图标文字行 */
+.action-button-row.icon-text-4-row {
+    padding: 12px 16px;
+    height: 48px;
+    gap: 0;
+    justify-content: flex-start;
+}
+.action-icon-text-item {
+    width: 99px;
+    height: 24px;
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: 4px;
 }
-.action-grid-item img {
+.action-icon-text-item img {
     width: 24px;
     height: 24px;
+    flex-shrink: 0;
 }
-.action-grid-item span {
+.action-icon-text-item span {
     font-size: 17px;
     font-weight: 400;
-    color: rgba(0, 0, 0, 0.90);
+    color: var(--文本色-text_primary, var(--color-text-primary));
+    text-align: center;
 }
 ```
 
-### 9.5 辅助操作行 (B 类)
+### 9.6 混合行与勾选项 (A9)
+
+```css
+.action-mixed-left {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+.action-mixed-left .action-label {
+    font-size: 17px;
+    font-weight: 400;
+    color: var(--文本色-text_primary, var(--color-text-primary));
+}
+.action-checkbox-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+.action-checkbox-item img {
+    width: 20px;
+    height: 20px;
+}
+.action-checkbox-item span {
+    font-size: 17px;
+    font-weight: 400;
+    color: var(--color-text-primary);
+}
+```
+
+### 9.7 辅助操作行 (B 类)
 
 ```css
 .action-row {
@@ -291,20 +414,20 @@
     justify-content: center;
     height: 36px;
     padding: 0 16px;
-    background: white;
+    background: var(--color-bg-item);
     width: 428px;
     gap: 0;
 }
 .action-row .action-link {
     font-size: 14px;
     font-weight: 500;
-    color: #214CA5;
+    color: var(--文本色-text_link, var(--color-text-link));
     white-space: nowrap;
 }
 .action-row .action-separator {
     width: 1px;
     height: 14px;
-    background: rgba(0, 0, 0, 0.08);
+    background: var(--color-separator);
     margin: 0 8px;
     flex-shrink: 0;
 }
@@ -316,10 +439,10 @@
 }
 .action-row .action-text {
     font-size: 14px;
-    color: rgba(60, 60, 67, 0.76);
+    color: var(--文本色-text_secondary, var(--color-text-secondary));
 }
 .action-row .action-textlink {
     font-size: 14px;
-    color: #214CA5;
+    color: var(--文本色-text_link, var(--color-text-link));
 }
 ```

@@ -97,7 +97,7 @@
 ```css
 .form-container {
     width: 428px;
-    background: #F0F0F2;        /* 页面背景色 */
+    background: var(--color-bg-page);        /* ⚠️ 必须使用 bg_bottom_standard，不可用白色 */
     padding: 12px 16px;
     display: flex;
     flex-direction: column;
@@ -112,7 +112,7 @@
     align-items: center;
     padding: 0 16px;
     width: 100%;
-    background: #FFFFFF;
+    background: var(--color-bg-item);
     position: relative;
     border-radius: 12px;        /* 单行独立卡片时 */
     overflow: hidden;
@@ -133,14 +133,14 @@
 }
 .form-row .title {
     font-size: 17px;
-    color: rgba(0, 0, 0, 0.9);
+    color: var(--text-primary, var(--color-text-primary));
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 .form-row .subtitle {
     font-size: 14px;
-    color: rgba(60, 60, 67, 0.56);
+    color: var(--text-tertiary, var(--color-text-tertiary));
     line-height: 1.2;
     margin-top: 1px;
 }
@@ -158,7 +158,34 @@
 }
 .form-row .helper-text {
     font-size: 17px;
-    color: rgba(60, 60, 67, 0.76);
+    color: var(--text-secondary, var(--color-text-secondary));
+}
+.form-switch {
+    width: 44px;
+    height: 26px;
+    background: var(--brand-blue, var(--color-brand-standard));
+    border-radius: 13px;
+    position: relative;
+    cursor: pointer;
+    transition: background 200ms ease-out;
+}
+.form-switch.off {
+    background: var(--color-switch-off);
+}
+.form-switch::after {
+    content: '';
+    position: absolute;
+    right: 2px;
+    top: 2px;
+    width: 22px;
+    height: 22px;
+    background: var(--color-bg-item);
+    border-radius: 50%;
+    transition: right 200ms ease-out, left 200ms ease-out;
+}
+.form-switch.off::after {
+    right: auto;
+    left: 2px;
 }
 ```
 
@@ -166,32 +193,68 @@
 
 ```css
 .form-group {
-    width: 396px;              /* 428 - 左右 16px 外边距 */
+    background: var(--color-bg-page);
+    padding: 16px 0;
+    border-radius: 0;
+    width: 428px;
+    display: flex;
+    flex-direction: column;
 }
 .form-group-header {
-    padding: 8px 0;
+    padding: 0 32px 8px;
     font-size: 14px;
-    color: rgba(60, 60, 67, 0.56);
+    color: var(--text-tertiary, var(--color-text-tertiary));
 }
 .form-group-content {
+    background: var(--color-bg-item);
+    margin: 0 16px;
     border-radius: 12px;
     overflow: hidden;
-    background: white;
+    width: 396px;
 }
 .form-group-content .form-row {
     border-radius: 0;           /* 组合内行不单独圆角 */
     padding: 0 16px;
+    width: 100%;
+    margin: 0;
+    background: transparent;
+}
+.form-group-content .form-row .left-area {
+    gap: 12px;
 }
 .form-group-footer {
-    padding: 8px 16px 0;
+    padding: 8px 32px 0;
     font-size: 14px;
-    color: rgba(60, 60, 67, 0.56);
+    color: var(--text-tertiary, var(--color-text-tertiary));
+    line-height: 1.4;
 }
 .form-separator {
     height: 0.5px;
-    background: rgba(0, 0, 0, 0.1);
+    background: var(--separator, var(--color-border-standard));
     margin-left: 16px;
     margin-right: 16px;
+}
+```
+
+### matrix 展示容器（变体矩阵专用）
+
+```css
+.grouped-card {
+    width: 428px;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 8px;
+}
+.grouped-card-header {
+    padding: 0 0 6px 0;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--color-text-tertiary);
+    display: flex;
+    gap: 12px;
+}
+.grouped-card-body {
+    position: relative;
 }
 ```
 
@@ -284,9 +347,42 @@
 
 | 状态 | 样式 | 说明 |
 |------|------|------|
-| 开启 | 背景 `#0099FF`，滑块居右 | 功能生效 |
-| 关闭 | 背景 `rgba(120,120,128,0.16)`，滑块居左 | 功能关闭 |
+| 开启 | 背景 `#0099FF`，滑块居右 | 功能生效，默认状态（无额外 class） |
+| 关闭 | 背景 `rgba(120,120,128,0.16)`，滑块居左 | 添加 `.off` class |
 | 禁用 | 整行 `opacity: 0.40`，开关不可操作 | 父子关系触发 |
+
+**交互实现**：点击开关通过 `classList.toggle('off')` 切换状态。使用全局事件委托：
+```javascript
+document.addEventListener('click', function(e) {
+    const switchEl = e.target.closest('.form-switch');
+    if (switchEl) {
+        e.stopPropagation();
+        switchEl.classList.toggle('off');
+    }
+});
+```
+
+### 7.2.1 Checkbox 勾选状态
+
+| 状态 | 图标 | 说明 |
+|------|------|------|
+| 选中 | `Checkbox_filled.svg` (20×20) | 蓝色实心勾选框 |
+| 未选中 | `Checkbox.svg` (20×20) | 灰色空心勾选框 |
+
+**交互实现**：点击勾选图标通过替换 `img.src` 切换状态：
+```javascript
+document.addEventListener('click', function(e) {
+    const checkImg = e.target.closest('img[src*="Checkbox"]');
+    if (checkImg) {
+        e.stopPropagation();
+        if (checkImg.src.includes('Checkbox_filled')) {
+            checkImg.src = checkImg.src.replace('Checkbox_filled', 'Checkbox');
+        } else {
+            checkImg.src = checkImg.src.replace('Checkbox.svg', 'Checkbox_filled.svg');
+        }
+    }
+});
+```
 
 ### 7.3 动画规范
 

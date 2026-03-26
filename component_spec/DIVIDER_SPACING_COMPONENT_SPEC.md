@@ -131,14 +131,14 @@
 ```css
 .divider-container {
     width: 428px;
-    background: white;
+    background: var(--color-bg-item);
     position: relative;
     display: flex;
     align-items: center;
 }
 .divider-line {
     height: 0.5px;
-    background: rgba(0, 0, 0, 0.08);
+    background: var(--color-separator);
 }
 .divider-line.inset-both {
     width: 396px;

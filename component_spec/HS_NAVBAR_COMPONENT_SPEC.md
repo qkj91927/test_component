@@ -91,7 +91,7 @@ B3  返回+标题           → [←]      [二级标题]
     display: flex;
     align-items: center;
     width: 429px;
-    background: white;
+    background: var(--color-bg-item);
     position: relative;
     box-sizing: border-box;
 }
@@ -132,7 +132,7 @@ B3  返回+标题           → [←]      [二级标题]
     font-size: 17px;
     font-family: 'PingFang SC', sans-serif;
     font-weight: 500;
-    color: rgba(0, 0, 0, 0.90);
+    color: var(--color-text-primary);
     line-height: 24px;
     text-align: center;
 }
@@ -150,21 +150,21 @@ B3  返回+标题           → [←]      [二级标题]
     font-size: 17px;
     font-family: 'PingFang SC', sans-serif;
     font-weight: 500;
-    color: rgba(0, 0, 0, 0.90);
+    color: var(--color-text-primary);
     line-height: 24px;
 }
 .hs-navbar-row .hs-subtitle {
     font-size: 12px;
     font-family: 'PingFang SC', sans-serif;
     font-weight: 400;
-    color: rgba(60, 60, 67, 0.76);
+    color: var(--color-text-secondary);
     line-height: 17px;
 }
 .hs-navbar-row .hs-close-btn {
     width: 30px;
     height: 30px;
     border-radius: 50%;
-    background: rgba(0, 0, 0, 0.04);
+    background: var(--color-fill-pressed);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -177,7 +177,7 @@ B3  返回+标题           → [←]      [二级标题]
     font-size: 17px;
     font-family: 'PingFang SC', sans-serif;
     font-weight: 400;
-    color: rgba(0, 0, 0, 0.90);
+    color: var(--color-text-primary);
     line-height: 24px;
 }
 .hs-navbar-row .hs-back-icon {
@@ -188,5 +188,9 @@ B3  返回+标题           → [←]      [二级标题]
     width: 24px;
     height: 24px;
     margin-right: 8px;
+}
+.hs-navbar-row .hs-icon-24 {
+    width: 24px;
+    height: 24px;
 }
 ```

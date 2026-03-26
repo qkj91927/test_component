@@ -11,7 +11,7 @@
 ```
 ┌──────────────────────────────┐
 │        半屏遮罩层 Overlay       │
-│   rgba(0, 0, 0, 0.50)        │
+│   var(--color-overlay-dark)        │
 │                              │
 │                              │
 ├──────────────────────────────┤  ← border-radius: 20px (顶部)
@@ -32,7 +32,7 @@
 ```
 ┌──────────────────────────────┐
 │        半屏遮罩层 Overlay       │
-│   rgba(0, 0, 0, 0.50)        │
+│   var(--color-overlay-dark)        │
 │                              │
 │                              │
 ├──────────────────────────────┤  ← border-radius: 20px (顶部)
@@ -147,7 +147,7 @@
 2. 遮罩层覆盖整个屏幕（matrix 中 outer 容器高度 926px = iPhone 屏幕高度）
 3. **标准型高度**: 360px ~ 720px，默认 420px，可随内容增加自动撑高至最大 720px，超出内容区可滚动（`overflow-y: auto`）
 4. **把手型高度**: 固定 720px，不可调整，超出内容区可滚动（`overflow-y: auto`）
-5. 内容区域允许其他非模态组件拖入（如列表、表单等）
+5. 内容区域允许其他**非模态**组件拖入（如列表、表单等），**禁止**嵌套其他模态组件（ActionSheet、Dialog）
 6. 标准型导航栏：采用 A3 半屏导航栏样式，关闭按钮右对齐（30×30px 圆形，内边距 16px）
 7. 把手型把手条：指示条固定在顶部区域居中
 8. Home Bar 指示条固定在底部安全区域居中
@@ -161,7 +161,7 @@
     width: 428px;
     height: 926px;               /* iPhone 屏幕高度 */
     position: relative;
-    background: rgba(0, 0, 0, 0.50);  /* 遮罩色 */
+    background: var(--叠加色-overlay_dark, var(--color-overlay-dark));  /* 遮罩色 */
     overflow: hidden;
 }
 ```
@@ -175,7 +175,7 @@
     left: 0;
     width: 428px;
     height: /* sheetHeight */;
-    background: white;
+    background: var(--color-bg-item);
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
     overflow: hidden;
@@ -190,7 +190,7 @@
     width: 428px;  /* 或 100% */
     min-height: 360px;   /* 标准型最小高度 */
     max-height: 720px;
-    background: white;
+    background: var(--color-bg-item);
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
     overflow: hidden;
@@ -210,14 +210,14 @@
     align-items: center;
     justify-content: flex-end;
     padding: 0 16px;
-    background: white;
+    background: var(--color-bg-item);
     box-sizing: border-box;
 }
 .hs-overlay-close-btn-a3 {
     width: 30px;
     height: 30px;
     border-radius: 50%;
-    background: rgba(0, 0, 0, 0.04);
+    background: var(--color-fill-pressed);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -237,7 +237,7 @@
 .hs-overlay-handle-indicator {
     width: 36px;
     height: 5px;
-    background: rgba(60, 60, 67, 0.30);
+    background: var(--color-handle);
     border-radius: 2.5px;
 }
 ```
@@ -245,19 +245,3 @@
 ### 8.6 底部安全区
 
 ```css
-.hs-overlay-bottom {
-    width: 428px;
-    height: 34px;
-    position: relative;
-    background: white;
-}
-.hs-overlay-homebar {
-    width: 168.92px;
-    height: 5.71px;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    bottom: 6.72px;
-    background: rgba(0, 0, 0, 0.90);
-    border-radius: 2.85px;
-}

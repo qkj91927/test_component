@@ -195,16 +195,16 @@
 
 ```css
 .btn-comp.type-primary.state-default {
-    background: #0099FF;
-    color: white;
+    background: var(--color-brand-standard);
+    color: var(--color-text-allwhite);
 }
 .btn-comp.type-primary.state-pressed {
-    background: #008AE5;
-    color: white;
+    background: var(--color-brand-pressed);
+    color: var(--color-text-allwhite);
 }
 .btn-comp.type-primary.state-loading {
-    background: #008AE5;
-    color: white;
+    background: var(--color-brand-pressed);
+    color: var(--color-text-allwhite);
 }
 .btn-comp.type-primary.state-disabled {
     background: rgba(0, 153, 255, 0.50);
@@ -218,22 +218,22 @@
 ```css
 .btn-comp.type-secondary.state-default {
     background: transparent;
-    border: 1px solid rgba(60, 60, 67, 0.25);
-    color: rgba(0, 0, 0, 0.90);
+    border: 1px solid var(--color-border-stroke);
+    color: var(--color-text-primary);
 }
 .btn-comp.type-secondary.state-pressed {
-    background: rgba(204, 204, 204, 0.30);
-    border: 1px solid rgba(60, 60, 67, 0.25);
-    color: rgba(0, 0, 0, 0.90);
+    background: var(--color-fill-pressed-brand);
+    border: 1px solid var(--color-border-stroke);
+    color: var(--color-text-primary);
 }
 .btn-comp.type-secondary.state-loading {
-    background: rgba(204, 204, 204, 0.30);
-    border: 1px solid rgba(60, 60, 67, 0.25);
-    color: rgba(0, 0, 0, 0.90);
+    background: var(--color-fill-pressed-brand);
+    border: 1px solid var(--color-border-stroke);
+    color: var(--color-text-primary);
 }
 .btn-comp.type-secondary.state-disabled {
-    background: rgba(204, 204, 204, 0.30);
-    border: 1px solid rgba(60, 60, 67, 0.12);
+    background: var(--color-fill-pressed-brand);
+    border: 1px solid var(--color-border-disabled);
     color: rgba(0, 0, 0, 0.30);
     opacity: 0.30;
     cursor: not-allowed;
@@ -245,17 +245,17 @@
 ```css
 .btn-comp.type-error.state-default {
     background: transparent;
-    border: 1px solid rgba(60, 60, 67, 0.25);
-    color: #F74C30;
+    border: 1px solid var(--color-border-stroke);
+    color: var(--color-feedback-error);
 }
 .btn-comp.type-error.state-pressed {
-    background: rgba(204, 204, 204, 0.30);
-    border: 1px solid rgba(60, 60, 67, 0.25);
-    color: #F74C30;
+    background: var(--color-fill-pressed-brand);
+    border: 1px solid var(--color-border-stroke);
+    color: var(--color-feedback-error);
 }
 .btn-comp.type-error.state-disabled {
     background: transparent;
-    border: 1px solid rgba(60, 60, 67, 0.12);
+    border: 1px solid var(--color-border-disabled);
     color: rgba(247, 76, 48, 0.30);
     cursor: not-allowed;
 }

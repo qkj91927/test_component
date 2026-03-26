@@ -214,7 +214,7 @@
 .textfield-mid {
     width: 364px;
     height: 56px;
-    background: white;
+    background: var(--color-bg-item);
     position: relative;
 }
 ```
@@ -226,32 +226,32 @@
 .textfield-placeholder {
     font-size: 17px;
     font-weight: 400;
-    color: rgba(60, 60, 67, 0.26);
+    color: var(--color-text-quaternary);
 }
 /* 输入文字 */
 .textfield-input-text {
     font-size: 17px;
     font-weight: 400;
-    color: rgba(0, 0, 0, 0.90);
+    color: var(--color-text-primary);
 }
 /* 标题（B类有标题型） */
 .textfield-title {
     font-size: 17px;
     font-weight: 400;
-    color: rgba(0, 0, 0, 0.90);
+    color: var(--color-text-primary);
     width: 90px;
 }
 /* 电话前缀（C类） */
 .textfield-prefix {
     font-size: 17px;
     font-weight: 400;
-    color: #214CA5;
+    color: var(--color-text-link);
 }
 /* 光标 */
 .textfield-cursor {
     width: 1px;
     height: 18px;
-    background: #0099FF;
+    background: var(--color-brand-standard);
 }
 /* 清除按钮 */
 .textfield-clear {
@@ -273,15 +273,15 @@
 .textfield-helper {
     font-size: 14px;
     font-weight: 400;
-    color: rgba(60, 60, 67, 0.56);
+    color: var(--color-text-tertiary);
 }
 .textfield-char-count {
     font-size: 14px;
     font-weight: 400;
-    color: rgba(60, 60, 67, 0.56);
+    color: var(--color-text-tertiary);
 }
 .textfield-char-count.error {
-    color: #F74C30;
+    color: var(--color-feedback-error);
 }
 ```
 
@@ -296,20 +296,20 @@
 .textfield-multiline-left {
     width: 16px;
     height: 197px;
-    background: white;
+    background: var(--color-bg-item);
     border-top-left-radius: 12px;
     border-bottom-left-radius: 12px;
 }
 .textfield-multiline-mid {
     width: 364px;
     height: 197px;
-    background: white;
+    background: var(--color-bg-item);
     position: relative;
 }
 .textfield-multiline-right {
     width: 16px;
     height: 197px;
-    background: white;
+    background: var(--color-bg-item);
     border-top-right-radius: 12px;
     border-bottom-right-radius: 12px;
 }
@@ -327,6 +327,6 @@
     bottom: 16px;
     text-align: right;
     font-size: 12px;
-    color: rgba(60, 60, 67, 0.56);
+    color: var(--color-text-tertiary);
 }
 ```

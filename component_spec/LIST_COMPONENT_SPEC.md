@@ -84,7 +84,7 @@
 - **文字规范**:
   - 主标题: 17px, `rgba(0,0,0,0.9)`, line-height: 24px
   - 描述文本: 14px, `rgba(60,60,67,0.76)`, line-height: 20px
-  - 链接文字: `#214CA5`（Token `--文本色-text_link`）
+  - 链接文字: `#214CA5`（Token `--color-text-link`）
 - **间距**: 
   - 左侧区域右间距: 12px（所有 L 类型统一）
   - 右侧区域左间距: 12px
@@ -118,13 +118,18 @@
 
 ---
 
-## 5. 列表组合规则 (List Composition Rules)
+## 6. 列表组合规则 (List Composition Rules)
 
-### 5.1 单一类型原则
+### 6.1 单一类型原则
 一个页面视图中的通栏式列表必须由**同一类型的子组件**构成。即同一视图内所有列表行的 L / C / R 组合模式应保持一致，不允许在同一列表中混用不同类型的子组件变体。
 
 ### 6.2 结构级切换
 不同类型的列表必须通过**结构级切换**展示，例如：Tab、Segment Control、Filter 等视图级切换控件。每个切换状态对应一种独立的列表子组件类型。
+
+### 6.3 页面背景色
+通栏式列表的行背景为白色（`#FFFFFF`），与白色页面背景融为一体。因此使用通栏式列表时，页面背景色应使用**默认白色** `#FFFFFF`（Token `bg_bottom_light`）。
+
+> **注意**：如果同一页面还包含卡片式列表（Grouped List），则页面背景色以 `#F0F0F2`（`bg_bottom_standard`）为准。
 
 ---
 
@@ -138,7 +143,8 @@
     align-items: center;
     padding: 0 16px;
     width: 428px;
-    background: var(--bg-item, white);
+    background: var(--color-bg-item);
+    position: relative;
 }
 .list-row.c1 { height: 52px; }
 .list-row.c2, .list-row.c3 { height: 72px; }
@@ -160,7 +166,7 @@
 }
 ```
 
-### 6.3 内容区域
+### 7.3 内容区域
 
 ```css
 .list-row .content-area {
@@ -179,7 +185,7 @@
 }
 .list-row .desc {
     font-size: 14px;
-    color: rgba(60, 60, 67, 0.76);
+    color: var(--color-text-secondary);
     line-height: 20px;
     display: flex;
     align-items: center;
@@ -196,7 +202,7 @@
     flex-shrink: 0;
 }
 .list-row .btn-secondary {
-    background: rgba(116, 116, 128, 0.08);
+    background: var(--color-btn-bg);
     padding: 6px 16px;
     border-radius: 18px;
     font-size: 14px;
@@ -207,13 +213,34 @@
     font-weight: 700;
     font-size: 20px;
 }
+.list-row .switch {
+    width: 44px;
+    height: 26px;
+    background: var(--color-brand-standard);
+    border-radius: 13px;
+    position: relative;
+}
+.list-row .switch::after {
+    content: '';
+    position: absolute;
+    right: 2px;
+    top: 2px;
+    width: 22px;
+    height: 22px;
+    background: var(--color-bg-item);
+    border-radius: 50%;
+}
+.list-row .text-link {
+    color: var(--color-text-link);
+    cursor: pointer;
+}
 ```
 
 ---
 
-## 7. 交互行为
+## 8. 交互行为
 
-### 7.1 点击热区
+### 8.1 点击热区
 - 整行为点击热区（L0+R0 除外）
 - 点击行为由右侧类型决定
 

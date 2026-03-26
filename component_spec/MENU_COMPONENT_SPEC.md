@@ -134,8 +134,8 @@
 | 6 | NI-2 | 无图标 | 2 | 104px |
 | 7 | NI-3 | 无图标 | 3 | 156px |
 | 8 | NI-4 | 无图标 | 4 | 208px |
-| 9 | NI-5 | 无图标 | 5 | 240px |
-| 10 | NI-6 | 无图标 | 6 | 288px |
+| 9 | NI-5 | 无图标 | 5 | 260px |
+| 10 | NI-6 | 无图标 | 6 | 312px |
 | 11 | C-2 | 有勾选 | 2 | 104px |
 | 12 | C-3 | 有勾选 | 3 | 156px |
 | 13 | C-4 | 有勾选 | 4 | 208px |
@@ -187,10 +187,10 @@
 ```css
 .menu-outer {
     width: 180px;
-    background: white;
+    background: var(--bg-item);
     border-radius: 12px;
     overflow: hidden;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.12);
 }
 ```
 
@@ -225,7 +225,7 @@
     font-size: 17px;
     font-family: 'PingFang SC', sans-serif;
     font-weight: 400;
-    color: rgba(0, 0, 0, 0.90);
+    color: var(--text-primary);
     position: absolute;
     top: 50%;
     transform: translateY(-50%);

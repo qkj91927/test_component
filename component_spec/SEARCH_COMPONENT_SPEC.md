@@ -25,8 +25,8 @@
 ## 3. 视觉规范
 
 ### 3.1 容器
-- **外容器**: 428 × 60px，背景 `white`，水平 padding 16px
-- **输入框**: 高 36px，背景 `rgba(0, 81, 254, 0.04)`，圆角 12px
+- **外容器**: 428 × 60px，背景 `var(--bg-item)`（#FFFFFF），水平 padding 16px
+- **输入框**: 高 36px，背景 `var(--fill-standard)`（rgba(13, 16, 49, 0.04)），圆角 12px
 
 ### 3.2 输入框宽度
 
@@ -104,15 +104,15 @@ Search / level=secondary, state=typing, hasBack=true   → B3
 ## 7. 设计令牌
 
 ```
---fill_light_primary: white                   (容器背景)
---fill_standard_brand: rgba(0, 81, 254, 0.04) (输入框背景)
---text_secondary: rgba(60, 60, 67, 0.56)      (placeholder)
---text_primary: rgba(0, 0, 0, 0.90)           (输入文字)
---text_link: #214CA5                          (取消按钮)
---icon_secondary: #929296                     (默认态图标)
---icon_primary: #1A1A1A                       (输入态图标)
---brand_standard: #0099FF                     (光标)
---icon_nav_secondary: #1A1A1A                 (返回箭头)
+--bg-item: #FFFFFF                              (容器背景)
+--fill-standard: rgba(13,16,49,0.04)            (输入框背景)
+--text-tertiary: rgba(60,60,67,0.56)            (placeholder)
+--text-primary: rgba(0,0,0,0.90)                (输入文字)
+--text-link: #214CA5                             (取消按钮)
+--icon-secondary: #929296                        (默认态图标)
+--icon-primary: #1A1A1A                          (输入态图标)
+--brand-blue: #0099FF                            (光标)
+--icon-primary: #1A1A1A                          (返回箭头)
 ```
 
 ---
@@ -127,7 +127,7 @@ Search / level=secondary, state=typing, hasBack=true   → B3
 .search-container {
     width: 428px;
     height: 60px;
-    background: white;
+    background: var(--bg-item);
     display: flex;
     align-items: center;
     padding: 0 16px;
@@ -154,7 +154,7 @@ Search / level=secondary, state=typing, hasBack=true   → B3
 ```css
 .search-box {
     height: 36px;
-    background: rgba(13, 16, 49, 0.04);
+    background: var(--fill-standard);
     border-radius: 12px;
     overflow: hidden;
     display: flex;
@@ -176,19 +176,19 @@ Search / level=secondary, state=typing, hasBack=true   → B3
 .search-placeholder {
     font-size: 17px;
     font-weight: 400;
-    color: rgba(60, 60, 67, 0.56);
+    color: var(--text-tertiary);
 }
 /* 输入态文字 */
 .search-input-text {
     font-size: 17px;
     font-weight: 400;
-    color: rgba(0, 0, 0, 0.90);
+    color: var(--text-primary);
 }
 /* 光标 */
 .search-cursor {
     width: 1px;
     height: 18px;
-    background: #0099FF;
+    background: var(--brand-blue);
 }
 /* 清除按钮 */
 .search-clear {
@@ -205,7 +205,7 @@ Search / level=secondary, state=typing, hasBack=true   → B3
     margin-left: auto;
     font-size: 16px;
     font-weight: 400;
-    color: #214CA5;
+    color: var(--text-link);
     flex-shrink: 0;
     padding-left: 14px;
 }

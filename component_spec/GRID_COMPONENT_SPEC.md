@@ -52,7 +52,7 @@
 ## 视觉规格
 
 ### 缩略图
-- 填充色: `rgba(13, 16, 49, 0.04)`（CSS变量 `--fill_standard_primary`）
+- 填充色: `rgba(13, 16, 49, 0.04)`（CSS变量 `--fill-standard`）
 - 横版/竖版/正方形圆角: `16px`（B2为12px）
 - 圆形: `border-radius: 50%`
 
@@ -90,7 +90,7 @@
 ```css
 .grid-container {
     width: 428px;
-    background: white;
+    background: var(--bg-item);
     overflow: hidden;
     position: relative;
 }
@@ -129,7 +129,7 @@
     align-items: center;
 }
 .grid-item-thumb {
-    background: rgba(13, 16, 49, 0.04);
+    background: var(--fill-standard);
 }
 .grid-item-thumb.rounded {
     border-radius: 16px;
@@ -143,8 +143,9 @@
 .grid-item-label {
     font-family: 'PingFang SC', sans-serif;
     font-weight: 400;
-    color: rgba(0, 0, 0, 0.90);
+    color: var(--text-primary);
     text-align: center;
     white-space: nowrap;
+    word-wrap: break-word;
 }
 ```

@@ -106,7 +106,7 @@
     padding: 0 16px;
     width: 428px;
     height: 44px;
-    background: var(--bg-item, #FFFFFF);
+    background: var(--color-bg-item);
     position: relative;
 }
 ```
@@ -156,25 +156,25 @@
 .navbar-row .nav-title {
     font-size: 17px;
     font-weight: 600;
-    color: var(--text-primary, rgba(0, 0, 0, 0.90));
+    color: var(--color-text-primary);
     white-space: nowrap;
     line-height: 1.2;
 }
 .navbar-row .nav-subtitle {
     font-size: 11px;
-    color: var(--text-tertiary, rgba(60, 60, 67, 0.56));
+    color: var(--color-text-tertiary);
     line-height: 1.2;
     margin-top: 1px;
 }
 .navbar-row .nav-text {
     font-size: 17px;
-    color: var(--text-primary, rgba(0, 0, 0, 0.90));
+    color: var(--color-text-primary);
     cursor: pointer;
     line-height: 24px;
 }
 .navbar-row .nav-btn {
-    background: var(--brand-blue, #0099FF);
-    color: white;
+    background: var(--color-brand-standard);
+    color: var(--color-text-allwhite);
     width: 72px;
     height: 32px;
     border-radius: 16px;
@@ -229,7 +229,7 @@
 .nav-profile-name {
     font-size: 17px;
     font-weight: 500;
-    color: var(--text-primary, rgba(0, 0, 0, 0.90));
+    color: var(--color-text-primary);
     line-height: 1.2;
 }
 .nav-profile-desc-group {
@@ -237,7 +237,12 @@
     align-items: center;
     gap: 4px;
     font-size: 10px;
-    color: var(--text-tertiary, rgba(60, 60, 67, 0.56));
+    color: var(--color-text-tertiary);
+}
+.navbar-row .nav-subtitle.clickable,
+.nav-profile-desc-group.clickable {
+    cursor: pointer;
+    transition: opacity 0.2s;
 }
 ```
 
@@ -252,7 +257,7 @@
     display: flex;
     align-items: center;
     padding: 0 10px;
-    color: var(--text-tertiary, rgba(60, 60, 67, 0.56));
+    color: var(--color-text-tertiary);
     font-size: 14px;
     margin: 0 8px;
 }
@@ -260,7 +265,7 @@
     display: flex;
     width: 196px;
     height: 36px;
-    background: rgba(116, 116, 128, 0.08);
+    background: var(--color-btn-bg);
     border-radius: 20px;
     padding: 4px;
     position: relative;
@@ -274,13 +279,13 @@
     justify-content: center;
     font-size: 14px;
     font-weight: 500;
-    color: var(--text-primary, rgba(0, 0, 0, 0.90));
+    color: var(--color-text-primary);
     z-index: 1;
 }
 .nav-segment-item.active {
-    background: #FFFFFF;
+    background: var(--color-bg-item);
     border-radius: 16px;
-    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12), 0 3px 1px rgba(0, 0, 0, 0.04);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12), 0 3px 1px var(--color-fill-pressed);
 }
 ```
 
@@ -288,8 +293,8 @@
 
 ```css
 .nav-badge {
-    background: rgba(0, 0, 0, 0.1);
-    color: var(--text-primary, rgba(0, 0, 0, 0.90));
+    background: var(--color-border-standard);
+    color: var(--color-text-primary);
     font-size: 12px;
     padding: 2px 6px;
     border-radius: 10px;
@@ -297,8 +302,8 @@
     font-weight: 500;
 }
 .nav-badge-neutral {
-    background: rgba(0, 0, 0, 0.1);
-    color: rgba(0, 0, 0, 0.9);
+    background: var(--color-border-standard);
+    color: var(--color-text-primary);
     font-size: 14px;
     font-family: "SF Pro Display", -apple-system, sans-serif;
     padding: 0 6px;
@@ -312,13 +317,13 @@
 .nav-checkbox-selected {
     width: 24px;
     height: 24px;
-    background: #0099FF;
+    background: var(--color-brand-standard);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: white;
-    border: 1.5px solid #FFFFFF;
+    color: var(--color-text-allwhite);
+    border: 1.5px solid var(--color-bg-item);
     box-sizing: border-box;
 }
 ```
