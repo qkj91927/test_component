@@ -1,38 +1,85 @@
-# 生成检查清单（执行版）
+# Gate 执行与回归检查清单（强约束版）
 
-## 生成前
+> 规则：每个 Gate 未通过不得进入下一 Gate。
 
-- [ ] 已读取 `README.md`
-- [ ] 已读取 `json/index.json`
-- [ ] 已读取 `css/tokens.css`
-- [ ] 已读取 `css/QQ_color_tokens.css`
-- [ ] 已读取目标组件对应 `md/*_SPEC.md`
-- [ ] 已读取目标组件对应 `json/components/*.json`
+## Gate 1：仓库拉取
 
-## 组合合法性
+- [ ] 已拉取 `https://github.com/qkj91927/test_component/tree/basic1.0`
+- [ ] 已确认本地工作目录基于 `basic1.0` 最新内容
 
-- [ ] List 组合满足 `LIST_COMPONENT_SPEC.md` 约束
-- [ ] Grouped List 组合满足 `GROUPED_LIST_COMPONENT_SPEC.md` 约束
-- [ ] NavBar 满足 `NAVBAR_COMPONENT_SPEC.md` 约束
+## Gate 2：目标与组件候选
+
+- [ ] 已明确页面目标、信息层级、交互动作
+- [ ] 已列出候选母组件
+- [ ] 已标记是否包含 `Grouped List` 或 `Card`
+
+## Gate 3：组件硬约束
+
+- [ ] 已读取目标组件 `md/*_SPEC.md`
+- [ ] List 组合满足 `LIST_COMPONENT_SPEC.md`
+- [ ] Grouped List 组合满足 `GROUPED_LIST_COMPONENT_SPEC.md`
+- [ ] NavBar 组合满足 `NAVBAR_COMPONENT_SPEC.md`
 - [ ] 模态组件未嵌套
 
-## 视觉与Token
+## Gate 4：Token 与主题
 
 - [ ] `<html>` 已设置 `data-theme`
-- [ ] 颜色全部使用 Token（无自定义色值）
+- [ ] 颜色全部来自 `css/QQ_color_tokens.css`
+- [ ] 非颜色 Token 来自 `css/tokens.css`
 - [ ] 间距均为 4px 整数倍
-- [ ] 页面背景色符合强约束与优先级
 
-## 状态栏与图标
+## Gate 5：背景色强约束
+
+- [ ] 包含 `Grouped List`/`Card` 时使用 `#F0F0F2`
+- [ ] 默认场景使用 `#FFFFFF`
+- [ ] 冲突场景灰底优先
+
+## Gate 6：状态栏
 
 - [ ] 页面顶部包含 428×54 StatusBar
-- [ ] StatusBar 时间固定 `9:41`
-- [ ] StatusBar 图标路径正确（network/wifi/battery）
-- [ ] `empty_icon.svg` 已全部替换为真实图标
+- [ ] 时间固定 `9:41`
+- [ ] 图标路径为 `network/wifi/battery`
+- [ ] 状态栏背景与 NavBar 一致
 
-## 输出后审查
+## Gate 7：图标替换
 
-- [ ] 缺失组件：已说明
-- [ ] 缺失变体：已说明
-- [ ] 不合理之处：已说明
-- [ ] 主流设计系统对比建议：已说明
+- [ ] `empty_icon.svg` 残留为 0
+- [ ] 图标均来自 `icons/QUI_24_icons/`
+- [ ] 图标路径格式正确
+
+## Gate 8：初次产出
+
+- [ ] 页面生成与必要实现已完成
+- [ ] 内部规则检查已完成并可进入回归
+
+## Gate 9：回归测试与修复闭环（最多3轮）
+
+### 轮次 1
+- [ ] 已执行回归比对
+- [ ] 已记录问题数
+- [ ] 已完成修复
+- [ ] 已复测
+
+### 轮次 2（若轮次1未达100%）
+- [ ] 已执行回归比对
+- [ ] 已记录问题数
+- [ ] 已完成修复
+- [ ] 已复测
+
+### 轮次 3（若轮次2未达100%）
+- [ ] 已执行回归比对
+- [ ] 已记录问题数
+- [ ] 已完成修复
+- [ ] 已复测
+
+### 回归结果要求
+
+- [ ] 在 ≤3 轮内达到 100% 合规（问题数=0），或执行满3轮后结束回归
+- [ ] 若第3轮后仍非0，已输出未修复问题清单（问题/影响/建议）
+
+## Gate 10：最终交付
+
+- [ ] 已附 Gate 1~10 通过状态
+- [ ] 已附回归轮次摘要（每轮问题数变化）
+- [ ] 未达100%时已附未修复问题清单
+- [ ] 已附审查与完善建议（四维度）
