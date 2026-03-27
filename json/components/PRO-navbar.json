@@ -1,0 +1,155 @@
+{
+  "$component": "PRO_navbar",
+  "$name": "顶部导航栏Pro NavBarPro",
+  "$tier": "pro",
+  "$category": "导航",
+  "$description": "高级导航组件，采用圆形图标按钮+透明背景的沉浸式设计语言。共13种固定变体，分为A.小导航(60px)和B.大导航(72px)两类。",
+  "$spec": "md/PRO_NAVBAR_COMPONENT_SPEC.md",
+  "$assetPath": "assets/CodeBuddyAssets/3566_3032/",
+  "totalVariants": 13,
+
+  "groups": {
+    "A": {
+      "name": "小导航",
+      "height": 60,
+      "count": 7,
+      "layout": "三栏（左76+中276+右76/132）"
+    },
+    "B": {
+      "name": "大导航",
+      "height": 72,
+      "count": 6,
+      "layout": "两栏（左标题+右图标）"
+    }
+  },
+
+  "iconButton": {
+    "size": 44,
+    "iconSize": 24,
+    "padding": 10,
+    "borderRadius": 9999,
+    "background": "rgba(13, 16, 49, 0.04)",
+    "backdropFilter": "blur(20px)"
+  },
+
+  "typography": {
+    "smallTitle": { "size": 20, "weight": 500, "color": "#333333" },
+    "smallSubtitle": { "size": 12, "weight": 400, "color": "rgba(60, 60, 67, 0.76)" },
+    "largeTitle": { "size": 24, "weight": 600, "color": "#333333" },
+    "largeSubtitle": { "size": 14, "weight": 400, "color": "rgba(60, 60, 67, 0.76)" }
+  },
+
+  "variants": [
+    {
+      "id": "P1",
+      "group": "A",
+      "name": "返回+标题",
+      "height": 60,
+      "left": { "type": "back", "icon": "1.svg" },
+      "center": { "type": "title", "text": "标题文字 20" },
+      "right": { "type": "none" }
+    },
+    {
+      "id": "P2",
+      "group": "A",
+      "name": "返回+标题+右1按钮",
+      "height": 60,
+      "left": { "type": "back", "icon": "2.svg" },
+      "center": { "type": "title", "text": "标题文字 20" },
+      "right": { "type": "single", "icon": "3.svg" }
+    },
+    {
+      "id": "P3",
+      "group": "A",
+      "name": "返回+双行标题",
+      "height": 61,
+      "left": { "type": "back", "icon": "4.svg" },
+      "center": { "type": "title_subtitle", "title": "标题文字 20", "subtitle": "这是副标题文案 12" },
+      "right": { "type": "none" }
+    },
+    {
+      "id": "P4",
+      "group": "A",
+      "name": "返回+双行标题+右1按钮",
+      "height": 56,
+      "left": { "type": "back", "icon": "5.svg" },
+      "center": { "type": "title_subtitle", "title": "标题文字 20", "subtitle": "这是副标题文案 12" },
+      "right": { "type": "single", "icon": "6.svg" }
+    },
+    {
+      "id": "P5",
+      "group": "A",
+      "name": "返回+右2按钮",
+      "height": 60,
+      "left": { "type": "back", "icon": "7.svg" },
+      "center": { "type": "empty" },
+      "right": { "type": "double", "icons": ["8.svg", "9.svg"] }
+    },
+    {
+      "id": "P6",
+      "group": "A",
+      "name": "返回+右1按钮(无标题)",
+      "height": 60,
+      "left": { "type": "back", "icon": "10.svg" },
+      "center": { "type": "empty" },
+      "right": { "type": "single", "icon": "11.svg" }
+    },
+    {
+      "id": "P7",
+      "group": "A",
+      "name": "仅返回按钮",
+      "height": 60,
+      "left": { "type": "back", "icon": "12.svg" },
+      "center": { "type": "empty" },
+      "right": { "type": "none" }
+    },
+    {
+      "id": "P8",
+      "group": "B",
+      "name": "大标题+右2按钮",
+      "height": 72,
+      "left": { "type": "large_title", "text": "标题 24" },
+      "right": { "type": "double", "icons": ["13.svg", "14.svg"] }
+    },
+    {
+      "id": "P9",
+      "group": "B",
+      "name": "大标题+右1按钮",
+      "height": 72,
+      "left": { "type": "large_title", "text": "标题 24" },
+      "right": { "type": "single", "icon": "15.svg" }
+    },
+    {
+      "id": "P10",
+      "group": "B",
+      "name": "纯大标题",
+      "height": 72,
+      "left": { "type": "large_title", "text": "标题 24" },
+      "right": { "type": "none" }
+    },
+    {
+      "id": "P11",
+      "group": "B",
+      "name": "大标题+副标题+右2按钮",
+      "height": 72,
+      "left": { "type": "large_title_subtitle", "title": "标题 24", "subtitle": "这是副标题文案 14" },
+      "right": { "type": "double", "icons": ["16.svg", "17.svg"] }
+    },
+    {
+      "id": "P12",
+      "group": "B",
+      "name": "大标题+副标题+右1按钮",
+      "height": 72,
+      "left": { "type": "large_title_subtitle", "title": "标题 24", "subtitle": "这是副标题文案 14" },
+      "right": { "type": "single", "icon": "18.svg" }
+    },
+    {
+      "id": "P13",
+      "group": "B",
+      "name": "大标题+副标题",
+      "height": 72,
+      "left": { "type": "large_title_subtitle", "title": "标题 24", "subtitle": "这是副标题文案 14" },
+      "right": { "type": "none" }
+    }
+  ]
+}
