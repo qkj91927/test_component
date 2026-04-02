@@ -1,6 +1,6 @@
 ---
 name: QQ-GENUI-basic
-description: 当用户生成界面（页面/UI/组件）或局部调整界面（增删组件、修改样式、替换图标等）时必须触发。基于 QQ_GenUI 设计系统远程资源产出移动端页面与组件方案；所有资源通过 GitHub 远程按需读取，不下载到本地；强制 Gate 流程逐步验收，不可跳步，最多3轮回归修复，若仍不合规则继续交付并附问题清单。
+description: 当用户生成界面（页面/UI/组件）或局部调整界面（增删组件、修改样式、替换图标等）时必须触发。基于 QQ_GenUI 设计系统远程资源产出移动端页面与组件方案；规范文档和 Token 通过 GitHub 远程按需读取；页面实际用到的图标会下载到本地 `assets/icons/` 目录并打包，确保离线可用；强制 Gate 流程逐步验收，不可跳步，最多3轮回归修复，若仍不合规则继续交付并附问题清单。
 ---
 
 # QQ-GENUI-basic
@@ -8,7 +8,8 @@ description: 当用户生成界面（页面/UI/组件）或局部调整界面（
 ## 概述
 
 使用本 skill 将 `QQ_GenUI` 设计系统转化为"强约束可执行流程"。
-所有设计资源（规范文档、Token、图标）均通过 GitHub **远程按需读取**，不克隆仓库、不下载到用户本地。
+设计资源（规范文档、Token）通过 GitHub **远程按需读取**，不克隆仓库。
+**页面实际用到的图标**会下载到本地 `assets/icons/` 目录，HTML 中使用本地相对路径引用，确保离线环境下页面也能正常显示。
 执行过程中必须通过 Gate 校验，禁止跳步、禁止并步；若 3 轮回归后仍有剩余问题，允许交付并显式列出未修复项。
 
 ## 何时使用
@@ -73,9 +74,20 @@ https://raw.githubusercontent.com/qkj91927/QQ_GenUI/main/
 ### 远程读取规则
 
 - 使用 `web_fetch` 或等效工具读取 `raw.githubusercontent.com` 上的文件
-- **禁止** `git clone`、`git pull` 或任何将仓库文件写入用户本地的操作
+- **禁止** `git clone`、`git pull` 或任何将整个仓库克隆到用户本地的操作
 - **按需读取**：仅在当前 Gate 需要时才获取对应文件，不要一次性读取全部资源
 - 若远程读取失败（网络问题/404），在当前 Gate 输出问题报告并暂停
+
+### 图标本地化规则（重要）
+
+页面实际用到的图标**必须下载到本地**，确保离线可用：
+
+- **下载目录**：在生成页面的同级目录下创建 `assets/icons/` 目录
+- **下载时机**：Gate 7（图标替换）阶段，确定页面所需图标后立即下载
+- **下载方式**：通过 `web_fetch` 获取 SVG 内容，使用 `write_to_file` 写入本地 `assets/icons/<icon-name>.svg`
+- **HTML 引用路径**：页面中所有图标统一使用本地相对路径 `assets/icons/<icon-name>.svg`，**禁止使用远程 URL**
+- **仅下载所需图标**：不要下载整个图标库，只下载当前页面实际引用的图标文件
+- **状态栏图标同理**：`network.svg`、`wifi.svg`、`battery.svg` 等状态栏图标也必须下载到本地
 
 ## 强制执行契约（GATE）
 
@@ -124,6 +136,7 @@ https://raw.githubusercontent.com/qkj91927/QQ_GenUI/main/
 - 根据 Gate 2 确定的候选组件，远程读取对应 `md/<COMPONENT>_SPEC.md`
   - URL 格式：`https://raw.githubusercontent.com/qkj91927/QQ_GenUI/main/md/<COMPONENT>_SPEC.md`
 - 重点阅读"属性约束"章节
+- **若 SPEC 中描述了组件自身的交互行为（如点击展开/收起、滑动、切换、长按等），在生成界面时必须按规范描述 100% 实现，不得省略或简化**
 - 对 `List / Grouped List / NavBar / 模态` 执行组合合法性检查
 - 不合法组合必须替换为合法变体
 - 按需远程读取对应 `json/components/<component>.json` 获取结构化数据
@@ -133,6 +146,7 @@ https://raw.githubusercontent.com/qkj91927/QQ_GenUI/main/
 
 - 所有已选组件均完成远程 SPEC 读取
 - 组合合法性检查结论完整
+- 已标记所有需要实现交互行为的组件及其交互描述
 
 ### Gate 4：远程读取并应用 Token 与主题
 
@@ -165,28 +179,45 @@ https://raw.githubusercontent.com/qkj91927/QQ_GenUI/main/
 
 - 顶部必须放置 iOS StatusBar（428×54）
 - 时间固定 `9:41`
-- 图标远程引用路径：
-  - `https://raw.githubusercontent.com/qkj91927/QQ_GenUI/main/icons/network.svg`
-  - `https://raw.githubusercontent.com/qkj91927/QQ_GenUI/main/icons/wifi.svg`
-  - `https://raw.githubusercontent.com/qkj91927/QQ_GenUI/main/icons/battery.svg`
+- 状态栏图标必须下载到本地 `assets/icons/` 目录：
+  - 远程源：`https://raw.githubusercontent.com/qkj91927/QQ_GenUI/main/icons/network.svg`
+  - 远程源：`https://raw.githubusercontent.com/qkj91927/QQ_GenUI/main/icons/wifi.svg`
+  - 远程源：`https://raw.githubusercontent.com/qkj91927/QQ_GenUI/main/icons/battery.svg`
+  - 下载后 HTML 中引用本地路径：`assets/icons/network.svg`、`assets/icons/wifi.svg`、`assets/icons/battery.svg`
 - 状态栏背景与紧随其后的 NavBar 背景一致
 
 通过条件：
 
 - 状态栏规格完整且与 NavBar 一致
+- 状态栏图标已下载到本地且 HTML 使用本地路径引用
 
-### Gate 7：图标替换与路径校验
+### Gate 7：图标下载与本地化（核心变更）
 
-- 将所有 `empty_icon.svg` 替换为真实图标
-- 必须使用项目图标库 `icons/` 内对应图标（优先 `icons/QUI_24_icons/`），禁止自绘图标
-- 禁止使用 emoji 作为图标
-- 远程浏览图标目录：`https://github.com/qkj91927/QQ_GenUI/tree/main/icons/QUI_24_icons`
-- 图标引用路径格式：`https://raw.githubusercontent.com/qkj91927/QQ_GenUI/main/icons/QUI_24_icons/<icon-name>.svg`
-- 若找不到匹配图标，必须输出问题报告（缺失图标需求、影响位置、临时处理建议）
+本 Gate 负责将所有占位图标替换为真实图标，并**下载到本地确保离线可用**。
+
+执行步骤：
+
+1. **盘点图标需求**：列出页面中所有需要图标的位置及对应图标名称
+2. **匹配图标库**：
+   - 远程浏览图标目录：`https://github.com/qkj91927/QQ_GenUI/tree/main/icons/QUI_24_icons`
+   - 优先从 `icons/QUI_24_icons/` 匹配，其次从 `icons/` 根目录匹配
+   - 禁止自绘图标，禁止使用 emoji
+3. **下载图标到本地**：
+   - 在生成页面的同级目录创建 `assets/icons/` 目录
+   - 通过 `web_fetch` 获取每个 SVG 图标内容
+     - URL 格式：`https://raw.githubusercontent.com/qkj91927/QQ_GenUI/main/icons/QUI_24_icons/<icon-name>.svg`
+     - 或：`https://raw.githubusercontent.com/qkj91927/QQ_GenUI/main/icons/<icon-name>.svg`
+   - 使用 `write_to_file` 将 SVG 内容写入 `assets/icons/<icon-name>.svg`
+4. **更新 HTML 引用路径**：
+   - 所有 `<img>` 标签的 `src` 属性使用本地相对路径：`assets/icons/<icon-name>.svg`
+   - **禁止使用远程 URL 作为最终图标路径**
+5. **若找不到匹配图标**：输出问题报告（缺失图标需求、影响位置、临时处理建议）
 
 通过条件：
 
 - 占位图标残留数量为 0
+- 所有图标已下载到本地 `assets/icons/` 目录
+- HTML 中所有图标路径均为本地相对路径 `assets/icons/*.svg`
 - 图标来源均为项目 `icons/` 图标库且无自绘/emoji
 - 无匹配图标时已输出问题报告
 
@@ -204,7 +235,7 @@ https://raw.githubusercontent.com/qkj91927/QQ_GenUI/main/
 对"已生成结果"执行回归测试，按以下循环执行，最多 3 轮：
 
 1. 依据已读取的 `README.md` + `md/*_SPEC.md` + `json/components/*.json` 做一致性比对
-2. 统计不符合项并分类（组合/Token/背景/状态栏/图标/间距/其它）
+2. 统计不符合项并分类（组合/Token/背景/状态栏/图标本地化/间距/其它）
 3. 修复全部不符合项
 4. 重新执行回归测试
 
@@ -245,7 +276,8 @@ Gate 10 在以下两种情况下均可执行：
 
 ## 禁止项
 
-- 禁止克隆、下载或以任何方式将仓库文件写入用户本地
+- 禁止 `git clone`、`git pull` 或克隆整个仓库到用户本地
+- 禁止在最终交付的 HTML 中使用远程 URL 引用图标（图标必须本地化到 `assets/icons/`）
 - 禁止跳过任何 Gate
 - 禁止 Gate 未通过时进入下一 Gate
 - 禁止跳过 `md/*_SPEC.md` 直接拼组件
