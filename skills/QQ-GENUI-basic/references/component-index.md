@@ -29,4 +29,4 @@
 - 颜色值必须来自 `css/QQ_color_tokens.css`
 - 包含 `card` 或 `form`（Grouped List）时页面背景强制灰底 `#F0F0F2`
 - 页面顶部必须包含 StatusBar，且背景与 NavBar 一致
-- `empty_icon.svg` 必须替换为 `icons/QUI_24_icons/` 中真实图标
+- `empty_icon.svg` 必须替换为 `icons/QUI_24_icons/` 中真实图标，并下载到本地 `assets/icons/`，HTML 使用本地路径引用
