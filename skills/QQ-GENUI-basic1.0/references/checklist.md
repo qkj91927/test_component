@@ -60,14 +60,14 @@
 
 - [ ] 页面顶部包含 428×54 StatusBar
 - [ ] 时间固定 `9:41`
-- [ ] 状态栏图标已通过 Knot 检索后下载到本地 `assets/icons/`（network.svg / wifi.svg / battery.svg）
+- [ ] 状态栏图标已从 GitHub 远程仓库下载到本地 `assets/icons/`（network.svg / wifi.svg / battery.svg）
 - [ ] HTML 中使用本地相对路径引用状态栏图标
 - [ ] 状态栏背景与 NavBar 一致
 
-## Gate 7：图标检索与本地化
+## Gate 7：图标匹配与本地化
 
 - [ ] `empty_icon.svg` 残留为 0
-- [ ] 图标均通过 Knot 知识库从 `icons/QUI_24_icons/` 或 `icons/` 检索获得
+- [ ] 图标均从 GitHub 远程仓库 `icons/QUI_24_icons/` 或 `icons/` 获取
 - [ ] 所有页面用到的图标已下载到本地 `assets/icons/` 目录
 - [ ] HTML 中所有图标路径均为本地相对路径 `assets/icons/*.svg`
 - [ ] 不存在远程 URL 引用图标
@@ -114,7 +114,7 @@
 
 ### D. 图标本地化
 
-- [ ] 所有图标已下载到 `assets/icons/`
+- [ ] 所有图标已复制到 `assets/icons/`
 - [ ] HTML 中无远程 URL 引用图标
 - [ ] 无 `empty_icon.svg` 残留
 - [ ] 无自绘图标或 emoji

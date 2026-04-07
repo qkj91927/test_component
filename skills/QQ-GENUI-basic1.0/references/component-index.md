@@ -36,8 +36,8 @@
 | 入口指南 | `README;设计系统` | "QQ_GenUI 设计系统全局结构" |
 | 颜色 Token | `QQ_color_tokens.css;颜色;token` | "QQ 颜色 Token 定义" |
 | 通用 Token | `tokens.css;间距;字号;圆角` | "通用 Token 间距字号" |
-| 图标库 | `QUI_24_icons;icon;svg` | "图标 <用途描述>" |
-| 状态栏图标 | `network.svg;wifi.svg;battery.svg` | "状态栏图标 网络 WiFi 电池" |
+| 图标库 | — | 从 GitHub 仓库 `https://raw.githubusercontent.com/qkj91927/QQ_GenUI/main/icons/QUI_24_icons/` 下载 |
+| 状态栏图标 | — | 从 GitHub 仓库 `https://raw.githubusercontent.com/qkj91927/QQ_GenUI/main/icons/` 下载 network.svg / wifi.svg / battery.svg |
 
 ## 关键全局约束
 
@@ -47,4 +47,4 @@
 - 颜色值必须来自 `css/QQ_color_tokens.css`
 - 包含 `card` 或 `form`（Grouped List）时页面背景强制灰底 `#F0F0F2`
 - 页面顶部必须包含 StatusBar，且背景与 NavBar 一致
-- `empty_icon.svg` 必须替换为 `icons/QUI_24_icons/` 中真实图标，通过 Knot 检索后下载到本地 `assets/icons/`，HTML 使用本地路径引用
+- `empty_icon.svg` 必须替换为 GitHub 仓库 `icons/QUI_24_icons/` 或 `icons/` 中的真实图标，下载后保存到 `assets/icons/`，HTML 使用本地相对路径引用

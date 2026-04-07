@@ -1,6 +1,6 @@
 ---
 name: QQ-GENUI-basic1.0
-description: 当用户生成界面（页面/UI/组件）或局部调整界面（增删组件、修改样式、替换图标等）时必须触发。基于 QQ_GenUI 设计系统产出移动端页面与组件方案；规范文档、Token 和图标均通过 Knot 知识库 MCP 按需检索；页面实际用到的图标会下载到本地 `assets/icons/` 目录并打包，确保离线可用；首次使用时自动安装 Knot MCP 并引导用户配置 Token，同时在项目根目录创建 `failure-log.md`，后续每次生成/调整前必读，失败或重试后必写；强制 Gate 流程逐步验收，不可跳步，最多3轮回归修复，若仍不合规则继续交付并附问题清单。
+description: 当用户生成界面（页面/UI/组件）或局部调整界面（增删组件、修改样式、替换图标等）时必须触发。基于 QQ_GenUI 设计系统产出移动端页面与组件方案；规范文档、Token 通过 Knot 知识库 MCP 按需检索，图标从 GitHub 远程仓库 `https://github.com/qkj91927/QQ_GenUI/tree/main/icons` 获取；页面实际用到的图标会下载到本地 `assets/icons/` 目录，确保离线可用；首次使用时自动安装 Knot MCP 并引导用户配置 Token，同时在项目根目录创建 `failure-log.md`，后续每次生成/调整前必读，失败或重试后必写；强制 Gate 流程逐步验收，不可跳步，最多3轮回归修复，若仍不合规则继续交付并附问题清单。
 ---
 
 # QQ-GENUI-basic1.0
@@ -8,8 +8,8 @@ description: 当用户生成界面（页面/UI/组件）或局部调整界面（
 ## 概述
 
 使用本 skill 将 `QQ_GenUI` 设计系统转化为"强约束可执行流程"。
-设计资源（规范文档、Token、图标）通过 **Knot 知识库 MCP** 按需检索。
-**页面实际用到的图标**会通过 Knot 知识库检索获取 SVG 内容，下载到本地 `assets/icons/` 目录，HTML 中使用本地相对路径引用，确保离线环境下页面也能正常显示。
+设计资源（规范文档、Token）通过 **Knot 知识库 MCP** 按需检索，图标资源从 GitHub 远程仓库获取。
+**页面实际用到的图标**从 GitHub 仓库 `https://raw.githubusercontent.com/qkj91927/QQ_GenUI/main/icons/` 下载 SVG 文件（优先 `QUI_24_icons/` 子目录，其次根目录），保存到生成页面同级的 `assets/icons/` 目录，HTML 中使用本地相对路径引用，确保离线可用。
 首次使用本 skill 时，必须先完成 Knot MCP 的安装与 Token 配置（详见 Gate -1），然后检查项目根目录是否存在 `failure-log.md`；若不存在，则立即在项目根目录创建，并可参考 `references/failure-log.md` 作为初始化模板。
 后续每次生成或调整界面前，必须先读取项目根目录 `failure-log.md`，提取与当前任务相似的失败模式；每次发生失败、返工、重试或用户指出问题后，必须立刻写入项目根目录 `failure-log.md`，记录当前失败表现、根因与修复动作。
 执行过程中必须通过 Gate 校验，禁止跳步、禁止并步；若 3 轮回归后仍有剩余问题，允许交付并显式列出未修复项。
@@ -86,20 +86,22 @@ description: 当用户生成界面（页面/UI/组件）或局部调整界面（
 - 检索时务必指定 `knowledge_uuid`、合适的 `data_type` 和 `search_domain` 以提升准确度
 - 检索组件 SPEC 时：`query` 填写组件名称或描述，`keyword` 填写 `SPEC;组件名`，`data_type` 填 `git`，`search_domain` 填 `QQdesign_Foundation@DesignSystem-basic`
 - 检索 Token / CSS 时：`query` 填写 Token 用途描述，`keyword` 填写 `token;css;color`
-- 检索图标时：`query` 填写图标用途或名称，`keyword` 填写 `icon;svg;图标名`
+- **图标不通过 Knot 检索**：图标资源从 GitHub 远程仓库获取，基础 URL 为 `https://raw.githubusercontent.com/qkj91927/QQ_GenUI/main/icons/`（优先 `QUI_24_icons/` 子目录，其次根目录），使用 `web_fetch` 下载 SVG 内容后写入本地
 - 检索架构概览时：`data_type` 填 `git_iwiki`，`search_domain` 填 `QQdesign_Foundation@DesignSystem-basic-git_iwiki`
 - 若检索失败或无结果，在当前 Gate 输出问题报告并暂停
 
 ### 图标本地化规则（重要）
 
-页面实际用到的图标**必须下载到本地**，确保离线可用：
+页面实际用到的图标**必须下载到生成页面同级的 `assets/icons/` 目录**，确保离线可用：
 
-- **下载目录**：在生成页面的同级目录下创建 `assets/icons/` 目录
+- **图标远程源**：GitHub 仓库 `https://raw.githubusercontent.com/qkj91927/QQ_GenUI/main/icons/`（优先从 `QUI_24_icons/` 子目录匹配，其次从根目录匹配）
+  - 浏览图标目录列表：`https://github.com/qkj91927/QQ_GenUI/tree/main/icons` 和 `https://github.com/qkj91927/QQ_GenUI/tree/main/icons/QUI_24_icons`
+- **输出目录**：在生成页面的同级目录下创建 `assets/icons/` 目录
 - **下载时机**：Gate 7（图标替换）阶段，确定页面所需图标后立即下载
-- **获取方式**：通过 Knot `knowledgebase_search` 检索图标 SVG 内容（`keyword` 填写图标文件名如 `icon-name.svg`），将返回的 SVG 内容使用 `write_to_file` 写入本地 `assets/icons/<icon-name>.svg`
-- **HTML 引用路径**：页面中所有图标统一使用本地相对路径 `assets/icons/<icon-name>.svg`，**禁止使用远程 URL**
+- **获取方式**：使用 `web_fetch` 从 `https://raw.githubusercontent.com/qkj91927/QQ_GenUI/main/icons/<path>/<icon-name>.svg` 获取 SVG 内容，然后用 `write_to_file` 写入 `assets/icons/<icon-name>.svg`
+- **HTML 引用路径**：页面中所有图标统一使用本地相对路径 `assets/icons/<icon-name>.svg`，**禁止在最终交付的 HTML 中使用远程 URL**
 - **仅下载所需图标**：不要下载整个图标库，只下载当前页面实际引用的图标文件
-- **状态栏图标同理**：`network.svg`、`wifi.svg`、`battery.svg` 等状态栏图标也必须通过 Knot 检索后下载到本地
+- **状态栏图标同理**：`network.svg`、`wifi.svg`、`battery.svg` 等从 `https://raw.githubusercontent.com/qkj91927/QQ_GenUI/main/icons/` 下载后保存到 `assets/icons/`
 
 ## 强制执行契约（GATE）
 
@@ -249,12 +251,11 @@ description: 当用户生成界面（页面/UI/组件）或局部调整界面（
 
 - 顶部必须放置 iOS StatusBar（428×54）
 - 时间固定 `9:41`
-- 状态栏图标必须通过 Knot 检索后下载到本地 `assets/icons/` 目录：
-  - 检索 `network.svg`：`keyword`: "network.svg;状态栏;网络图标"
-  - 检索 `wifi.svg`：`keyword`: "wifi.svg;状态栏;WiFi图标"
-  - 检索 `battery.svg`：`keyword`: "battery.svg;状态栏;电池图标"
-  - 将检索到的 SVG 内容写入本地 `assets/icons/network.svg`、`assets/icons/wifi.svg`、`assets/icons/battery.svg`
-  - HTML 中引用本地路径
+- 状态栏图标从 GitHub 远程仓库下载到 `assets/icons/`：
+  - 下载 `https://raw.githubusercontent.com/qkj91927/QQ_GenUI/main/icons/network.svg` → 写入 `assets/icons/network.svg`
+  - 下载 `https://raw.githubusercontent.com/qkj91927/QQ_GenUI/main/icons/wifi.svg` → 写入 `assets/icons/wifi.svg`
+  - 下载 `https://raw.githubusercontent.com/qkj91927/QQ_GenUI/main/icons/battery.svg` → 写入 `assets/icons/battery.svg`
+  - HTML 中引用本地路径 `assets/icons/*.svg`
 - 状态栏背景与紧随其后的 NavBar 背景一致
 
 通过条件：
@@ -262,28 +263,25 @@ description: 当用户生成界面（页面/UI/组件）或局部调整界面（
 - 状态栏规格完整且与 NavBar 一致
 - 状态栏图标已下载到本地且 HTML 使用本地路径引用
 
-### Gate 7：图标检索与本地化（核心变更）
+### Gate 7：图标匹配与本地化
 
 本 Gate 负责将所有占位图标替换为真实图标，并**下载到本地确保离线可用**。
 
 执行步骤：
 
 1. **盘点图标需求**：列出页面中所有需要图标的位置及对应图标名称
-2. **通过 Knot 匹配图标库**：
-   - 使用 `knowledgebase_search` 检索图标
-     - `query`: "图标 <用途描述>"
-     - `keyword`: "<icon-name>.svg;QUI_24_icons;图标"
-     - `knowledge_uuid`: `7eafcbe5fe1b44cf8cf17a3ee195a30c`
-     - `data_type`: `git`
-     - `search_domain`: `QQdesign_Foundation@DesignSystem-basic`
+2. **从 GitHub 远程仓库匹配图标**：
+   - 浏览图标目录：使用 `web_fetch` 访问 `https://github.com/qkj91927/QQ_GenUI/tree/main/icons/QUI_24_icons` 获取图标文件列表
    - 优先从 `icons/QUI_24_icons/` 匹配，其次从 `icons/` 根目录匹配
+   - 如需浏览根目录图标：`https://github.com/qkj91927/QQ_GenUI/tree/main/icons`
    - 禁止自绘图标，禁止使用 emoji
 3. **下载图标到本地**：
    - 在生成页面的同级目录创建 `assets/icons/` 目录
-   - 将 Knot 检索返回的 SVG 内容使用 `write_to_file` 写入 `assets/icons/<icon-name>.svg`
+   - 使用 `web_fetch` 从 `https://raw.githubusercontent.com/qkj91927/QQ_GenUI/main/icons/<path>/<icon-name>.svg` 获取 SVG 内容
+   - 使用 `write_to_file` 将 SVG 内容写入 `assets/icons/<icon-name>.svg`
 4. **更新 HTML 引用路径**：
    - 所有 `<img>` 标签的 `src` 属性使用本地相对路径：`assets/icons/<icon-name>.svg`
-   - **禁止使用远程 URL 作为最终图标路径**
+   - **禁止在最终交付的 HTML 中使用远程 URL 作为图标路径**
 5. **若找不到匹配图标**：输出问题报告（缺失图标需求、影响位置、临时处理建议）
 
 通过条件：
@@ -291,7 +289,7 @@ description: 当用户生成界面（页面/UI/组件）或局部调整界面（
 - 占位图标残留数量为 0
 - 所有图标已下载到本地 `assets/icons/` 目录
 - HTML 中所有图标路径均为本地相对路径 `assets/icons/*.svg`
-- 图标来源均为项目 `icons/` 图标库且无自绘/emoji
+- 图标来源均为 GitHub 仓库 `icons/` 目录且无自绘/emoji
 - 无匹配图标时已输出问题报告
 
 ### Gate 8：初次产出
