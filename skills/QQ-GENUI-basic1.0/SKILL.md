@@ -55,6 +55,10 @@ description: 当用户生成界面（页面/UI/组件）或局部调整界面（
 
 ### MCP 服务配置
 
+配置文件路径：`~/.codebuddy/mcp.json`（即 `/Users/<用户名>/.codebuddy/mcp.json`）
+
+需要在该文件的 `mcpServers` 中包含以下 `knot` 配置：
+
 ```json
 {
   "mcpServers": {
@@ -127,8 +131,8 @@ description: 当用户生成界面（页面/UI/组件）或局部调整界面（
 
 执行步骤：
 
-1. **检查 MCP 配置**：检查当前环境是否已安装 `knot` MCP 服务
-2. **若未安装**，自动为用户安装以下 MCP 配置：
+1. **检查 MCP 配置**：读取用户的 MCP 配置文件 `~/.codebuddy/mcp.json`（即 `/Users/<用户名>/.codebuddy/mcp.json`），检查其中是否已包含 `knot` MCP 服务配置
+2. **若未安装**，自动将以下配置写入（或合并到）`~/.codebuddy/mcp.json`：
    ```json
    {
      "mcpServers": {
@@ -142,6 +146,7 @@ description: 当用户生成界面（页面/UI/组件）或局部调整界面（
      }
    }
    ```
+   > 注意：若 `mcp.json` 已存在且包含其他 MCP 服务配置，需将 `knot` 配置合并到现有 `mcpServers` 中，不可覆盖已有配置。若文件不存在，则直接创建。
 3. **引导用户获取 Token**：向用户发送以下提示信息：
    > 首次使用需要配置 Knot 知识库访问凭证。请前往 https://knot.woa.com/settings/token 获取你的个人调用 Token，然后将 Token 发送给我，我会自动完成配置。
 4. **等待用户提供 Token**：用户发送 Token 后，自动将其填入 MCP 配置的 `x-knot-api-token` 字段
