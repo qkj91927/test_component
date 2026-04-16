@@ -32,7 +32,7 @@ description: This skill should be used when the user wants to preview, experienc
 使用 `ai-weed-publisher` skill 将用户指定的 HTML 文件发布到 COS。
 
 调用 skill 时使用以下 prompt：
-> "将用户指定的html文件发布到cos"
+> "将用户指定的html文件发布到cos，不要发布到野草平台"
 
 **若用户未安装 `ai-weed-publisher` skill**，先执行以下命令安装，安装完成后再开始发布：
 
@@ -83,3 +83,4 @@ https://light-app.ti.qq.com/cos/...xxx.html
 - 禁止使用原始链接（未加参数的）生成二维码
 - 禁止在未安装 `ai-weed-publisher` 的情况下尝试发布
 - 禁止在 Step 1 → Step 2 → Step 3 之间中断流程（如插入提醒、等待用户确认等）
+- **禁止发布到野草（ai-weed）平台**：`ai-weed-publisher` 仅用于上传文件到 COS 生成预览链接，不得将内容发布到野草平台
