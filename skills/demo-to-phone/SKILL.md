@@ -25,7 +25,94 @@ description: This skill should be used when the user wants to preview, experienc
 
 ## 执行流程
 
-> **⚠️ 关键约束：Step 1 → Step 2 → Step 3 必须在同一轮中连续完成，禁止在任何步骤之间中断等待用户确认或插入额外提示。所有附带说明（如资源依赖提醒、优化建议等）统一放在 Step 3 完成后的输出末尾。**
+> **⚠️ 关键约束：Step 0 → Step 1 → Step 2 → Step 3 必须在同一轮中连续完成，禁止在任何步骤之间中断等待用户确认或插入额外提示。所有附带说明（如资源依赖提醒、优化建议等）统一放在 Step 3 完成后的输出末尾。**
+
+### Step 0：手机适配预处理（发布前必做）
+
+在上传到 COS 之前，先对 HTML 文件进行以下四项适配处理，使其更适合在真实手机上体验。**修改原文件，不创建副本。**
+
+**0.1 禁用双指放大和双击放大**
+
+在 `<body>` 标签结束前（`</body>` 之前）插入以下脚本：
+
+```html
+<script>
+// 禁用双指放大
+document.documentElement.addEventListener('touchstart', function (event) {
+    if (event.touches.length > 1) {
+        event.preventDefault();
+    }
+}, { passive: false });
+
+// 禁用双击放大
+var lastTouchEnd = 0;
+document.documentElement.addEventListener('touchend', function (event) {
+    var now = Date.now();
+    if (now - lastTouchEnd <= 500) {
+        event.preventDefault();
+    }
+    lastTouchEnd = now;
+}, { passive: false });
+</script>
+```
+
+**0.2 隐藏状态栏内容（保留高度）**
+
+手机本身已有系统状态栏，页面内的状态栏元素（时间、信号、WiFi、电池图标）会重叠。处理方式：
+- **保持状态栏容器高度不变**（54px）
+- 将状态栏内所有子元素（时间文字、信号/WiFi/电池图标）的颜色透明度改为 0%
+
+在 `<style>` 中追加：
+
+```css
+/* 手机体验适配：隐藏状态栏内容，保留占位高度 */
+.status-bar * {
+    color: transparent !important;
+    opacity: 0 !important;
+}
+```
+
+**0.3 隐藏底部指示条（保留安全区高度）**
+
+手机本身已有 Home Bar 小横条。处理方式：
+- **保持安全区高度不变**（34px）
+- 将指示条颜色的透明度改为 0%
+
+在 `<style>` 中追加：
+
+```css
+/* 手机体验适配：隐藏指示条，保留安全区高度 */
+.home-bar-indicator {
+    opacity: 0 !important;
+}
+```
+
+**0.4 移动端屏幕自适应**
+
+当前界面基准宽度为 428px（iPhone 14 Pro Max），实际手机屏幕宽度各异。使用 viewport 缩放法实现等比适配：
+- 以 428px 为设计稿基准宽度
+- 通过 JS 动态计算缩放比例，所有元素等比缩放
+- CSS 中的 px 值无需任何改动，保证与设计稿 100% 一致
+
+在 `<head>` 中将现有的 `<meta name="viewport" ...>` 标签替换为：
+
+```html
+<meta name="viewport" content="width=428, initial-scale=1, maximum-scale=1, user-scalable=no">
+```
+
+在 `<body>` 标签结束前（`</body>` 之前）插入以下脚本（与 0.1 的脚本合并到同一个 `<script>` 标签中）：
+
+```js
+// 移动端自适应：以428px为基准等比缩放
+(function() {
+    var designWidth = 428;
+    var scale = window.innerWidth / designWidth;
+    var viewport = document.querySelector('meta[name="viewport"]');
+    if (viewport) {
+        viewport.content = 'width=' + designWidth + ', initial-scale=' + scale + ', maximum-scale=' + scale + ', user-scalable=no';
+    }
+})();
+```
 
 ### Step 1：检查并使用发布器 Skill
 
@@ -79,8 +166,9 @@ https://light-app.ti.qq.com/cos/...xxx.html
 
 ## 禁止项
 
+- 禁止跳过 Step 0 手机适配预处理直接上传
 - 禁止跳过 QQ WebView 参数追加步骤
 - 禁止使用原始链接（未加参数的）生成二维码
 - 禁止在未安装 `ai-weed-publisher` 的情况下尝试发布
-- 禁止在 Step 1 → Step 2 → Step 3 之间中断流程（如插入提醒、等待用户确认等）
+- 禁止在 Step 0 → Step 1 → Step 2 → Step 3 之间中断流程（如插入提醒、等待用户确认等）
 - **禁止发布到野草（ai-weed）平台**：`ai-weed-publisher` 仅用于上传文件到 COS 生成预览链接，不得将内容发布到野草平台
