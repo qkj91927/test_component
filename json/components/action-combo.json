@@ -31,8 +31,8 @@
 
   "buttonProperties": {
     "primary": {
-      "bg": { "token": "brand_standard", "value": "#0099FF" },
-      "text": { "token": "text_allwhite", "value": "#FFFFFF" },
+      "bg": { "token": "brand-standard", "value": "#0099FF" },
+      "text": { "token": "text-white", "value": "#FFFFFF" },
       "fontSize": { "large": 17, "small": 14 },
       "fontWeight": { "large": 600, "small": 500 },
       "height": { "large": 52, "small": 36 },
@@ -40,15 +40,15 @@
     },
     "secondary": {
       "bg": "transparent",
-      "border": { "token": "border_standard", "value": "rgba(60, 60, 67, 0.25) 1px" },
-      "text": { "token": "text_primary", "value": "rgba(0, 0, 0, 0.90)" },
+      "border": { "token": "border-default", "value": "rgba(60, 60, 67, 0.25) 1px" },
+      "text": { "token": "text-primary", "value": "rgba(0, 0, 0, 1.0)" },
       "fontSize": 17,
       "fontWeight": 600,
       "height": 52,
       "radius": 14
     },
     "iconButton": {
-      "bg": { "token": "fill_standard_secondary", "value": "rgba(0, 0, 0, 0.10)" },
+      "bg": { "token": "fill-secondary", "value": "#C6C6C8" },
       "size": 52,
       "iconSize": 24,
       "radius": 9999
@@ -58,14 +58,14 @@
   "actionProperties": {
     "fontSize": 14,
     "fontWeight": 500,
-    "color": { "token": "text_link", "value": "#214CA5" },
-    "divider": { "width": 1, "height": 14, "color": { "token": "border_light", "value": "rgba(0, 0, 0, 0.05)" }, "margin": "0 8px" }
+    "color": { "token": "text-link", "value": "#214CA5" },
+    "divider": { "width": 1, "height": 14, "color": { "token": "border-weak", "value": "rgba(0, 0, 0, 0.05)" }, "margin": "0 8px" }
   },
 
   "auxTextProperties": {
     "fontSize": 14,
     "fontWeight": 400,
-    "color": { "token": "text_primary_light", "value": "rgba(60, 60, 67, 0.76)" }
+    "color": { "token": "text-secondary", "value": "rgba(60, 60, 67, 0.6)" }
   },
 
   "checkboxProperties": {

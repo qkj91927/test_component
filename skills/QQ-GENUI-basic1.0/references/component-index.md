@@ -35,8 +35,11 @@
 | 资源 | keyword | query 示例 |
 |------|---------|------------|
 | 入口指南 | `README;设计系统` | "QQ_GenUI 设计系统全局结构" |
-| 颜色 Token | `QQ_color_tokens.css;颜色;token` | "QQ 颜色 Token 定义" |
-| 通用 Token | `tokens.css;间距;字号;圆角` | "通用 Token 间距字号" |
+| 颜色 Token | `Qdesign Color Tokens.css;颜色;token;QBasicToken` | "Qdesign 颜色 Token 定义" |
+| 通用 Token | `Qdesign Tokens.css;间距;字号;圆角` | "Qdesign 通用 Token 间距字号" |
+| Token 映射表 | `Qdesign-tokens映射表;token映射;旧名;新名` | "Figma 旧 token 名到 CSS 标准名映射" |
+| 布局间距规范 | `DIVIDER_SPACING_COMPONENT_SPEC;divider-spacing;间距;布局` | "组件间距选择规则 6 档间距" |
+| 半屏浮层模版库 | `HALF_SCREEN_OVERLAY_TEMPLATES;模版;半屏浮层` | "半屏浮层 T-01~T-06 场景模版匹配" |
 | 图标库 | — | 从 GitHub 仓库 `https://raw.githubusercontent.com/qkj91927/QQ_GenUI/main/icons/QUI_24_icons/` 下载 |
 | 状态栏图标 | — | 从 GitHub 仓库 `https://raw.githubusercontent.com/qkj91927/QQ_GenUI/main/icons/` 下载 network.svg / wifi.svg / battery.svg |
 
@@ -44,8 +47,10 @@
 
 - Knot MCP 必须在 Gate -1 完成安装与 Token 配置后才能开始检索
 - 首次使用时若项目根目录不存在 `failure-log.md`，先创建；后续每次执行前读取项目根目录 `failure-log.md`，优先规避历史高频错误；每次失败或重试后立即写入
-- 间距使用 4px 网格（4 的整数倍）
-- 颜色值必须来自 `css/QQ_color_tokens.css`
-- 包含 `card` 或 `form`（Grouped List）时页面背景强制灰底 `#F0F0F2`
+- 间距使用 4px 网格（4 的整数倍），组件间间距遵循 `DIVIDER_SPACING_COMPONENT_SPEC.md` 6 档规则
+- 颜色值必须来自 `css/Qdesign Color Tokens.css`，命名为连字符分隔（如 `--bg-secondary`、`--text-primary`）
+- **旧命名废弃**：`--color-xxx` / `--qq-xxx` / 下划线命名（如 `--brand_standard`）均已废弃，遇到旧命名时查阅 `Qdesign-tokens映射表.csv`
+- 包含 `card` 或 `form`（Grouped List）时页面背景强制灰底 `--bg-secondary`（`#F0F0F2`）
+- 包含 `message` 组件时页面背景使用 `--bg-select`（色值与 `--bg-secondary` 相同）
 - 页面顶部必须包含 StatusBar，且背景与 NavBar 一致
 - `empty_icon.svg` 必须替换为 GitHub 仓库 `icons/QUI_24_icons/` 或 `icons/` 中的真实图标，下载后保存到 `assets/icons/`，HTML 使用本地相对路径引用

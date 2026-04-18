@@ -60,13 +60,13 @@
   },
 
   "style": {
-    "title": { "fontSize": 17, "fontWeight": 600, "color": { "token": "text_primary", "value": "rgba(0, 0, 0, 0.90)" } },
-    "subtitle_C3": { "fontSize": 11, "color": { "token": "text_primary", "value": "rgba(0, 0, 0, 0.90)" } },
-    "descGroup_C4_L6": { "fontSize": 10, "color": { "token": "text_tertiary", "value": "rgba(60, 60, 67, 0.56)" } },
-    "actionText": { "fontSize": 17, "color": { "token": "text_primary", "value": "rgba(0, 0, 0, 0.90)" } },
+    "title": { "fontSize": 17, "fontWeight": 600, "color": { "token": "text-primary", "value": "rgba(0, 0, 0, 1.0)" } },
+    "subtitle_C3": { "fontSize": 11, "color": { "token": "text-primary", "value": "rgba(0, 0, 0, 1.0)" } },
+    "descGroup_C4_L6": { "fontSize": 10, "color": { "token": "text-secondary", "value": "rgba(60, 60, 67, 0.6)" } },
+    "actionText": { "fontSize": 17, "color": { "token": "text-primary", "value": "rgba(0, 0, 0, 1.0)" } },
     "iconSize": 24,
     "descIconSize": 10,
-    "brandColor": { "token": "brand_standard", "value": "#0099FF" }
+    "brandColor": { "token": "brand-standard", "value": "#0099FF" }
   },
 
   "usage": {

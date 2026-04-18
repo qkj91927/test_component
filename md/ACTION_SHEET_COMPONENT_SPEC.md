@@ -13,7 +13,7 @@
 ```
 ┌───────────────────────────────────┐
 │  Overlay                          │
-│  var(--overlay_dark)        │
+│  var(--overlay-modal)        │
 ├───────────────────────────────────┤  ← border-radius: 16px
 │  ┌─────────────────────────────┐  │
 │  │     Title (optional)        │  │  ← 56px
@@ -24,7 +24,7 @@
 │  ├─────────────────────────────┤  │  ← divider 0.5px
 │  │  Danger Action (optional)   │  │  ← 56px
 │  └─────────────────────────────┘  │
-│           10px gap                │  ← bg: var(--bg_middle_standard)
+│           10px gap                │  ← bg: var(--bg-secondary)
 │  ┌─────────────────────────────┐  │
 │  │          Cancel             │  │  ← 56px
 │  └─────────────────────────────┘  │
@@ -48,14 +48,14 @@
 
 | 元素 | 色值 | Token |
 |------|------|-------|
-| 遮罩层 | rgba(0, 0, 0, 0.50) | `--color-overlay-dark` |
-| 面板背景 | #F3F3F7 | `--color-bg-secondary` |
-| 行背景 | #FFFFFF | `--color-bg-item` |
-| 操作提示文字 | rgba(60, 60, 67, 0.76) | `--color-text-secondary` |
-| 常规操作文字 | rgba(0, 0, 0, 0.90) | `--color-text-primary` |
-| 警示操作文字 | #F74C30 | `--color-feedback-error` |
-| 取消文字 | rgba(0, 0, 0, 0.90) | `--color-text-primary` |
-| 分割线 | rgba(0, 0, 0, 0.08) | `--color-separator` |
+| 遮罩层 | var(--overlay-modal) | `--overlay-modal` |
+| 面板背景 | var(--bg-secondary) | `--bg-secondary` |
+| 行背景 | #FFFFFF | `--bg-bottom` |
+| 操作提示文字 | var(--text-secondary) | `--text-secondary` |
+| 常规操作文字 | var(--text-primary) | `--text-primary` |
+| 警示操作文字 | #E0462C | `--accent-red` |
+| 取消文字 | var(--text-primary) | `--text-primary` |
+| 分割线 | var(--border-weak) | `--border-weak` |
 
 ### 3.3 字体规范
 
@@ -92,7 +92,7 @@
 
 - **样式属性**: `data-样式="危险操作"`
 - **字号**: 17px
-- **颜色**: feedback_error (#F74C30)
+- **颜色**: feedback_error (#E0462C)
 - **对齐**: 水平居中
 - **文本规则**: 仅单行，禁止换行，最大 **10 个字符**，超出截断（`text-overflow: ellipsis`）
 - **分割线**: 顶部 0.5px
@@ -153,7 +153,7 @@
 
 ## 7. 布局规则
 
-1. **主操作区块**与**取消区块**之间固定 **10px** 间距，间距区域由 outer 容器的 `#F3F3F7` 背景色填充露出
+1. **主操作区块**与**取消区块**之间固定 **10px** 间距，间距区域由 outer 容器的 `var(--bg-secondary)` 背景色填充露出
 2. 面板总高度 = 主区块高度 + 10px + 取消行 56px + Home Bar 34px（系统安全区，组件外部）
 3. 主区块高度 = 行数 × 56px（行数 = 标题行(0或1) + 常规操作行(0-10) + 警示行(0或1)）
 4. 取消区块高度 = **56px**（仅取消行，Home Bar 由系统提供，不属于组件自身）
@@ -171,7 +171,7 @@
     width: 428px;
     height: /* totalHeight，由JS动态设置 */;
     position: relative;
-    background: var(--bg_middle_standard);  /* 间距区域的背景色 #F3F3F7 */
+    background: var(--bg-secondary);  /* 间距区域的背景色 #F3F3F7 */
     border-top-left-radius: 16px;
     border-top-right-radius: 16px;
     overflow: hidden;
@@ -187,7 +187,7 @@
     top: 0;
     width: 428px;
     height: /* mainBlockHeight，由JS动态设置 */;
-    background: var(--bg_bottom_light);
+    background: var(--bg-bottom);
 }
 ```
 
@@ -214,13 +214,13 @@
     top: 0;
     width: 428px;
     height: 0.5px;
-    background: var(--border_light);
+    background: var(--border-weak);
 }
 .actionsheet-row .as-title-text {
     font-size: 14px;
     font-family: 'PingFang SC', sans-serif;
     font-weight: 400;
-    color: var(--text_primary_light);
+    color: var(--text-secondary);
     text-align: center;
     white-space: nowrap;
     overflow: hidden;
@@ -231,7 +231,7 @@
     font-size: 17px;
     font-family: 'PingFang SC', sans-serif;
     font-weight: 400;
-    color: var(--text_primary);
+    color: var(--text-primary);
     text-align: center;
     white-space: nowrap;
     overflow: hidden;
@@ -242,7 +242,7 @@
     font-size: 17px;
     font-family: 'PingFang SC', sans-serif;
     font-weight: 400;
-    color: var(--feedback_error);
+    color: var(--accent-red);
     text-align: center;
     white-space: nowrap;
     overflow: hidden;
@@ -259,7 +259,7 @@
     left: 0;
     top: /* mainBlockHeight + 10 */px;
     width: 428px;
-    background: var(--bg_bottom_light);
+    background: var(--bg-bottom);
 }
 .actionsheet-cancel-row {
     width: 428px;
@@ -272,7 +272,7 @@
     font-size: 17px;
     font-family: 'PingFang SC', sans-serif;
     font-weight: 400;
-    color: var(--text_primary);
+    color: var(--text-primary);
     text-align: center;
 }
 ```
@@ -294,7 +294,7 @@
 - **Token**：`--anim-actionsheet-out-duration` / `--anim-actionsheet-out-easing`
 
 ### 9.3 蒙层动效
-- **颜色**：`rgba(0, 0, 0, 0.50)`（`--color-overlay-dark`）
+- **颜色**：`var(--overlay-modal)`（`--overlay-modal`）
 - **淡入**：250ms / ease-out（`--anim-overlay-in-*`）
 - **淡出**：200ms / ease-in（`--anim-overlay-out-*`）
 - 蒙层与面板动效**同步执行**

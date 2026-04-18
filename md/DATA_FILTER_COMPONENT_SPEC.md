@@ -16,47 +16,47 @@
 | A.页签 A2 | 页签 | 五页签 | 5 | 48px |
 | A.页签 A3 | 页签 | 六页签 | 6 | 48px |
 | A.页签 A4 | 页签 | 横滑 | 8 | 48px |
-| B.分段选择 B1 | 分段选择 | 二选项 | 2 | — |
-| B.分段选择 B2 | 分段选择 | 三选项 | 3 | — |
-| B.分段选择 B3 | 分段选择 | 四选项 | 4 | — |
-| B.分段选择 B4 | 分段选择 | 五选项 | 5 | — |
-| C.下拉筛选 C1 | 下拉筛选 | 一按钮 | 1 | — |
-| D.标签 D1 | 标签 | 单行横滑 | 6 | 56px |
-| D.标签 D2 | 标签 | 单行4个 | 4 | 56px |
-| D.标签 D3 | 标签 | 单行3个 | 3 | 56px |
-| D.标签 D4 | 标签 | 单行2个 | 2 | 56px |
-| D.标签 D5 | 标签 | 双行2个 | 2 | 78px |
-| E.面包屑 E1 | 面包屑 | 标准 | 4 | 48px |
-| E.面包屑 E2 | 面包屑 | 超限渐隐 | 6 | 48px |
+| B.分段选择 B1 | 分段选择 | 二选项 | 2 | 40px |
+| B.分段选择 B2 | 分段选择 | 三选项 | 3 | 40px |
+| B.分段选择 B3 | 分段选择 | 四选项 | 4 | 40px |
+| B.分段选择 B4 | 分段选择 | 五选项 | 5 | 40px |
+| C.下拉筛选 C1 | 下拉筛选 | 一按钮 | 1 | 40px |
+| D.标签 D1 | 标签 | 单行横滑 | 6 | 40px |
+| D.标签 D2 | 标签 | 单行4个 | 4 | 40px |
+| D.标签 D3 | 标签 | 单行3个 | 3 | 40px |
+| D.标签 D4 | 标签 | 单行2个 | 2 | 40px |
+| D.标签 D5 | 标签 | 双行2个 | 2 | 62px |
+| E.面包屑 E1 | 面包屑 | 标准 | 4 | 24px |
+| E.面包屑 E2 | 面包屑 | 超限渐隐 | 6 | 24px |
 
 ## 3. 布局规格
 
 ### 3.1 A. 页签 Tab
 
-- **容器**：宽 428px，高 48px，透明背景（跟随页面背景色），底部 0.5px 分割线 `rgba(0, 0, 0, 0.10)`，`overflow: hidden`
+- **容器**：宽 428px，高 24px，透明背景（跟随页面背景色），底部 0.5px 分割线 `var(--border-default)`，`overflow: hidden`
 - **等分模式**（A1-A3，4-6 个）：页签项等分容器宽度（428 / n），文本居中
 - **横滑模式**（A4，8 个）：内边距 `0 16px`，页签项宽度自适应文本内容，间距 `gap: 24px`，支持左右滑动（`overflow-x: auto`，隐藏滚动条：`scrollbar-width: none` + `::-webkit-scrollbar { display: none }`），`flex-shrink: 0`
-- **文本**：16px / 22px PingFang SC，未选中 400 / 选中 500，颜色 `rgba(0, 0, 0, 0.90)`
+- **文本**：16px / 22px PingFang SC，未选中 400 / 选中 500，颜色 `var(--text-primary)`
 - **指示器**：宽 32px，高 3px，圆角 1.5px，品牌蓝 `#0099FF`，底部对齐（`position: absolute; bottom: 0`），仅选中态可见（非选中 `opacity: 0`）
 
 ### 3.2 B. 分段选择 Segment
 
-- **外层行**：`display: inline-flex`，宽度自适应内容，透明背景，`padding: 6px 16px`
-- **容器**：`display: inline-flex`，宽度自适应内容，背景 `rgba(13, 16, 49, 0.04)`，圆角 6px
-- **分段栏**：高 36px，圆角 6px，背景 `rgba(13, 16, 49, 0.04)`
+- **外层行**：`display: inline-flex`，宽度自适应内容，透明背景，`padding: 0 16px`
+- **容器**：`display: inline-flex`，宽度自适应内容，背景 `var(--fill-tertiary)`，圆角 12px
+- **分段栏**：高 40px，圆角 12px，背景 `var(--fill-tertiary)`
 - **选项宽度**：每项 52px，总宽度 = 52.5 × n（含分隔线）
-- **分隔线**：宽 0.5px，高 16px，颜色 `rgba(0, 0, 0, 0.10)`，选中项相邻分隔线隐藏（`opacity: 0`）
+- **分隔线**：宽 0.5px，高 16px，颜色 `var(--border-default)`，选中项相邻分隔线隐藏（`opacity: 0`）
 - **文本**：14px / 20px PingFang SC，未选中 400 色 `#6A6B6D` / 选中 500 色 `#1A1C1E`
 - **选项数量**：2 / 3 / 4 / 5 个
 - **组合规则**：可独占一行，也可与相同/不同类型组件同行排列，间距 16px
 
 ### 3.3 C. 下拉筛选 Dropdown
 
-- **外层行**：`display: inline-flex`，宽度自适应内容，透明背景，`padding: 6px 16px`，`box-sizing: border-box`
-- **容器**：`display: inline-flex`，宽度自适应内容，背景 `rgba(13, 16, 49, 0.04)`，圆角 6px，多按钮时 `gap: 16px`
-- **按钮**：高 36px，圆角 6px，背景 `rgba(13, 16, 49, 0.04)`，内边距 `0 12px`，内部 `gap: 4px`（文本与箭头间距）
-- **文本**：14px / 20px PingFang SC 400，颜色 `rgba(0, 0, 0, 0.90)`
-- **箭头**：`icons/chevron_down.svg`（14×14px），fill 颜色 `#1A1A1A`
+- **外层行**：`display: inline-flex`，宽度自适应内容，透明背景，`padding: 0 16px`，`box-sizing: border-box`
+- **容器**：`display: inline-flex`，宽度自适应内容，背景 `var(--fill-tertiary)`，圆角 12px，多按钮时 `gap: 16px`
+- **按钮**：高 40px，圆角 12px，背景 `var(--fill-tertiary)`，内边距 `0 12px`，内部 `gap: 4px`（文本与箭头间距）
+- **文本**：14px / 20px PingFang SC 400，颜色 `var(--text-primary)`
+- **箭头**：`icons/chevron_down.svg`（14×14px），fill 颜色 `var(--text-primary)`
 - **按钮数量**：仅 1 个（组件仅包含按钮，不包含弹窗菜单）
 - **交互行为**：点击按钮后弹出菜单（菜单不属于此组件本身，由 Menu 组件承担）
 
@@ -66,25 +66,25 @@
 - **容器**：宽 428px，透明背景（跟随页面背景色），`overflow: hidden`
   - 平铺模式：内边距 `8px 16px`，标签区宽 396px
   - 横滑模式：内边距 `8px 0`，标签区内边距 `0 16px`，支持横向滚动（`overflow-x: auto`，隐藏滚动条：`scrollbar-width: none` + `::-webkit-scrollbar { display: none }`）
-- **标签项**：圆角 12px，背景 `rgba(13, 16, 49, 0.04)`，项间距 `gap: 8px`，`flex-shrink: 0`
-- **单行横滑**（D1，6 个标签）：容器高 56px，标签高 40px，每个标签 `padding: 0 16px` 自适应宽度，第一个文本"横滑标签"、其余"标签"
-- **单行4/3/2个**（D2-D4）：容器高 56px，标签高 40px，宽度 = `(396 - (n-1)×8) / n`，等分填满
-- **双行2个**（D5）：容器高 78px，标签高 62px，宽度 = `(396 - (n-1)×8) / n`，等分填满，每个标签包含标题行和描述行
+- **标签项**：圆角 12px，背景 `var(--fill-tertiary)`，项间距 `gap: 8px`，`flex-shrink: 0`
+- **单行横滑**（D1，6 个标签）：容器高 40px，标签高 40px，每个标签 `padding: 0 16px` 自适应宽度，第一个文本"横滑标签"、其余"标签"
+- **单行4/3/2个**（D2-D4）：容器高 40px，标签高 40px，宽度 = `(396 - (n-1)×8) / n`，等分填满
+- **双行2个**（D5）：容器高 62px，标签高 62px，宽度 = `(396 - (n-1)×8) / n`，等分填满，每个标签包含标题行和描述行
 - **单行文本**：15px / 20px PingFang SC
-  - 未选中：font-weight 400，颜色 `rgba(60, 60, 67, 0.76)`
-  - 选中：font-weight 500，颜色 `rgba(0, 0, 0, 0.90)`
+  - 未选中：font-weight 400，颜色 `var(--text-secondary)`
+  - 选中：font-weight 500，颜色 `var(--text-primary)`
 - **双行文本**：
-  - 标题：15px / 20px PingFang SC，未选中 400 `rgba(60, 60, 67, 0.76)` / 选中 500 `rgba(0, 0, 0, 0.90)`
-  - 描述：14px / 20px PingFang SC 400，未选中 `rgba(60, 60, 67, 0.56)` / 选中 `rgba(60, 60, 67, 0.76)`
+  - 标题：15px / 20px PingFang SC，未选中 400 `var(--text-secondary)` / 选中 500 `var(--text-primary)`
+  - 描述：14px / 20px PingFang SC 400，未选中 `var(--text-tertiary)` / 选中 `var(--text-secondary)`
 
 ### 3.5 E. 面包屑 Breadcrumb
 
-- **容器**：宽 428px，高 48px，透明背景（跟随页面背景色），`overflow: hidden`
+- **容器**：宽 428px，高 24px，透明背景（跟随页面背景色），`overflow: hidden`
 - **标准模式**（E1，4 级）：内边距 `0 16px`，展示 4 级目录，最后一级为当前页
 - **超限渐隐模式**（E2，6 级）：内部裁切容器 412px 宽，`overflow: hidden`，内容向左偏移 `-92px`，前面的目录溢出不可见，左侧 24px 渐隐通过 `mask-image: linear-gradient(to right, transparent 0%, black 24px)` 实现（不依赖特定背景色），第2级文本为"目录超限渐隐"
 - **层级文本**：14px / 20px PingFang SC 500，`white-space: nowrap`，`flex-shrink: 0`
-  - 中间层级：颜色 `rgba(60, 60, 67, 0.76)`
-  - 最后层级（当前页）：颜色 `rgba(0, 0, 0, 0.90)`
+  - 中间层级：颜色 `var(--text-secondary)`
+  - 最后层级（当前页）：颜色 `var(--text-primary)`
 - **分隔符**：12×12 右箭头 chevron 图标，颜色 `rgba(60,60,67,0.75)`，`margin: 0 8px`
 
 ## 4. 展示规则
@@ -95,7 +95,8 @@
 
 ## 5. 组件组合规则
 
-- **分段选择**和**下拉筛选**外层行为 `display: inline-flex`，透明背景，`padding: 6px 16px`，宽度自适应内容（不设固定宽度）；内层容器 `display: inline-flex`，背景色 `rgba(13, 16, 49, 0.04)`，圆角 6px
+- **分段选择**和**下拉筛选**外层行为 `display: inline-flex`，透明背景，`padding: 0 16px`，宽度自适应内容（不设固定宽度）；内层容器 `display: inline-flex`，背景色 `var(--fill-tertiary)`，圆角 12px
+- 所有组件仅输出净内容高度，上下间距由外部间距组件提供
 - 可以独占一行，也可以将相同类型的多个组件、或不同类型的多种组件组合排列在同一行
 - 同行组件间距为 **16px**（由容器 `gap: 16px` 控制）
 
@@ -123,12 +124,12 @@
 
 | Token 名 | 值 | 用途 |
 |-----------|-----|------|
-| `--品牌色-brand_standard` | `#0099FF` | 页签指示器 |
-| `--文本色-text_primary` | `rgba(0, 0, 0, 0.90)` / `#1A1C1E` | 主文本色、标签选中色 |
-| `--文本色-text_primary_light` | `rgba(60, 60, 67, 0.76)` / `#6A6B6D` | 分段选择未选中色、标签未选中色、双行标签选中描述色 |
-| `--文本色-text_secondary` | `rgba(60, 60, 67, 0.56)` | 双行标签未选中描述色 |
-| `--填充色-fill_standard_primary` | `rgba(13, 16, 49, 0.04)` | 分段/下拉/标签背景色 |
-| `--描边分割色-border_standard` | `rgba(0, 0, 0, 0.10)` | 页签底线、分段分隔线 |
+| `--brand-standard` | `#0099FF` | 页签指示器 |
+| `--text-primary` | `var(--text-primary)` / `#1A1C1E` | 主文本色、标签选中色 |
+| `--text-secondary` | `var(--text-secondary)` / `#6A6B6D` | 分段选择未选中色、标签未选中色、双行标签选中描述色 |
+| `--text-tertiary` | `var(--text-tertiary)` | 双行标签未选中描述色 |
+| `--fill-tertiary` | `var(--fill-tertiary)` | 分段/下拉/标签背景色 |
+| `--border-default` | `var(--border-default)` | 页签底线、分段分隔线 |
 
 ## 8. 使用场景
 
@@ -147,22 +148,22 @@
 ```css
 .df-tab-container {
     width: 428px;
-    height: 48px;
+    height: 24px;
     background: transparent;
     position: relative;
     overflow: hidden;
-    border-bottom: 0.5px solid var(--border_standard);
+    border-bottom: 0.5px solid var(--border-default);
 }
 .df-tab-inner {
     width: 428px;
-    height: 48px;
+    height: 24px;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 .df-tab-inner::-webkit-scrollbar { display: none; }
 .df-tab-item {
-    height: 48px;
+    height: 24px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -173,7 +174,7 @@
     font-size: 16px;
     font-family: 'PingFang SC', -apple-system, sans-serif;
     font-weight: 400;
-    color: var(--text_primary);
+    color: var(--text-primary);
     text-align: center;
     line-height: 22px;
 }
@@ -188,7 +189,7 @@
     width: 32px;
     height: 3px;
     border-radius: 1.5px;
-    background: var(--brand_standard);
+    background: var(--brand-standard);
 }
 .df-tab-item:not(.selected) .df-tab-indicator {
     opacity: 0;
@@ -201,43 +202,58 @@
 .df-segment-row {
     display: inline-flex;
     background: transparent;
-    padding: 6px 16px;
+    padding: 0 16px;
     box-sizing: border-box;
 }
+.df-segment-container {
+    display: inline-flex;
+    align-items: center;
+    background: var(--fill-tertiary);
+    border-radius: 12px;
+}
 .df-segment-bar {
-    height: 36px;
-    background: var(--fill_standard_primary);
-    border-radius: 6px;
+    height: 40px;
+    background: var(--fill-tertiary);
+    border-radius: 12px;
     display: flex;
     align-items: center;
     position: relative;
     flex-shrink: 0;
 }
 .df-segment-item {
-    height: 36px;
+    width: 52px;
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 6px;
+    border-radius: 12px;
     position: relative;
     flex-shrink: 0;
+    cursor: pointer;
+    transition: all 200ms ease-out;
 }
 .df-segment-item .df-seg-label {
     font-size: 14px;
     font-family: 'PingFang SC', -apple-system, sans-serif;
     font-weight: 400;
-    color: var(--text_primary_light);
+    color: var(--text-secondary);
     line-height: 20px;
+    pointer-events: none;
+}
+.df-segment-item.selected {
+    background: var(--bg-bottom);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08), 0 0.5px 1px rgba(0,0,0,0.04);
 }
 .df-segment-item.selected .df-seg-label {
     font-weight: 500;
-    color: var(--text_primary);
+    color: var(--text-primary);
 }
 .df-segment-divider {
     width: 0.5px;
     height: 16px;
-    background: var(--border_standard);
+    background: var(--border-default);
     flex-shrink: 0;
+    transition: opacity 200ms ease-out;
 }
 ```
 
@@ -247,13 +263,13 @@
 .df-dropdown-row {
     display: inline-flex;
     background: transparent;
-    padding: 6px 16px;
+    padding: 0 16px;
     box-sizing: border-box;
 }
 .df-dropdown-btn {
-    height: 36px;
-    background: var(--fill_standard_primary);
-    border-radius: 6px;
+    height: 40px;
+    background: var(--fill-tertiary);
+    border-radius: 12px;
     display: flex;
     align-items: center;
     padding: 0 12px;
@@ -263,7 +279,7 @@
     font-size: 14px;
     font-family: 'PingFang SC', -apple-system, sans-serif;
     font-weight: 400;
-    color: var(--text_primary);
+    color: var(--text-primary);
     line-height: 20px;
 }
 .df-dropdown-btn .df-dd-arrow {
@@ -282,8 +298,8 @@
     align-items: center;
     overflow: hidden;
 }
-.df-tag-container.flat-mode { padding: 8px 16px; }
-.df-tag-container.scroll-mode { padding: 8px 0; }
+.df-tag-container.flat-mode { padding: 0 16px; }
+.df-tag-container.scroll-mode { padding: 0; }
 .df-tag-inner {
     display: flex;
     gap: 8px;
@@ -299,7 +315,7 @@
 .df-tag-inner.scroll-mode::-webkit-scrollbar { display: none; }
 .df-tag-item {
     height: 40px;
-    background: var(--fill_standard_primary);
+    background: var(--fill-tertiary);
     border-radius: 12px;
     display: flex;
     align-items: center;
@@ -310,13 +326,13 @@
     font-size: 15px;
     font-family: 'PingFang SC', -apple-system, sans-serif;
     font-weight: 400;
-    color: var(--text_primary_light);
+    color: var(--text-secondary);
     line-height: 20px;
     white-space: nowrap;
 }
 .df-tag-item.selected .df-tag-label {
     font-weight: 500;
-    color: var(--text_primary);
+    color: var(--text-primary);
 }
 /* 双行标签 D5 */
 .df-tag-item.df-tag-double {
@@ -328,22 +344,22 @@
     font-size: 15px;
     font-family: 'PingFang SC', -apple-system, sans-serif;
     font-weight: 400;
-    color: var(--text_primary_light);
+    color: var(--text-secondary);
     line-height: 20px;
 }
 .df-tag-item .df-tag-desc {
     font-size: 14px;
     font-family: 'PingFang SC', -apple-system, sans-serif;
     font-weight: 400;
-    color: var(--text_secondary);
+    color: var(--text-tertiary);
     line-height: 20px;
 }
 .df-tag-item.selected .df-tag-title {
     font-weight: 500;
-    color: var(--text_primary);
+    color: var(--text-primary);
 }
 .df-tag-item.selected .df-tag-desc {
-    color: var(--text_primary_light);
+    color: var(--text-secondary);
 }
 ```
 
@@ -352,7 +368,7 @@
 ```css
 .df-breadcrumb-container {
     width: 428px;
-    height: 48px;
+    height: 24px;
     background: transparent;
     display: flex;
     align-items: center;
@@ -378,12 +394,12 @@
     font-size: 14px;
     font-family: 'PingFang SC', -apple-system, sans-serif;
     font-weight: 500;
-    color: var(--text_primary_light);
+    color: var(--text-secondary);
     line-height: 20px;
     flex-shrink: 0;
 }
 .df-breadcrumb-item.current {
-    color: var(--text_primary);
+    color: var(--text-primary);
 }
 .df-breadcrumb-sep {
     width: 12px;
@@ -420,15 +436,30 @@ document.addEventListener('click', function(e) {
 
 ### 10.2 分段选择 Segment 切换（组件内交互）
 
-- 点击任一分段选项后：该选项变为选中态（白色背景滑块），其余恢复非选中态
-- 选中项两侧相邻分隔线隐藏（`opacity: 0`）
+- 点击任一分段选项后：该选项变为选中态（白色背景滑块 + 阴影），其余恢复非选中态
+- 选中项两侧相邻分隔线隐藏（`opacity: 0`），其余恢复（`opacity: 1`）
 - 过渡动画：`transition: all 200ms ease-out`
+
+```javascript
+bar.addEventListener('click', (e) => {
+    const clicked = e.target.closest('.df-segment-item');
+    if (!clicked) return;
+    bar.querySelectorAll('.df-segment-item').forEach(it => it.classList.remove('selected'));
+    clicked.classList.add('selected');
+    const items = Array.from(bar.querySelectorAll('.df-segment-item'));
+    const dividers = Array.from(bar.querySelectorAll('.df-segment-divider'));
+    const activeIdx = items.indexOf(clicked);
+    dividers.forEach((d, di) => {
+        d.style.opacity = (di === activeIdx - 1 || di === activeIdx) ? '0' : '1';
+    });
+});
+```
 
 ### 10.3 标签 Tag 切换（组件内交互）
 
 - 点击任一标签后：该标签添加 `.selected` class（font-weight 500 + 深色文字），其余移除 `.selected`（font-weight 400 + 浅色文字）
 - 单行标签：选中/未选中态仅改变文字粗细和颜色
-- 双行标签(D5)：选中描述色 `rgba(60,60,67,0.76)`，未选中描述色 `rgba(60,60,67,0.56)`
+- 双行标签(D5)：选中描述色 `var(--text-secondary)`，未选中描述色 `var(--text-tertiary)`
 
 ### 10.4 下拉筛选 Dropdown（业务层）
 

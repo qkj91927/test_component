@@ -46,7 +46,7 @@
   "layout": {
     "width": 428,
     "topRadius": 20,
-    "overlay": { "token": "overlay_dark", "value": "rgba(0, 0, 0, 0.50)" },
+    "overlay": { "token": "overlay-modal", "value": "rgba(0, 0, 0, 0.50)" },
     "panelBackground": "white"
   },
 
@@ -56,7 +56,7 @@
       "radius": "50%",
       "background": "rgba(0,0,0,0.04)",
       "iconSize": 16,
-      "iconColor": { "token": "text_primary", "value": "rgba(0, 0, 0, 0.90)" },
+      "iconColor": { "token": "text-primary", "value": "rgba(0, 0, 0, 1.0)" },
       "position": "right, padding 16px"
     },
     "handleBar": {

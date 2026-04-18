@@ -36,12 +36,12 @@
   "layout": {
     "containerWidth": 180,
     "radius": 12,
-    "background": { "token": "bg_item", "value": "#FFFFFF" },
+    "background": { "token": "bg-bottom", "value": "#FFFFFF" },
     "shadow": { "token": "shadow.menu", "value": "0 8px 32px rgba(0,0,0,0.12)" }
   },
 
   "style": {
-    "text": { "fontSize": 17, "fontWeight": 400, "color": { "token": "text_primary", "value": "rgba(0, 0, 0, 0.90)" }, "font": "PingFang SC" }
+    "text": { "fontSize": 17, "fontWeight": 400, "color": { "token": "text-primary", "value": "rgba(0, 0, 0, 1.0)" }, "font": "PingFang SC" }
   },
 
   "interaction": {

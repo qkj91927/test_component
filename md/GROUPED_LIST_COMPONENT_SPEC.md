@@ -15,33 +15,33 @@
 ### 2.1 整体属性
 | 属性名 | 标识 | 视觉特征 |
 | :--- | :--- | :--- |
-| 分割线 | Separator | 底部 0.5px `rgba(0, 0, 0, 0.05)` 实线（Token `--color-separator`），左右对称缩进 16px |
-| 底部说明 | Bottom Hint | 组件下方 14px 辅助文字，颜色 `rgba(60, 60, 67, 0.56)` |
+| 分割线 | Separator | 底部 0.5px `rgba(0, 0, 0, 0.05)` 实线（Token `--border-weak`），左右对称缩进 16px |
+| 底部说明 | Bottom Hint | 组件下方 14px 辅助文字，颜色 `var(--text-secondary)` |
 
 ### 2.2 左侧区域 (L) — 11 种
 | 标识 | 名称 | 视觉特征 |
 | :--- | :--- | :--- |
-| L1 | 单行标题 | 17px 黑色文字 (`rgba(0, 0, 0, 0.9)`) |
+| L1 | 单行标题 | 17px 黑色文字 (`var(--text-primary)`) |
 | L2 | 双行标题 | 17px 标题 + 14px 辅助说明 |
 | L3 | 图标+单行标题 | `icons/empty_icon.svg`（24px 占位图标）+ 17px 文字，间距 12px |
 | L4 | 图标+双行标题 | `icons/empty_icon.svg`（24px 占位图标）+ 17px 标题 + 14px 辅助说明 |
 | L5 | 二级+单行标题 | `icons/secondary.svg`（二级引导图标）+ 17px 文字（从属层级） |
 | L6 | 二级+双行标题 | `icons/secondary.svg`（二级引导图标）+ 17px 标题 + 14px 辅助说明（从属层级） |
 | L7 | 头像+双行标题 | `icons/Avatar_40.svg`（40px 圆形头像占位）+ 17px 标题 + 14px 辅助说明 |
-| L8 | 已勾选+单行标题 | `icons/tick.svg`（24px，`var(--brand_standard)`）+ 17px 标题，间距 12px |
+| L8 | 已勾选+单行标题 | `icons/tick.svg`（24px，`var(--brand-standard)`）+ 17px 标题，间距 12px |
 | L9 | 未勾选+单行标题 | 无图标 + 17px 标题（与 L8 对应的未选状态，左侧缩进与 L8 保持一致） |
-| L10 | 已勾选+双行标题 | `icons/tick.svg`（24px，`var(--brand_standard)`）+ 17px 标题 + 14px 辅助说明，间距 12px |
+| L10 | 已勾选+双行标题 | `icons/tick.svg`（24px，`var(--brand-standard)`）+ 17px 标题 + 14px 辅助说明，间距 12px |
 | L11 | 未勾选+双行标题 | 无图标 + 17px 标题 + 14px 辅助说明（与 L10 对应的未选状态） |
 
 ### 2.3 右侧区域 (R) — 6 种
 | 标识 | 名称 | 视觉特征 |
 | :--- | :--- | :--- |
 | R0 | 为空 / None | 无右侧内容 |
-| R1 | 跳转 / Detail | **可选**辅助信息文字（17px，`var(--text_primary_light)`）+ `icons/chevron_right.svg`（16px 右箭头）；辅助信息可隐藏 |
-| R2 | 辅助信息+下拉菜单 / Dropdown | **可选**辅助信息文字（17px，`var(--text_primary_light)`）+ `icons/expand_list.svg`（16px 下拉箭头）；辅助信息可隐藏 |
-| R3 | 辅助信息+头像+箭头 / Avatar | **可选**辅助信息文字（17px，`var(--text_primary_light)`）+ `icons/Avatar_32.svg`（32px 圆形头像）+ `icons/chevron_right.svg`（16px 右箭头）；辅助信息和头像均可独立隐藏 |
-| R4 | 开关 / Switch | 44×26px 胶囊开关，开启态背景 `var(--brand_standard)` |
-| R5 | 勾选 / Checkbox | `icons/Checkbox_filled.svg`(选中) / `icons/Checkbox.svg`(未选中)（20px，`var(--brand_standard)`） |
+| R1 | 跳转 / Detail | **可选**辅助信息文字（17px，`var(--text-secondary)`）+ `icons/chevron_right.svg`（16px 右箭头）；辅助信息可隐藏 |
+| R2 | 辅助信息+下拉菜单 / Dropdown | **可选**辅助信息文字（17px，`var(--text-secondary)`）+ `icons/expand_list.svg`（16px 下拉箭头）；辅助信息可隐藏 |
+| R3 | 辅助信息+头像+箭头 / Avatar | **可选**辅助信息文字（17px，`var(--text-secondary)`）+ `icons/Avatar_32.svg`（32px 圆形头像）+ `icons/chevron_right.svg`（16px 右箭头）；辅助信息和头像均可独立隐藏 |
+| R4 | 开关 / Switch | 44×26px 胶囊开关，开启态背景 `var(--brand-standard)` |
+| R5 | 勾选 / Checkbox | `icons/Checkbox_filled.svg`(选中) / `icons/Checkbox.svg`(未选中)（20px，`var(--brand-standard)`） |
 
 ---
 
@@ -95,11 +95,11 @@
 - **容器宽度**: 428px（适配 iOS 标准宽度）
 - **行高**: 单行(L1/L3/L5/L8/L9) 56px；双行(L2/L4/L6/L7/L10/L11) 72px
 - **内边距**: 左右 16px
-- **背景色**: 页面 `#F0F0F2`，组件 `#FFFFFF`
-- **字体**: 标题 `17px rgba(0,0,0,0.9)`；描述 `14px rgba(60,60,67,0.56)`，line-height: 1.2, margin-top: 1px
-- **分割线**: `0.5px rgba(0,0,0,0.05)`（Token `--color-separator`），左右缩进 16px
+- **背景色**: 页面 `var(--bg-secondary)`，组件 `#FFFFFF`
+- **字体**: 标题 `17px var(--text-primary)`；描述 `14px var(--text-secondary)`，line-height: 1.2, margin-top: 1px
+- **分割线**: `0.5px rgba(0,0,0,0.05)`（Token `--border-weak`），左右缩进 16px
 - **卡片圆角**: 12px，Inset Grouped 样式
-- **组间距**: B3（12px）（同类卡片容器相邻规则）
+- **组间距**: spacing-m（12px）（同类卡片容器相邻规则）
 - **右侧区域间距**: gap: 4px, margin-left: 12px
 - **左侧区域间距**: gap: 12px
 
@@ -128,7 +128,7 @@ Flex 算法分配顺序：
 ```css
 .form-container {
     width: 428px;
-    background: var(--bg_middle_standard);        /* ⚠️ 必须使用 bg_middle_standard，不可用白色 */
+    background: var(--bg-secondary);        /* ⚠️ 必须使用 bg_middle_standard，不可用白色 */
     padding: 12px 16px;
     display: flex;
     flex-direction: column;
@@ -143,7 +143,7 @@ Flex 算法分配顺序：
     align-items: center;
     padding: 0 16px;
     width: 100%;
-    background: var(--bg_bottom_light);
+    background: var(--bg-bottom);
     position: relative;
     border-radius: 12px;        /* 单行独立卡片时 */
     overflow: hidden;
@@ -173,14 +173,14 @@ Flex 算法分配顺序：
 }
 .form-row .title {
     font-size: 17px;
-    color: var(--text-primary, var(--text_primary));
+    color: var(--text-primary);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 .form-row .subtitle {
     font-size: 14px;
-    color: var(--text-tertiary, var(--text_secondary));
+    color: var(--text-secondary);
     line-height: 1.2;
     margin-top: 1px;
     white-space: nowrap;
@@ -201,19 +201,19 @@ Flex 算法分配顺序：
 }
 .form-row .helper-text {
     font-size: 17px;
-    color: var(--text-secondary, var(--text_primary_light));
+    color: var(--text-secondary);
 }
 .form-switch {
     width: 44px;
     height: 26px;
-    background: var(--brand-blue, var(--brand_standard));
+    background: var(--brand-standard);
     border-radius: 13px;
     position: relative;
     cursor: pointer;
     transition: background 200ms ease-out;
 }
 .form-switch.off {
-    background: var(--fill_standard_secondary);
+    background: var(--fill-secondary);
 }
 .form-switch::after {
     content: '';
@@ -222,7 +222,7 @@ Flex 算法分配顺序：
     top: 2px;
     width: 22px;
     height: 22px;
-    background: var(--bg_bottom_light);
+    background: var(--bg-bottom);
     border-radius: 50%;
     transition: right 200ms ease-out, left 200ms ease-out;
 }
@@ -236,7 +236,7 @@ Flex 算法分配顺序：
 
 ```css
 .form-group {
-    background: var(--bg_middle_standard);
+    background: var(--bg-secondary);
     padding: 16px 0;
     border-radius: 0;
     width: 428px;
@@ -244,12 +244,12 @@ Flex 算法分配顺序：
     flex-direction: column;
 }
 .form-group-header {
-    padding: 0 32px 8px;
+    padding: 0 32px 4px;
     font-size: 14px;
-    color: var(--text-tertiary, var(--text_secondary));
+    color: var(--text-secondary);
 }
 .form-group-content {
-    background: var(--bg_bottom_light);
+    background: var(--bg-bottom);
     margin: 0 16px;
     border-radius: 12px;
     overflow: hidden;
@@ -266,40 +266,20 @@ Flex 算法分配顺序：
     gap: 12px;
 }
 .form-group-footer {
-    padding: 8px 32px 0;
+    padding: 4px 32px 0;
     font-size: 14px;
-    color: var(--text-tertiary, var(--text_secondary));
+    color: var(--text-secondary);
     line-height: 1.4;
 }
 .form-separator {
     height: 0.5px;
-    background: var(--separator, var(--border_standard));
+    background: var(--border-weak);
     margin-left: 16px;
     margin-right: 16px;
 }
 ```
 
-### matrix 展示容器（变体矩阵专用）
-
-```css
-.grouped-card {
-    width: 428px;
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 8px;
-}
-.grouped-card-header {
-    padding: 0 0 6px 0;
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--text_secondary);
-    display: flex;
-    gap: 12px;
-}
-.grouped-card-body {
-    position: relative;
-}
-```
+<!-- matrix 展示容器样式（.grouped-card）为变体矩阵 UI 框架内部样式，不属于组件本身，已省略 -->
 
 ---
 
@@ -320,13 +300,13 @@ Flex 算法分配顺序：
 1. 组合采用 Inset Grouped 排版，宽度 396px（428px - 左右 16px 外边距）
 2. 整个组合卡片 12px 圆角，父容器统一包裹
 3. 分割线仅在组合内相邻项之间显示，左右缩进 16px
-4. 分组标题距卡片顶边 8px，卡片底边距底部说明 8px
+4. 分组标题距卡片顶边 4px（spacing-xs），卡片底边距底部说明 4px（spacing-xs）
 5. 组合内单体高度由内容自适应，多项组合纵向顶部对齐
 
 **规则**：
 - 同类行**必须相邻排列**，通过分割线区隔
 - 不同类型的子组件（如 L1+R1 与 L3+R4）允许混排在同一卡片内
-- 组间以页面背景间距 **B3（12px）** 区隔
+- 组间以页面背景间距 **spacing-m（12px）** 区隔
 
 **同组混排限制**：
 - **类型 A（可自由混排）**：L1/L2 可相互混排
@@ -378,7 +358,7 @@ Flex 算法分配顺序：
 
 | 右侧类型 | 点击热区 | 触发行为 | 说明 |
 |----------|---------|---------|------|
-| **R0（为空）** | 整行可点击 | 执行自定义操作 | 可与任意左侧类型搭配（受其他约束限制除外）；当左侧为 L1 时标题字色可变为**警示色**（`#FF3B30`）或**链接色**（`#0099FF`），用于表达危险操作或链接跳转语义 |
+| **R0（为空）** | 整行可点击 | 执行自定义操作 | 可与任意左侧类型搭配（受其他约束限制除外）；当左侧为 L1 时标题字色可变为**警示色**（`var(--accent-red)`）或**链接色**（`var(--brand-standard)`），用于表达危险操作或链接跳转语义 |
 | **R1（跳转）** | 整行可点击 | Push 跳转到新页面 | 点击后导航至目标页面 |
 | **R2（辅助信息+下拉菜单）** | 整行可点击 | 弹出**有勾选菜单（Menu-C）** | 菜单为单选互斥，选中后菜单关闭，R2 辅助信息文字更新为选中项 |
 | **R3（头像+箭头）** | 头像与箭头作为整体区域可点击 | Push 跳转到新页面 | 头像+箭头为一个完整的点击热区 |
@@ -393,7 +373,7 @@ Flex 算法分配顺序：
 
 | 状态 | 样式 | 触发条件 |
 |------|------|---------|
-| 默认 | 背景 `#FFFFFF`，文字 `rgba(0,0,0,0.9)` | — |
+| 默认 | 背景 `#FFFFFF`，文字 `var(--text-primary)` | — |
 | 按下 | 背景 `rgba(0,0,0,0.04)` | `touchstart` / `mousedown` |
 | 禁用 | 整行 `opacity: 0.40`，`pointer-events: none` | 父子关系触发 |
 

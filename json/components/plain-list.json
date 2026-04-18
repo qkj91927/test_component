@@ -32,15 +32,15 @@
     ],
     "R": [
       { "id": "R0/Empty", "name": "Empty" },
-      { "id": "R1", "name": "辅助+箭头", "structure": ["helperText(optional)", "arrow"], "helperTextOptional": true, "arrowIcon": "icons/chevron_right.svg", "helperStyle": { "fontSize": 17, "color": { "token": "text_secondary", "value": "rgba(60, 60, 67, 0.76)" }, "marginRight": 4 } },
+      { "id": "R1", "name": "辅助+箭头", "structure": ["helperText(optional)", "arrow"], "helperTextOptional": true, "arrowIcon": "icons/chevron_right.svg", "helperStyle": { "fontSize": 17, "color": { "token": "text-secondary", "value": "rgba(60, 60, 67, 0.6)" }, "marginRight": 4 } },
       { "id": "R2", "name": "辅助+头像+箭头", "structure": ["helperText", "avatar:32x32:round", "arrow"], "avatarAsset": "icons/Avatar_32.svg", "arrowIcon": "icons/chevron_right.svg", "avatarMarginRight": 8 },
       { "id": "R3", "name": "辅助+图片+箭头", "structure": ["helperText", "image:32x32:r4", "arrow"], "imageAsset": "icons/Thumbnail_32.svg", "arrowIcon": "icons/chevron_right.svg", "imageRadius": 4, "imageMarginRight": 8 },
-      { "id": "R4", "name": "按钮", "style": { "padding": "6px 16px", "radius": 18, "fontSize": 14, "fontWeight": 500, "bg": { "token": "btn_bg", "value": "rgba(116, 116, 128, 0.08)" } } },
-      { "id": "R5", "name": "Action", "style": { "fontSize": 17, "color": { "token": "text_link", "value": "#214CA5" } } },
+      { "id": "R4", "name": "按钮", "style": { "padding": "6px 16px", "radius": 18, "fontSize": 14, "fontWeight": 500, "bg": { "token": "fill-tertiary", "value": "rgba(116, 116, 128, 0.08)" } } },
+      { "id": "R5", "name": "Action", "style": { "fontSize": 17, "color": { "token": "text-link", "value": "#214CA5" } } },
       { "id": "R6", "name": "Icon", "visual": "基础操作图标" },
       { "id": "R7", "name": "金额", "style": { "fontFamily": "DIN Alternate", "fontWeight": 700, "fontSize": 20 } },
       { "id": "R8", "name": "步数", "style": { "numberFont": "DIN Alternate 20px", "iconColumn": true, "rankText": "12px", "iconSize": 16 } },
-      { "id": "R9", "name": "聊天", "style": { "timeFont": "12px", "timeColor": { "token": "text_tertiary", "value": "rgba(60, 60, 67, 0.56)" }, "flexDirection": "column", "alignItems": "flex-end" }, "statusIcon": "icons/remind_mute.svg", "statusIconOptional": true, "statusIconColor": { "token": "color-icon-secondary", "value": "#929296" }, "statusIconNote": "默认 remind_mute.svg，可替换为其他业务图标，颜色统一用 --color-icon-secondary" }
+      { "id": "R9", "name": "聊天", "style": { "timeFont": "12px", "timeColor": { "token": "text-secondary", "value": "rgba(60, 60, 67, 0.6)" }, "flexDirection": "column", "alignItems": "flex-end" }, "statusIcon": "icons/remind_mute.svg", "statusIconOptional": true, "statusIconColor": { "token": "icon-secondary", "value": "rgba(60,60,67,0.6)" }, "statusIconNote": "默认 remind_mute.svg，可替换为其他业务图标，颜色统一用 --color-icon-secondary" }
     ],
     "S": [
       { "id": "S0", "name": "无多选（默认）", "description": "不显示选择控件" },
@@ -78,17 +78,17 @@
     "alignItems": "center",
     "padding": "0 16px",
     "width": 428,
-    "background": { "token": "bg_item", "value": "#FFFFFF" },
+    "background": { "token": "bg-bottom", "value": "#FFFFFF" },
     "leftAreaMarginRight": 12,
     "rightAreaMarginLeft": 12
   },
 
   "style": {
-    "title": { "fontSize": 17, "lineHeight": 24, "color": { "token": "text_primary", "value": "rgba(0, 0, 0, 0.90)" }, "overflow": "ellipsis", "whiteSpace": "nowrap" },
-    "desc": { "fontSize": 14, "lineHeight": 20, "height": 20, "display": "flex", "color": { "token": "text_secondary", "value": "rgba(60, 60, 67, 0.76)" } },
+    "title": { "fontSize": 17, "lineHeight": 24, "color": { "token": "text-primary", "value": "rgba(0, 0, 0, 1.0)" }, "overflow": "ellipsis", "whiteSpace": "nowrap" },
+    "desc": { "fontSize": 14, "lineHeight": 20, "height": 20, "display": "flex", "color": { "token": "text-secondary", "value": "rgba(60, 60, 67, 0.6)" } },
     "descText": { "flexShrink": 1, "minWidth": 0, "overflow": "hidden", "textOverflow": "ellipsis", "whiteSpace": "nowrap", "note": "描述文字+textlink 合并为单一节点，textlink 仅以链接色区分，两者紧挨" },
     "descImg": { "size": 16, "flexShrink": 0, "note": "描述行图标，不被压缩" },
-    "textLink": { "color": { "token": "text_link", "value": "#214CA5" }, "flexShrink": 0, "note": "文字链，不被压缩" },
+    "textLink": { "color": { "token": "text-link", "value": "#214CA5" }, "flexShrink": 0, "note": "文字链，不被压缩" },
     "helperText": { "maxWidth": 120, "overflow": "hidden", "textOverflow": "ellipsis", "whiteSpace": "nowrap", "note": "右区辅助文字，最大宽度 120px 防止挤压内容区" },
     "descStructure": "C2/C3 描述行默认仅展示描述文本（含可选 textlink），行首 empty.icon 与行尾右箭头默认不展示，可选添加：[行首图标(16px, flex-shrink:0, default:false, 可选)] + 描述文本(必填) + [textlink(嵌套在desc-text内, 可省略)] + [行尾右箭头(16px, flex-shrink:0, default:false, 可选)]；desc-text(flex-shrink:1)超出截断"
   },
@@ -103,13 +103,13 @@
 
   "interaction": {
     "tapTarget": "整行为点击热区（L0+R0 除外）",
-    "pressed": { "background": { "token": "fill_pressed", "value": "rgba(0, 0, 0, 0.04)" }, "transition": "100ms ease-out" },
-    "released": { "background": { "token": "bg_item", "value": "#FFFFFF" }, "transition": "150ms ease-out" }
+    "pressed": { "background": { "token": "fill-tertiary", "value": "rgba(0, 0, 0, 0.04)" }, "transition": "100ms ease-out" },
+    "released": { "background": { "token": "bg-bottom", "value": "#FFFFFF" }, "transition": "150ms ease-out" }
   },
 
-  "separator": {
+  "border-weak": {
     "height": 0.5,
-    "color": { "token": "separator", "value": "rgba(0, 0, 0, 0.05)" },
+    "color": { "token": "border-weak", "value": "rgba(0, 0, 0, 0.05)" },
     "marginLeft": 16,
     "note": "列表行之间，由外部容器控制"
   },

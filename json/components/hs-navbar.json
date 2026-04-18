@@ -30,10 +30,10 @@
   },
 
   "style": {
-    "title": { "fontSize": 17, "fontWeight": 500, "color": { "token": "text_primary", "value": "rgba(0, 0, 0, 0.90)" } },
-    "subtitle": { "fontSize": 12, "fontWeight": 400, "color": { "token": "text_secondary", "value": "rgba(60, 60, 67, 0.76)" } },
-    "actionText": { "fontSize": 17, "fontWeight": 400, "color": { "token": "text_primary", "value": "rgba(0, 0, 0, 0.90)" } },
-    "secondaryTitle": { "fontSize": 17, "fontWeight": 500, "color": { "token": "text_primary", "value": "rgba(0, 0, 0, 0.90)" } },
+    "title": { "fontSize": 17, "fontWeight": 500, "color": { "token": "text-primary", "value": "rgba(0, 0, 0, 1.0)" } },
+    "subtitle": { "fontSize": 12, "fontWeight": 400, "color": { "token": "text-tertiary", "value": "rgba(60, 60, 67, 0.6)" } },
+    "actionText": { "fontSize": 17, "fontWeight": 400, "color": { "token": "text-primary", "value": "rgba(0, 0, 0, 1.0)" } },
+    "secondaryTitle": { "fontSize": 17, "fontWeight": 500, "color": { "token": "text-primary", "value": "rgba(0, 0, 0, 1.0)" } },
     "closeButton": { "size": 30, "radius": "50%", "background": "rgba(0,0,0,0.04)", "iconSize": 16, "iconFile": "icons/Close_HalfScreen.svg" },
     "backArrow": { "size": 24, "file": "icons/chevron_left.svg" },
     "appIcon": { "size": 24, "gap": 8, "file": "icons/Thumbnail_24.svg" }

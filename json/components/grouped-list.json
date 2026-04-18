@@ -79,10 +79,10 @@
     "containerPadding": "12px 16px",
     "cardRadius": 12,
     "rowPadding": "0 16px",
-    "background": { "page": { "token": "bg_page", "value": "#F0F0F2" }, "card": { "token": "bg_item", "value": "#FFFFFF" } },
+    "background": { "page": { "token": "bg-secondary", "value": "#F2F2F7" }, "card": { "token": "bg-bottom", "value": "#FFFFFF" } },
   "pageBackgroundConstraint": {
-    "required": "bg_bottom_standard",
-    "value": "#F0F0F2",
+    "required": "bg-secondary",
+    "value": "#F2F2F7",
     "reason": "白色卡片容器需要浅灰色页面背景形成视觉层级分离"
   },
     "sectionGap": "B3（12px）",
@@ -92,12 +92,12 @@
   },
 
   "style": {
-    "title": { "fontSize": 17, "color": { "token": "text_primary", "value": "rgba(0, 0, 0, 0.90)" }, "overflow": "ellipsis", "whiteSpace": "nowrap" },
-    "subtitle": { "fontSize": 14, "color": { "token": "text_tertiary", "value": "rgba(60, 60, 67, 0.56)" }, "lineHeight": 1.2, "marginTop": 1, "overflow": "ellipsis", "whiteSpace": "nowrap" },
-    "helperText": { "fontSize": 17, "color": { "token": "text_secondary", "value": "rgba(60, 60, 67, 0.76)" }, "maxWidth": 120, "overflow": "hidden", "textOverflow": "ellipsis", "whiteSpace": "nowrap" },
-    "separator": { "height": 0.5, "color": { "token": "separator", "value": "rgba(0, 0, 0, 0.05)" }, "inset": "16px" },
-    "groupHeader": { "padding": "8px 0", "fontSize": 14, "color": { "token": "text_tertiary", "value": "rgba(60, 60, 67, 0.56)" } },
-    "groupFooter": { "padding": "8px 16px 0", "fontSize": 14, "color": { "token": "text_tertiary", "value": "rgba(60, 60, 67, 0.56)" } }
+    "title": { "fontSize": 17, "color": { "token": "text-primary", "value": "rgba(0, 0, 0, 1.0)" }, "overflow": "ellipsis", "whiteSpace": "nowrap" },
+    "subtitle": { "fontSize": 14, "color": { "token": "text-secondary", "value": "rgba(60, 60, 67, 0.6)" }, "lineHeight": 1.2, "marginTop": 1, "overflow": "ellipsis", "whiteSpace": "nowrap" },
+    "helperText": { "fontSize": 17, "color": { "token": "text-secondary", "value": "rgba(60, 60, 67, 0.6)" }, "maxWidth": 120, "overflow": "hidden", "textOverflow": "ellipsis", "whiteSpace": "nowrap" },
+    "border-weak": { "height": 0.5, "color": { "token": "border-weak", "value": "rgba(0, 0, 0, 0.05)" }, "inset": "16px" },
+    "groupHeader": { "padding": "8px 0", "fontSize": 14, "color": { "token": "text-secondary", "value": "rgba(60, 60, 67, 0.6)" } },
+    "groupFooter": { "padding": "8px 16px 0", "fontSize": 14, "color": { "token": "text-secondary", "value": "rgba(60, 60, 67, 0.6)" } }
   },
 
   "layoutRules": {
@@ -127,7 +127,7 @@
   },
 
   "interaction": {
-    "R0": { "tapTarget": "整行", "behavior": "自定义操作", "note": "L1+R0 时标题可为警示色(#FF3B30)或链接色(#0099FF)" },
+    "R0": { "tapTarget": "整行", "behavior": "自定义操作", "note": "L1+R0 时标题可为警示色(var(--accent-red))或链接色(var(--brand-standard))" },
     "R1": { "tapTarget": "整行", "behavior": "Push 跳转新页面" },
     "R2": { "tapTarget": "整行", "behavior": "弹出有勾选菜单(Menu-C)，选中后更新辅助信息文字" },
     "R3": { "tapTarget": "头像+箭头区域", "behavior": "Push 跳转新页面" },
@@ -136,10 +136,10 @@
   },
 
   "states": {
-    "default": { "background": { "token": "bg_item", "value": "#FFFFFF" }, "textColor": { "token": "text_primary", "value": "rgba(0, 0, 0, 0.90)" } },
-    "pressed": { "background": { "token": "fill_pressed", "value": "rgba(0, 0, 0, 0.04)" } },
+    "default": { "background": { "token": "bg-bottom", "value": "#FFFFFF" }, "textColor": { "token": "text-primary", "value": "rgba(0, 0, 0, 1.0)" } },
+    "pressed": { "background": { "token": "fill-tertiary", "value": "rgba(0, 0, 0, 0.04)" } },
     "disabled": { "opacity": 0.40, "pointerEvents": "none" },
-    "switchOn": { "background": { "token": "brand_standard", "value": "#0099FF" }, "thumbPosition": "right", "cssClass": "form-switch" },
+    "switchOn": { "background": { "token": "brand-standard", "value": "#0099FF" }, "thumbPosition": "right", "cssClass": "form-switch" },
     "switchOff": { "background": "rgba(120,120,128,0.16)", "thumbPosition": "left", "cssClass": "form-switch off" }
   },
 

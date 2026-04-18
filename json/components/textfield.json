@@ -11,7 +11,7 @@
     "type": [
       { "id": "A", "name": "单行无标题", "scene": "搜索、备注等简单输入" },
       { "id": "B", "name": "单行有标题", "scene": "表单填写（姓名、地址等）", "titleWidth": 90, "titleGap": 24, "inputAreaWidth": 250 },
-      { "id": "C", "name": "电话号码", "scene": "手机号/电话号码输入", "prefix": "中国+86", "prefixColor": { "token": "text_link", "value": "#214CA5" }, "inputAreaWidth": 275 },
+      { "id": "C", "name": "电话号码", "scene": "手机号/电话号码输入", "prefix": "中国+86", "prefixColor": { "token": "text-link", "value": "#214CA5" }, "inputAreaWidth": 275 },
       { "id": "D", "name": "多行文本", "scene": "长文本输入（评论、描述等）" },
       { "id": "E", "name": "复合输入框 Advanced Textfield", "scene": "高级编辑场景（发帖、评论配图等）", "subTypes": [
         { "id": "E1", "layout": "card", "hasImage": false, "hasFinish": false, "name": "卡片·基础" },
@@ -27,7 +27,7 @@
       { "id": "2", "name": "激活态", "hasCursor": true, "hasClear": false, "placeholder": true },
       { "id": "3", "name": "输入态", "hasCursor": true, "hasClear": true, "placeholder": false, "charCount": "已输入/总数" },
       { "id": "4", "name": "完成态", "hasCursor": false, "hasClear": false, "placeholder": false },
-      { "id": "5", "name": "错误态", "hasCursor": true, "hasClear": true, "placeholder": false, "charCountColor": { "token": "feedback_error", "value": "#F74C30" } }
+      { "id": "5", "name": "错误态", "hasCursor": true, "hasClear": true, "placeholder": false, "charCountColor": { "token": "accent-red", "value": "#E0462C" } }
     ]
   },
 
@@ -38,7 +38,7 @@
     "inputAreaWidth": 364,
     "bottomHelperHeight": 24,
     "totalHeight": 80,
-    "bottomDivider": { "width": 364, "height": 0.5 }
+    "bottomDivider": { "width": 364, "height": 0.5, "note": "仅嵌入 Grouped List 时由列表容器添加，单独使用无分割线" }
   },
 
   "multiLineLayout": {
@@ -47,8 +47,11 @@
     "contentHeight": 144,
     "padding": 16,
     "radius": 12,
-    "charCountPosition": "右下角",
-    "bottomHelperHeight": 24
+    "charCountPosition": "文本域内右下角",
+    "bottomHelperHeight": 24,
+    "helperVisible": "optional",
+    "totalHeight": "197 | 221",
+    "totalHeightNote": "隐藏附加说明时 197px，显示时 221px（197 + 24）"
   },
 
   "advancedTextfieldLayout": {
@@ -65,7 +68,7 @@
         "borderRadius": 24,
         "padding": "24px 16px 16px",
         "hasActionBar": true,
-        "pageBackgroundRequired": { "token": "bg_bottom_standard", "value": "#F0F0F2" }
+        "pageBackgroundRequired": { "token": "bg-secondary", "value": "#F2F2F7" }
       },
       "full": {
         "width": 428,
@@ -91,7 +94,7 @@
           "webkitScrollbar": "display:none",
           "addButton": {
             "size": 88,
-            "background": "rgba(13,16,49,0.04)",
+            "background": "rgba(118,118,128,0.12)",
             "borderRadius": 16,
             "iconSize": 24,
             "position": "始终在最左侧"
@@ -135,11 +138,11 @@
     "textArea": {
       "withFinish":    { "fontSize": 20, "lineHeight": 28, "applies": ["E3", "E4"] },
       "withoutFinish": { "fontSize": 17, "lineHeight": 24, "applies": ["E1", "E2", "E5", "E6"] },
-      "color": { "token": "text_primary", "value": "rgba(0,0,0,0.90)" },
+      "color": { "token": "text-primary", "value": "rgba(0,0,0,1.0)" },
       "cursor": {
         "width": 1,
         "height": "1.2em",
-        "color": { "token": "brand_standard", "value": "#0099FF" },
+        "color": { "token": "brand-standard", "value": "#0099FF" },
         "verticalAlign": "text-bottom"
       },
       "wordBreak": "break-all"
@@ -150,30 +153,30 @@
       "gap": 12,
       "button": {
         "padding": "8px 12px",
-        "background": "rgba(13,16,49,0.04)",
+        "background": "rgba(118,118,128,0.12)",
         "borderRadius": 24,
         "iconSize": 24,
         "fontSize": 17,
-        "color": { "token": "text_primary", "value": "rgba(0,0,0,0.90)" }
+        "color": { "token": "text-primary", "value": "rgba(0,0,0,1.0)" }
       },
       "charCount": {
         "fontSize": 12,
-        "color": { "token": "text_tertiary", "value": "rgba(60,60,67,0.56)" },
-        "errorColor": { "token": "feedback_error", "value": "#F74C30" }
+        "color": { "token": "text-tertiary", "value": "rgba(60,60,67,0.3)" },
+        "errorColor": { "token": "accent-red", "value": "#E0462C" }
       }
     }
   },
 
   "style": {
-    "placeholder": { "fontSize": 17, "fontWeight": 400, "color": { "token": "text_quaternary", "value": "rgba(60,60,67,0.26)" } },
-    "inputText": { "fontSize": 17, "fontWeight": 400, "color": { "token": "text_primary", "value": "rgba(0, 0, 0, 0.90)" } },
-    "titleText": { "fontSize": 17, "fontWeight": 400, "color": { "token": "text_primary", "value": "rgba(0, 0, 0, 0.90)" } },
-    "helperText": { "fontSize": 14, "fontWeight": 400, "color": { "token": "text_tertiary", "value": "rgba(60, 60, 67, 0.56)" } },
-    "charCount_single": { "fontSize": 14, "fontWeight": 400, "color": { "token": "text_tertiary", "value": "rgba(60, 60, 67, 0.56)" } },
-    "charCount_multi": { "fontSize": 12, "fontWeight": 400, "color": { "token": "text_tertiary", "value": "rgba(60, 60, 67, 0.56)" } },
-    "cursor": { "width": 1, "height": 18, "color": { "token": "brand_standard", "value": "#0099FF" } },
-    "clearButton": { "size": 20, "color": { "token": "icon_secondary", "value": "#929296" } },
-    "divider": { "color": { "token": "border_standard", "value": "rgba(0, 0, 0, 0.10)" } },
+    "placeholder": { "fontSize": 17, "fontWeight": 400, "color": { "token": "text_quaternary", "value": "rgba(60,60,67,0.18)" } },
+    "inputText": { "fontSize": 17, "fontWeight": 400, "color": { "token": "text-primary", "value": "rgba(0, 0, 0, 1.0)" } },
+    "titleText": { "fontSize": 17, "fontWeight": 400, "color": { "token": "text-primary", "value": "rgba(0, 0, 0, 1.0)" } },
+    "helperText": { "fontSize": 14, "fontWeight": 400, "color": { "token": "text-tertiary", "value": "rgba(60, 60, 67, 0.3)" } },
+    "charCount_single": { "fontSize": 14, "fontWeight": 400, "color": { "token": "text-tertiary", "value": "rgba(60, 60, 67, 0.3)" } },
+    "charCount_multi": { "fontSize": 12, "fontWeight": 400, "color": { "token": "text-tertiary", "value": "rgba(60, 60, 67, 0.3)" } },
+    "cursor": { "width": 1, "height": 18, "color": { "token": "brand-standard", "value": "#0099FF" } },
+    "clearButton": { "size": 20, "color": { "token": "icon-secondary", "value": "rgba(60,60,67,0.6)" } },
+    "divider": { "color": { "token": "border-default", "value": "#C6C6C8" } },
     "inputBackground": "white"
   },
 

@@ -51,24 +51,24 @@
   "layout": {
     "width": 296,
     "radius": 14,
-    "background": { "token": "bg_item", "value": "#FFFFFF" },
+    "background": { "token": "bg-bottom", "value": "#FFFFFF" },
     "shadow": { "token": "shadow.dialog", "value": "0 8px 32px rgba(0,0,0,0.12)" },
-    "overlay": { "token": "overlay_dialog", "value": "rgba(0, 0, 0, 0.40)" },
+    "overlay": { "token": "overlay-modal", "value": "rgba(0, 0, 0, 0.40)" },
     "actionButtonHeight": 54,
-    "divider": { "height": 0.5, "color": { "token": "border_standard", "value": "rgba(0, 0, 0, 0.10)" } },
+    "divider": { "height": 0.5, "color": { "token": "border-default", "value": "#C6C6C8" } },
     "bodyContentWidth": 240,
     "inputContentWidth": 248,
     "inputInnerWidth": 216
   },
 
   "style": {
-    "title": { "fontSize": 17, "fontWeight": 600, "color": { "token": "text_primary", "value": "rgba(0, 0, 0, 0.90)" }, "align": "center", "font": "PingFang SC" },
-    "body_withTitle": { "fontSize": 14, "lineHeight": 20, "fontWeight": 400, "color": { "token": "text_primary", "value": "rgba(0, 0, 0, 0.90)" } },
-    "body_noTitle": { "fontSize": 17, "lineHeight": 24, "fontWeight": 400, "color": { "token": "text_primary", "value": "rgba(0, 0, 0, 0.90)" } },
-    "auxText": { "fontSize": 14, "fontWeight": 400, "color": { "token": "text_tertiary", "value": "rgba(60, 60, 67, 0.56)" } },
-    "actionButton": { "fontSize": 17, "fontWeight": 400, "color": { "token": "text_link", "value": "#214CA5" } },
-    "inputPlaceholder": { "color": { "token": "text_quaternary", "value": "rgba(60,60,67,0.26)" } },
-    "inputCursor": { "color": { "token": "brand_standard", "value": "#0099FF" } }
+    "title": { "fontSize": 17, "fontWeight": 600, "color": { "token": "text-primary", "value": "rgba(0, 0, 0, 1.0)" }, "align": "center", "font": "PingFang SC" },
+    "body_withTitle": { "fontSize": 14, "lineHeight": 20, "fontWeight": 400, "color": { "token": "text-primary", "value": "rgba(0, 0, 0, 1.0)" } },
+    "body_noTitle": { "fontSize": 17, "lineHeight": 24, "fontWeight": 400, "color": { "token": "text-primary", "value": "rgba(0, 0, 0, 1.0)" } },
+    "auxText": { "fontSize": 14, "fontWeight": 400, "color": { "token": "text-quaternary", "value": "rgba(60, 60, 67, 0.3)" } },
+    "actionButton": { "fontSize": 17, "fontWeight": 400, "color": { "token": "text-link", "value": "#214CA5" } },
+    "inputPlaceholder": { "color": { "token": "text_quaternary", "value": "rgba(60,60,67,0.18)" } },
+    "inputCursor": { "color": { "token": "brand-standard", "value": "#0099FF" } }
   },
 
   "bodyAlignRule": {

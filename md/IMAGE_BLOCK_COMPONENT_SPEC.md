@@ -55,7 +55,7 @@
 ```css
 .image-block-container {
     width: 428px;
-    background: var(--bg_bottom_light);
+    background: var(--bg-bottom);
     display: flex;
     flex-direction: column;
     position: relative;
@@ -153,8 +153,8 @@
     height: 8px;
     border-radius: 50%;
 }
-.image-block-dots .dot.active { background: var(--brand_standard); }     /* 品牌蓝 */
-.image-block-dots .dot.inactive { background: var(--fill_standard_primary); }
+.image-block-dots .dot.active { background: var(--brand-standard); }     /* 品牌蓝 */
+.image-block-dots .dot.inactive { background: var(--fill-tertiary); }
 ```
 
 **图片样式**：
@@ -172,7 +172,7 @@
 
 - **数量**: 6 个圆点（1 个激活 + 5 个非激活）
 - **激活态**: 第一个圆点，`#0099FF`
-- **非激活态**: 其余 5 个，`rgba(13, 16, 49, 0.04)`
+- **非激活态**: 其余 5 个，`var(--fill-tertiary)`
 - **垂直定位**: 通过 `top` 属性精确控制，距图片底部约 24px
 
 | 变体 | 指示器 Y 坐标 |
@@ -228,7 +228,7 @@
 
 ### 7.1 轮播指示器点击切换（组件内交互）
 - 轮播类变体（A1-A3、B1-B3）的 6 个分页指示器圆点支持**点击切换激活态**
-- 点击某个圆点后：该圆点变为激活态（`#0099FF`），其余圆点变为非激活态（`rgba(13, 16, 49, 0.04)`）
+- 点击某个圆点后：该圆点变为激活态（`#0099FF`），其余圆点变为非激活态（`var(--fill-tertiary)`）
 - 状态切换通过添加/移除 CSS class `active` / `inactive` 实现
 - 过渡动画：`transition: background 200ms ease-out`
 - 圆点设置 `cursor: pointer` 提供视觉反馈
@@ -257,8 +257,8 @@
     cursor: pointer;
     transition: background 200ms ease-out;
 }
-.image-block-dots .dot.active { background: var(--brand_standard); }
-.image-block-dots .dot.inactive { background: var(--fill_standard_primary); }
+.image-block-dots .dot.active { background: var(--brand-standard); }
+.image-block-dots .dot.inactive { background: var(--fill-tertiary); }
 ```
 
 **事件委托（全局）**：

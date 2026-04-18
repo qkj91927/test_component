@@ -14,7 +14,7 @@
   },
 
   "tokens": {
-    "_colorNote": "颜色 Token 唯一权威来源：css/QQ_color_tokens.css（39个 QBasicToken）。此处不再声明颜色快照。",
+    "_colorNote": "颜色 Token 唯一权威来源：css/Qdesign Color Tokens.css（39个 QBasicToken）。此处不再声明颜色快照。",
     "typography": {
       "largeTitle": { "size": 26, "weight": 600, "lineHeight": 34 },
       "title1": { "size": 22, "weight": 500, "lineHeight": 28 },
@@ -121,29 +121,29 @@
       "description": "组件与页面背景色的对应关系",
       "grayBackground": {
         "token": "bg_bottom_standard",
-        "value": "#F0F0F2",
+        "value": "#F2F2F7",
         "requiredBy": ["form", "card"],
         "reason": "白色卡片容器需要浅灰色页面背景形成视觉层级分离"
       },
       "aioBackground": {
         "token": "qq-bg-aio-01",
-        "value": "#F0F0F2",
+        "value": "#F2F2F7",
         "requiredBy": ["message"],
         "reason": "消息组件需要AIO背景色，与grayBackground色值相同但语义不同"
       },
       "whiteBackground": {
-        "token": "bg_bottom_light",
+        "token": "bg-bottom",
         "value": "#FFFFFF",
         "usedBy": ["list", "text_block", "image_block", "data_filter", "grid", "search", "textfield", "button", "action", "aio_input", "toast"],
         "reason": "默认背景色，透明底色组件（导航栏、半屏导航栏、文本块、数据筛选、操作组合等）跟随页面背景色呈现"
       },
       "brandBackground": {
-        "token": "bg_bottom_brand",
+        "token": "bg-bottom-brand",
         "value": "#EFF4FF",
         "usedBy": [],
         "reason": "品牌定制页面，按业务需要使用"
       },
-      "priority": "当页面同时包含需要灰色背景和白色背景的组件时，以灰色背景(#F0F0F2)为准"
+      "priority": "当页面同时包含需要灰色背景和白色背景的组件时，以灰色背景(#F2F2F7)为准"
     },
     "modalBehavior": {
       "ActionSheet": { "position": "bottom", "overlay": true, "closeOnOverlay": true, "overlayColor": "rgba(0,0,0,0.50)", "closeMethods": ["overlay", "cancel", "swipeDown"], "gestureClose": true },

@@ -26,7 +26,7 @@
       "offsetTop": 8,
       "background": "#FFFFFF",
       "borderRadius": 24,
-      "border": "0.5px solid rgba(0, 0, 0, 0.10)",
+      "border": "0.5px solid #C6C6C8",
       "padding": "0 12px"
     }
   },
@@ -89,8 +89,8 @@
   ],
 
   "icons": {
-    "mic": { "size": 28, "container": 32, "color": "#1A1A1A" },
-    "keyboard": { "size": 28, "container": 32, "color": "#1A1A1A" },
+    "mic": { "size": 28, "container": 32, "color": "#000000" },
+    "keyboard": { "size": 28, "container": 32, "color": "#000000" },
     "camera": { "size": 28, "container": 32, "color": "black" },
     "send": { "size": 19, "container": 32, "background": "#0099FF", "borderRadius": 22.86, "iconColor": "white" },
     "stop": { "size": 19, "container": 32, "background": "#0099FF", "borderRadius": 22.86, "iconColor": "white" }

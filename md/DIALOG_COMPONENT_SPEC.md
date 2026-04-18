@@ -13,7 +13,7 @@
 ```
 ┌───────────────────────────────────┐
 │  Overlay                          │
-│  var(--overlay_dark)      │
+│  var(--overlay-modal)      │
 │                                   │
 │  ┌─────────────────────────────┐  │  ← border-radius: 14px
 │  │  Title (optional)           │  │
@@ -70,17 +70,17 @@ Action layouts:
 
 | 元素 | 色值 | Token |
 |------|------|-------|
-| 遮罩层 | rgba(0, 0, 0, 0.40) | `--color-overlay-dialog` |
-| 对话框背景 | #FFFFFF | `--color-bg-item` |
-| 标题文字 | rgba(0, 0, 0, 0.90) | `--color-text-primary` |
-| 正文文字 | rgba(0, 0, 0, 0.90) | `--color-text-primary` |
-| 辅助信息文案 | rgba(60, 60, 67, 0.56) | `--color-text-tertiary` |
-| 输入框背景 | rgba(116, 116, 128, 0.08) | `--color-btn-bg` |
-| 输入框placeholder | rgba(60, 60, 67, 0.26) | `--color-text-quaternary` |
-| 输入框光标 | #0099FF | `--color-brand-standard` |
-| 操作按钮文字 | #214CA5 | `--color-text-link` |
-| 分割线 | rgba(0, 0, 0, 0.10) | `--color-border-standard` |
-| 阴影 | 0 8px 32px rgba(0,0,0,0.12) | `--shadow-dialog` |
+| 遮罩层 | var(--overlay-modal) | `--overlay-modal` |
+| 对话框背景 | #FFFFFF | `--bg-bottom` |
+| 标题文字 | var(--text-primary) | `--text-primary` |
+| 正文文字 | var(--text-primary) | `--text-primary` |
+| 辅助信息文案 | var(--text-tertiary) | `--text-tertiary` |
+| 输入框背景 | var(--fill-tertiary) | `--fill-tertiary` |
+| 输入框placeholder | var(--text-quaternary) | `--text-quaternary` |
+| 输入框光标 | #0099FF | `--brand-standard` |
+| 操作按钮文字 | #214CA5 | `--text-link` |
+| 分割线 | var(--border-default) | `--border-default` |
+| 阴影 | 0 8px 32px var(--border-weak) | — |
 
 ### 3.3 字体规范
 
@@ -107,7 +107,7 @@ Action layouts:
 |------|------|------|
 | 纯文本 | 正文描述 | 仅包含描述文案 |
 | 文本+勾选 | 正文描述 + 勾选项（含辅助信息） | 勾选项与辅助信息捆绑显示，使用圆形 SVG 图标 + "辅助信息文案" 文字 |
-| 输入框 | 输入框（248×48px） | 必须搭配标题使用；背景 rgba(116,116,128,0.08)，圆角 12px；内含光标 + placeholder "输入文本"（色 rgba(60,60,67,0.26)） |
+| 输入框 | 输入框（248×48px） | 必须搭配标题使用；背景 rgba(116,116,128,0.08)，圆角 12px；内含光标 + placeholder "输入文本"（色 var(--text-quaternary)） |
 
 ### 4.3 正文对齐规则
 
@@ -184,8 +184,8 @@ Action layouts:
 ## 7. 布局规则
 
 1. 对话框固定宽度 **296px**，垂直居中于遮罩层
-2. 圆角统一 **14px**，阴影 `0 8px 32px rgba(0,0,0,0.12)`
-3. 操作按钮区域与正文区域之间有 **0.5px** 横向分割线（`rgba(0,0,0,0.10)`）；三按钮时每个按钮顶部均有 **0.5px** 横向分割线
+2. 圆角统一 **14px**，阴影 `0 8px 32px var(--border-weak)`
+3. 操作按钮区域与正文区域之间有 **0.5px** 横向分割线（`var(--border-default)`）；三按钮时每个按钮顶部均有 **0.5px** 横向分割线
 4. 双按钮时水平排列（`display: flex`），按钮间有 **0.5px × 54px** 竖向分割线
 5. 三按钮时纵向堆叠（`flex-direction: column`），每个按钮顶部有 **0.5px** 横向分割线
 6. 纯文本/勾选正文区域内容宽度 **240px**（296 - 28×2 内边距）
@@ -205,10 +205,10 @@ Action layouts:
 ```css
 .dialog-outer {
     width: 296px;
-    background: var(--bg_bottom_light);
+    background: var(--bg-bottom);
     border-radius: 14px;
     overflow: hidden;
-    box-shadow: var(--overlay_dark);
+    box-shadow: var(--overlay-modal);
 }
 ```
 
@@ -223,7 +223,7 @@ Action layouts:
     font-size: 17px;
     font-family: 'PingFang SC', sans-serif;
     font-weight: 600;
-    color: var(--text_primary);
+    color: var(--text-primary);
     line-height: 1.35;
 }
 ```
@@ -239,7 +239,7 @@ Action layouts:
     font-size: 14px;          /* 有标题: 14px/22px, 无标题: 17px/24px */
     font-family: 'PingFang SC', sans-serif;
     font-weight: 400;
-    color: var(--text_primary);
+    color: var(--text-primary);
     line-height: 22px;
     word-wrap: break-word;
 }
@@ -259,7 +259,7 @@ Action layouts:
 .dialog-check-label {
     font-size: 14px;
     font-weight: 400;
-    color: var(--text_secondary);
+    color: var(--text-tertiary);
     white-space: nowrap;
 }
 ```
@@ -273,7 +273,7 @@ Action layouts:
 .dialog-input-box {
     width: 248px;
     height: 48px;
-    background: var(--fill_standard_secondary);
+    background: var(--fill-secondary);
     border-radius: 12px;
     position: relative;
     overflow: hidden;
@@ -340,7 +340,7 @@ Action layouts:
     font-size: 17px;
     font-family: 'PingFang SC', sans-serif;
     font-weight: 400;
-    color: var(--text_link);
+    color: var(--text-link);
 }
 
 /* 分割线 */
@@ -350,7 +350,7 @@ Action layouts:
     top: 0;
     width: 100%;
     height: 0.5px;
-    background: var(--border_standard);
+    background: var(--border-default);
 }
 .dialog-divider-v {
     position: absolute;
@@ -358,7 +358,7 @@ Action layouts:
     top: 0;
     width: 0.5px;
     height: 54px;
-    background: var(--border_standard);
+    background: var(--border-default);
 }
 ```
 
@@ -379,7 +379,7 @@ Action layouts:
 - **Token**：`--anim-dialog-out-duration` / `--anim-dialog-out-easing`
 
 ### 9.3 蒙层动效
-- **颜色**：`rgba(0, 0, 0, 0.40)`（`--color-overlay-dialog`）
+- **颜色**：`var(--overlay-modal)`（`--overlay-modal`）
 - **淡入**：250ms / ease-out（`--anim-overlay-in-*`）
 - **淡出**：200ms / ease-in（`--anim-overlay-out-*`）
 - 蒙层与对话框动效**同步执行**

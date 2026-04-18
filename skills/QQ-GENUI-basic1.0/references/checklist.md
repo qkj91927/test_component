@@ -1,6 +1,6 @@
 # Gate 执行与回归检查清单（Knot 知识库 + 图标本地化 + Failure Log 版）
 
-> 规则：每个 Gate 未通过不得进入下一 Gate。组件规范、Token 和图标通过 Knot 知识库 MCP 按需检索，禁止克隆仓库。页面用到的图标必须下载到本地 `assets/icons/`。首次使用时须完成 Knot MCP 安装与 Token 配置；若项目根目录不存在 `failure-log.md`，必须先创建；后续每次生成/调整前先读；每次失败、返工或重试后立即写入。
+> 规则：每个 Gate 未通过不得进入下一 Gate。组件规范、Token 通过 Knot 知识库 MCP 按需检索，图标从 GitHub 远程仓库获取，禁止克隆仓库。页面用到的图标必须下载到本地 `assets/icons/`。颜色来源唯一为 `Qdesign Color Tokens.css`，使用连字符命名（如 `--bg-secondary`），旧命名已废弃。首次使用时须完成 Knot MCP 安装与 Token 配置；若项目根目录不存在 `failure-log.md`，必须先创建；后续每次生成/调整前先读；每次失败、返工或重试后立即写入。
 
 ## Gate -1：Knot MCP 安装与 Token 配置（首次）
 
@@ -44,17 +44,23 @@
 
 ## Gate 4：通过 Knot 检索 Token 与主题
 
-- [ ] 已通过 Knot 检索到 `QQ_color_tokens.css` 内容
-- [ ] 已通过 Knot 检索到 `tokens.css` 内容
+- [ ] 已通过 Knot 检索到 `Qdesign Color Tokens.css` 内容
+- [ ] 已通过 Knot 检索到 `Qdesign Tokens.css` 内容
+- [ ] 已通过 Knot 检索到 `DIVIDER_SPACING_COMPONENT_SPEC.md` 布局间距规范
 - [ ] `<html>` 已设置 `data-theme`
-- [ ] 颜色全部来自 `QQ_color_tokens.css`
+- [ ] 颜色全部来自 `Qdesign Color Tokens.css`，使用连字符命名（`--xxx-yyy`）
+- [ ] 不存在旧命名（`--color-xxx` / `--qq-xxx` / 下划线命名如 `--brand_standard`）
 - [ ] 间距均为 4px 整数倍
+- [ ] 组件间间距符合 DIVIDER_SPACING_COMPONENT_SPEC 6 档规则（4/8/12/16/24/32px）
 
 ## Gate 5：背景色强约束
 
-- [ ] 包含 `Grouped List`/`Card` 时使用 `#F0F0F2`
-- [ ] 默认场景使用 `#FFFFFF`
+- [ ] 包含 `Grouped List`/`Card` 时使用 `--bg-secondary`（`#F0F0F2`）
+- [ ] 包含 `Message` 组件时使用 `--bg-select`（`#F0F0F2`）
+- [ ] 默认场景使用 `--bg-bottom`（`#FFFFFF`）
+- [ ] 品牌页使用 `--bg-bottom-brand`（`#EFF4FF`）
 - [ ] 冲突场景灰底优先
+- [ ] 使用新 Token 命名，禁止旧命名（`bg_bottom_standard` / `bg_bottom_light` 等）
 
 ## Gate 6：状态栏
 
@@ -104,9 +110,11 @@
 
 ### C. 版式细节
 
-- [ ] 颜色值均来自 `QQ_color_tokens.css`，无硬编码
+- [ ] 颜色值均来自 `Qdesign Color Tokens.css`，无硬编码
+- [ ] 颜色 Token 均为连字符命名（`--xxx-yyy`），无旧下划线命名或 `--color-xxx` / `--qq-xxx`
 - [ ] 间距均为 4px 整数倍
-- [ ] 字号/字重/行高使用 `tokens.css` Token
+- [ ] 组件间间距符合 `DIVIDER_SPACING_COMPONENT_SPEC.md` 6 档规则
+- [ ] 字号/字重/行高使用 `Qdesign Tokens.css` Token
 - [ ] 圆角使用 Token 或 SPEC 指定值
 - [ ] 背景色符合 Gate 5 规则
 - [ ] 状态栏尺寸/时间/图标完整

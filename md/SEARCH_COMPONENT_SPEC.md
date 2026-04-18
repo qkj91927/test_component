@@ -29,8 +29,8 @@
 ## 3. 视觉规范
 
 ### 3.1 容器
-- **外容器**: 428 × 60px，背景 `var(--bg_bottom_light)`（#FFFFFF），水平 padding 16px
-- **输入框**: 高 36px，背景 `var(--fill_standard_primary)`（rgba(13, 16, 49, 0.04)），圆角 12px
+- **外容器**: 428 × 36px（净内容高度），水平 padding 16px。组件不含上下 padding，间距由外部间距组件提供
+- **输入框**: 高 36px，背景 `var(--fill-tertiary)`（var(--fill-tertiary)），圆角 12px
 
 ### 3.2 输入框宽度
 
@@ -44,18 +44,18 @@
 
 | 图标 | 尺寸 | 颜色 | 使用场景 |
 |------|------|------|---------|
-| `icons/search.svg` 搜索图标 (默认/激活) | 18 × 18px | `#929296` | A1, A2, B1, B2 |
-| `icons/search.svg` 搜索图标 (输入态) | 18 × 18px | `#1A1A1A` | A3, B3 |
+| `icons/search.svg` 搜索图标 (默认/激活) | 18 × 18px | `var(--text-secondary)` | A1, A2, B1, B2 |
+| `icons/search.svg` 搜索图标 (输入态) | 18 × 18px | `var(--text-primary)` | A3, B3 |
 | 蓝色光标 | 1 × 18px | `#0099FF` | A2, A3, B2, B3 |
-| `icons/close_input.svg` 清除按钮 | 20 × 20px | `#929296` | A3, B3 |
-| `icons/chevron_left.svg` 返回箭头 | 24 × 24px | `#1A1A1A` | B1, B2, B3 |
+| `icons/close_input.svg` 清除按钮 | 20 × 20px | `var(--text-secondary)` | A3, B3 |
+| `icons/chevron_left.svg` 返回箭头 | 24 × 24px | `var(--text-primary)` | B1, B2, B3 |
 
 ### 3.4 文字
 
 | 元素 | 字号 | 字重 | 颜色 | 字体 |
 |------|------|------|------|------|
-| placeholder "搜索" | 17px | 400 | `rgba(60, 60, 67, 0.56)` | PingFang SC |
-| 输入文本 "搜索" | 17px | 400 | `rgba(0, 0, 0, 0.90)` | PingFang SC |
+| placeholder "搜索" | 17px | 400 | `var(--text-tertiary)` | PingFang SC |
+| 输入文本 "搜索" | 17px | 400 | `var(--text-primary)` | PingFang SC |
 | "取消" 按钮 | 16px | 400 | `#214CA5` | PingFang SC |
 
 ### 3.5 返回箭头布局
@@ -77,8 +77,8 @@
 - B2: 额外显示左侧返回箭头
 
 ### 输入态 (Typing) — A3 / B3
-- 搜索图标变为 `#1A1A1A` (深色)
-- 输入文字显示为 `rgba(0, 0, 0, 0.90)` (深色实文)
+- 搜索图标变为 `var(--text-primary)` (深色)
+- 输入文字显示为 `var(--text-primary)` (深色实文)
 - 光标位于文字右侧
 - 输入框右侧显示清除按钮 (圆形×)
 - 右侧显示"取消"按钮
@@ -108,15 +108,14 @@ Search / level=secondary, state=typing, hasBack=true   → B3
 ## 7. 设计令牌
 
 ```
---bg-item: #FFFFFF                              (容器背景)
---fill-standard: rgba(13,16,49,0.04)            (输入框背景)
---text-tertiary: rgba(60,60,67,0.56)            (placeholder)
---text-primary: rgba(0,0,0,0.90)                (输入文字)
---text-link: #214CA5                             (取消按钮)
---icon-secondary: #929296                        (默认态图标)
---icon-primary: #1A1A1A                          (输入态图标)
---brand-blue: #0099FF                            (光标)
---icon-primary: #1A1A1A                          (返回箭头)
+--bg-bottom: #FFFFFF                      (容器背景)
+--fill-tertiary: rgba(118,118,128,0.12)    (输入框背景)
+--text-tertiary: rgba(60,60,67,0.3)           (placeholder)
+--text-primary: rgba(0,0,0,1.0)                (输入文字)
+--text-link: #214CA5                            (取消按钮)
+--icon-secondary: rgba(60,60,67,0.6)                       (默认态图标)
+--icon-primary: #000000                         (输入态图标/返回箭头)
+--brand-standard: #0099FF                       (光标)
 ```
 
 ---
@@ -130,8 +129,8 @@ Search / level=secondary, state=typing, hasBack=true   → B3
 ```css
 .search-container {
     width: 428px;
-    height: 60px;
-    background: var(--bg_bottom_light);
+    height: 36px;
+    background: var(--bg-bottom);
     display: flex;
     align-items: center;
     padding: 0 16px;
@@ -158,7 +157,7 @@ Search / level=secondary, state=typing, hasBack=true   → B3
 ```css
 .search-box {
     height: 36px;
-    background: var(--fill_standard_primary);
+    background: var(--fill-tertiary);
     border-radius: 12px;
     overflow: hidden;
     display: flex;
@@ -180,19 +179,19 @@ Search / level=secondary, state=typing, hasBack=true   → B3
 .search-placeholder {
     font-size: 17px;
     font-weight: 400;
-    color: var(--text_secondary);
+    color: var(--text-tertiary);
 }
 /* 输入态文字 */
 .search-input-text {
     font-size: 17px;
     font-weight: 400;
-    color: var(--text_primary);
+    color: var(--text-primary);
 }
 /* 光标 */
 .search-cursor {
     width: 1px;
     height: 18px;
-    background: var(--brand_standard);
+    background: var(--brand-standard);
 }
 /* 清除按钮 */
 .search-clear {
@@ -209,7 +208,7 @@ Search / level=secondary, state=typing, hasBack=true   → B3
     margin-left: auto;
     font-size: 16px;
     font-weight: 400;
-    color: var(--text_link);
+    color: var(--text-link);
     flex-shrink: 0;
     padding-left: 14px;
 }

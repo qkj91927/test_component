@@ -1,0 +1,299 @@
+/*
+ * ============================================================
+ *  Qdesign Tokens (CSS Custom Properties)
+ *  Source: json/index.json
+ *  Updated: 2026-04-17
+ * ============================================================
+ *
+ *  本文件定义设备参数、字体、间距、圆角、动效等非颜色 Token。
+ *  颜色 Token 已独立拆分至主题文件，按需引入：
+ *    - css/Qdesign Color Tokens.css       （默认且唯一可用，data-theme="qq-light" / "qq-dark"）
+ *    ⚠️ iOS / Material 主题文件暂未提供，未来版本可能新增
+ *
+ *  使用方法：
+ *    1. 在 HTML 中引入 Qdesign Tokens.css + 一套颜色主题文件
+ *    2. 在 <html> 标签上设置 data-theme 属性激活颜色（默认使用 "qq-light"）
+ *    3. 通过 var(--token-name) 使用所有样式变量
+ */
+
+/* ————————————————————————————————————
+   0. 设备与基础
+   ———————————————————————————————————— */
+:root {
+  /* 设备参数 (iPhone 14 Pro Max) */
+  --device-width: 428px;
+  --device-screen-height: 926px;
+  --device-status-bar-height: 54px;
+  --device-home-bar-height: 34px;
+  --device-home-bar-indicator-width: 144px;
+  --device-home-bar-indicator-height: 5px;
+  --device-home-bar-indicator-radius: 2.5px;
+  --device-platform: "iOS";
+  --device-font: "PingFang SC", -apple-system, "Helvetica Neue", sans-serif;
+}
+
+/* ————————————————————————————————————
+   1. 字体 Token (Typography)
+   ————————————————————————————————————
+ *
+ * 4 类 × 多级的语义化字体体系，覆盖从品牌超大标题到极小免责文案的所有场景。
+ * 每个 Token 定义 font-size 一个维度；font-weight / line-height 由各组件按需指定。
+ *
+ * ══════════════════════════════════════════════════════════
+ * 使用原则
+ * ══════════════════════════════════════════════════════════
+ *
+ * 【原则 1】语义优先，而非尺寸优先
+ *   根据文本的功能角色选择 Token（标题 / 正文 / 标签 / 注释），
+ *   而非直接按 px 值匹配。同一 px 值在不同语义下使用不同 Token。
+ *
+ * 【原则 2】同一层级文本使用同一 Token
+ *   同一页面内相同语义层级的文字（如多张卡片标题）必须使用同一 Token。
+ *
+ * 【原则 3】层级递减清晰
+ *   标题 > 正文 > 标签 > 注释，字号逐级递减，保持信息层次可读。
+ *
+ * 【原则 4】font-weight 由组件语境决定
+ *   Token 仅锁定 font-size，weight 根据场景选择：
+ *     强调（标题/按钮）→ 500~600
+ *     常规（正文/描述）→ 400
+ *     弱化（注释/提示）→ 400
+ *
+ * ══════════════════════════════════════════════════════════
+ * Token 列表（4 类 17 级）
+ * ══════════════════════════════════════════════════════════
+ *
+ * ── 标题 Title ──
+ *   --typo-title-xxl  34px  品牌页首屏、营销超大标题
+ *   --typo-title-xl   28px  首页焦点区、运营主视觉标题
+ *   --typo-title-l    26px  页面超大主标题（TextBlock H1）
+ *   --typo-title-m    22px  页面主标题、头部大标题（Card 大标题、TextBlock H2、Markdown H2）
+ *   --typo-title-s    20px  模块标题、卡片标题、分组标题（List 金额）
+ *   --typo-title-xs   18px  段落小标题、强分组标题（TextBlock 辅助标题、Markdown H3）
+ *   --typo-title-2xs  17px  详情页主标题、内容块主标题（NavBar 标题、HS_NavBar 标题、Card 标题行）
+ *
+ * ── 正文 Body ──
+ *   --typo-body-l     17px  主要正文、长文本、表单主文本（List 标题行、气泡文字、输入框、Markdown 正文）
+ *   --typo-body-m     16px  次级正文、解释说明（DataFilter 页签标签）
+ *   --typo-body-s     14px  辅助正文、状态、副标题、弱分组标题（List 描述行、Card 描述、摘要）
+ *
+ * ── 标签 Label ──
+ *   --typo-label-l    17px  主按钮文本、Tab、导航等强交互文本（ActionCombo 按钮、Menu 选项、ActionSheet 操作项）
+ *   --typo-label-m    14px  普通按钮、Tag/Chip、次要操作（小按钮、分段选择、下拉筛选、面包屑、NavBar 按钮）
+ *   --typo-label-s    12px  角标、小字链接、迷你标签（分组头部、卡片辅助行、HS_NavBar 副标题）
+ *
+ * ── 注释 Caption ──
+ *   --typo-caption-l   14px  次要注释、提示文字、弹窗注释、协议小字（ActionSheet 标题提示、Grouped List 页脚）
+ *   --typo-caption-m   12px  次要注释、气泡辅助信息、Message 辅助行
+ *   --typo-caption-s   10px  极小注释、版权、免责等最低优先级信息（NavBar 描述组、mini 按钮文字）
+ *
+ * ══════════════════════════════════════════════════════════
+ * 场景举例
+ * ══════════════════════════════════════════════════════════
+ *
+ *   | 场景                           | 推荐 Token         | 值     |
+ *   |-------------------------------|-------------------|--------|
+ *   | 品牌首屏超大标题               | typo-title-xxl    | 34px   |
+ *   | 运营主视觉标题                 | typo-title-xl     | 28px   |
+ *   | TextBlock H1 页面大标题        | typo-title-l      | 26px   |
+ *   | Card 大标题、Markdown H2       | typo-title-m      | 22px   |
+ *   | 列表金额、模块标题              | typo-title-s      | 20px   |
+ *   | 段落小标题、Markdown H3         | typo-title-xs     | 18px   |
+ *   | NavBar 标题、Card 标题行        | typo-title-2xs    | 17px   |
+ *   | 气泡正文、表单标题              | typo-body-l       | 17px   |
+ *   | DataFilter 页签                | typo-body-m       | 16px   |
+ *   | 描述行、摘要文字                | typo-body-s       | 14px   |
+ *   | 大按钮文字、Menu 选项文字       | typo-label-l      | 17px   |
+ *   | 小按钮、分段选择标签            | typo-label-m      | 14px   |
+ *   | 分组头部、辅助信息              | typo-label-s      | 12px   |
+ *   | ActionSheet 提示文字            | typo-caption-l    | 14px   |
+ *   | Message 辅助行文字              | typo-caption-m    | 12px   |
+ *   | NavBar 描述、mini 按钮          | typo-caption-s    | 10px   |
+ *
+ */
+:root {
+  --font-family: "PingFang SC", -apple-system, "Helvetica Neue", sans-serif;
+
+  /* ── 标题 Title ── */
+  --typo-title-xxl:  34px;   /* 品牌页首屏、营销超大标题 */
+  --typo-title-xl:   28px;   /* 首页焦点区、运营主视觉标题 */
+  --typo-title-l:    26px;   /* 页面超大主标题 */
+  --typo-title-m:    22px;   /* 页面主标题、头部大标题 */
+  --typo-title-s:    20px;   /* 模块标题、卡片标题、分组标题 */
+  --typo-title-xs:   18px;   /* 段落小标题、强分组标题 */
+  --typo-title-2xs:  17px;   /* 详情页主标题、内容块主标题 */
+
+  /* ── 正文 Body ── */
+  --typo-body-l:     17px;   /* 主要正文、长文本、表单主文本 */
+  --typo-body-m:     16px;   /* 次级正文、解释说明 */
+  --typo-body-s:     14px;   /* 辅助正文、状态、副标题 */
+
+  /* ── 标签 Label ── */
+  --typo-label-l:    17px;   /* 主按钮文本、Tab、导航等强交互文本 */
+  --typo-label-m:    14px;   /* 普通按钮、Tag/Chip、次要操作 */
+  --typo-label-s:    12px;   /* 角标、小字链接、迷你标签 */
+
+  /* ── 注释 Caption ── */
+  --typo-caption-l:  14px;   /* 次要注释、提示文字、弹窗注释、协议小字 */
+  --typo-caption-m:  12px;   /* 次要注释、气泡辅助信息 */
+  --typo-caption-s:  10px;   /* 极小注释、版权、免责（仅短文案） */
+}
+
+/* ————————————————————————————————————
+   2. 间距 Token (Spacing)
+   ———————————————————————————————————— */
+:root {
+  --spacing-page-padding:      16px;    /* 页面左右内边距 */
+  --spacing-icon-gap:          12px;    /* 图标与文字间距 */
+  --spacing-section-gap:       8px;     /* 区块间距 */
+  --spacing-grid-unit:         4px;     /* 4px 网格基准单位 */
+
+  /* 组件间距梯度（详见 DIVIDER_SPACING_COMPONENT_SPEC.md） */
+  --spacing-b1:                4px;     /* 组件内部：紧凑排列的辅助信息之间 */
+  --spacing-b2:                8px;     /* 组件内部：同组内容块之间、标签与内容之间 */
+  --spacing-b3:                12px;    /* 组件间：同类组件相邻 */
+  --spacing-b4:                16px;    /* 组件间：不同组件相邻（默认） */
+  --spacing-b5:                24px;    /* 组件间：不同功能模块之间 */
+  --spacing-b6:                32px;    /* 组件与页面：页面底部留白（可滑动场景除外） */
+
+  /* 组件内部间距 Token（基于 4px 网格）
+   *   --spacing-xs   4px   极小间距：标题↔副标题、右侧元素小 gap
+   *   --spacing-s    8px   小间距：键值行间距、头像↔信息 gap
+   *   --spacing-m   12px   中间距：区域间 gap、图标↔内容、分割线上间距
+   *   --spacing-l   16px   大间距：容器左右 padding、大区域四边 padding
+   *   --spacing-xl  24px   超大间距：章节前间距、大模块间距
+   *   --spacing-xxl 32px   最大间距：分组头尾左右 padding
+   */
+  --spacing-xs:  4px;
+  --spacing-s:   8px;
+  --spacing-m:  12px;
+  --spacing-l:  16px;
+  --spacing-xl: 24px;
+  --spacing-xxl: 32px;
+}
+
+/* ————————————————————————————————————
+   3. 圆角 Token (Radius)
+   ————————————————————————————————————
+ *
+ * 基于 4px 递增的 7 级圆角体系，覆盖从细边框到全圆的所有场景。
+ *
+ * ══════════════════════════════════════════════════════════
+ * 使用原则
+ * ══════════════════════════════════════════════════════════
+ *
+ * 【原则 1】尺寸越大，圆角越大
+ *   组件/容器视觉面积越大，应使用越大的圆角档位，
+ *   保持"大面柔和、小面精致"的视觉节奏。
+ *
+ * 【原则 2】同层级组件使用相同圆角
+ *   同一页面内相同层级的容器（如多张卡片、多个输入框）
+ *   必须使用同一圆角 Token，禁止混用。
+ *
+ * 【原则 3】内外层级递减
+ *   嵌套容器的内层圆角应 ≤ 外层圆角：
+ *     外层卡片 radius-l(16px) → 内层缩略图 radius-m(12px) → 内层标签 radius-s(8px)
+ *
+ * 【原则 4】全圆角仅用于等宽高元素
+ *   radius-full 仅适用于 width === height 的元素（头像、圆形按钮）。
+ *   非等宽高元素使用 radius-full 会变为椭圆，禁止这样做。
+ *
+ * 【原则 5】圆角平滑度 (Corner Smoothing)
+ *   Figma 设计稿中所有圆角均设置 corner-smoothing: 100%（超椭圆/Squircle），
+ *   使圆角过渡更加平滑自然，避免标准 border-radius 的"突变感"。
+ *   各平台实现方式：
+ *     - iOS:     CALayer.cornerCurve = .continuous（UIKit/SwiftUI 原生支持）
+ *     - Android: ShapeAppearance + CornerFamily.ROUNDED（Material 3）
+ *     - Web/CSS: 标准 CSS 暂无原生支持，使用 border-radius 近似；
+ *                如需精确还原可用 figma-squircle 等 JS 库生成 SVG 路径
+ *   HTML 预览文件中使用标准 border-radius，开发实现时请按平台加上平滑属性。
+ *
+ * ══════════════════════════════════════════════════════════
+ * Token 列表（共 7 级）
+ * ══════════════════════════════════════════════════════════
+ *
+ *   --radius-xs    4px   超小圆角：细边框、小尺寸组件、缩略图小圆角
+ *   --radius-s     8px   小圆角：搜索栏、标签 Tag、小卡片内元素
+ *   --radius-m    12px   中圆角：输入框、菜单、分段选择器、宫格缩略图、App 图标
+ *   --radius-l    16px   大圆角：按钮（大/中）、对话框、操作面板、Toast
+ *   --radius-xl   20px   超大圆角：半屏浮层顶部、分段选择器外框
+ *   --radius-xxl  24px   超超大圆角：Card 卡片容器、AIOInput 输入栏
+ *   --radius-full 1000px 全圆角：头像、胶囊按钮
+ *
+ * ══════════════════════════════════════════════════════════
+ * 场景举例
+ * ══════════════════════════════════════════════════════════
+ *
+ *   | 场景                           | 推荐 Token     | 值     |
+ *   |-------------------------------|---------------|--------|
+ *   | 列表行内小缩略图               | radius-xs     | 4px    |
+ *   | 搜索栏、标签 Tag               | radius-s      | 8px    |
+ *   | 输入框、菜单、宫格缩略图        | radius-m      | 12px   |
+ *   | 大按钮、对话框、操作面板         | radius-l      | 16px   |
+ *   | 半屏浮层顶部圆角               | radius-xl     | 20px   |
+ *   | Card 卡片容器、AIOInput 输入栏  | radius-xxl    | 24px   |
+ *   | 头像、胶囊按钮                  | radius-full   | 1000px |
+ *
+ */
+:root {
+  --radius-xs:    4px;     /* 超小圆角：细边框、小缩略图 */
+  --radius-s:     8px;     /* 小圆角：搜索栏、标签 Tag */
+  --radius-m:    12px;     /* 中圆角：输入框、菜单、宫格缩略图、App 图标 */
+  --radius-l:    16px;     /* 大圆角：按钮(大/中)、对话框、操作面板、Toast */
+  --radius-xl:   20px;     /* 超大圆角：半屏浮层顶部 */
+  --radius-xxl:  28px;     /* 超超大圆角：Card 卡片容器 */
+  --radius-full: 1000px;   /* 全圆角：头像、胶囊按钮 */
+}
+
+/* ————————————————————————————————————
+   4. 动效 Token (Animation)
+   ———————————————————————————————————— */
+:root {
+  /* 按压 */
+  --anim-press-in-duration:    100ms;
+  --anim-press-in-easing:      ease-out;
+  --anim-press-out-duration:   150ms;
+  --anim-press-out-easing:     ease-out;
+
+  /* 开关切换 */
+  --anim-switch-duration:      200ms;
+  --anim-switch-easing:        ease-out;
+
+  /* 子行展开/收起 */
+  --anim-expand-duration:      250ms;
+  --anim-expand-easing:        ease-in-out;
+  --anim-collapse-duration:    200ms;
+  --anim-collapse-easing:      ease-in;
+
+  /* 半屏浮层 */
+  --anim-halfscreen-in-duration:  420ms;
+  --anim-halfscreen-in-easing:    cubic-bezier(0.32, 0.72, 0.35, 1);
+  --anim-halfscreen-out-duration: 300ms;
+  --anim-halfscreen-out-easing:   cubic-bezier(0.32, 0.72, 0.35, 1);
+
+  /* 菜单 */
+  --anim-menu-in-duration:     200ms;
+  --anim-menu-in-easing:       ease-out;
+  --anim-menu-in-transform:    scale(0.9);   /* → scale(1) */
+  --anim-menu-out-duration:    150ms;
+  --anim-menu-out-easing:      ease-in;
+  --anim-menu-out-transform:   scale(1);     /* → scale(0.9) */
+
+  /* 操作面板 ActionSheet（底部弹出） */
+  --anim-actionsheet-in-duration:  420ms;
+  --anim-actionsheet-in-easing:    cubic-bezier(0.32, 0.72, 0.35, 1);
+  --anim-actionsheet-out-duration: 300ms;
+  --anim-actionsheet-out-easing:   cubic-bezier(0.32, 0.72, 0.35, 1);
+
+  /* 对话框 Dialog（居中缩放淡入） */
+  --anim-dialog-in-duration:   250ms;
+  --anim-dialog-in-easing:     ease-out;
+  --anim-dialog-out-duration:  200ms;
+  --anim-dialog-out-easing:    ease-in;
+
+  /* 蒙层 Overlay */
+  --anim-overlay-in-duration:  250ms;
+  --anim-overlay-in-easing:    ease-out;
+  --anim-overlay-out-duration: 200ms;
+  --anim-overlay-out-easing:   ease-in;
+}

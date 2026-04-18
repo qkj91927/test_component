@@ -58,7 +58,7 @@
       "fontSize": 14,
       "fontWeight": 400,
       "lineHeight": 22,
-      "color": { "token": null, "value": "#4db8ff", "note": "无对应 token，Toast 专用静态色" }
+      "color": { "token": "brand-standard", "value": "#0099FF" }
     },
     "icon": {
       "size": 24,

@@ -46,10 +46,10 @@
 
 | 元素 | 字号 | 字重 | 颜色 |
 |------|------|------|------|
-| 标题 | 17px | Medium (500) | text_primary rgba(0,0,0,0.90) |
-| 副标题 | 12px | Regular (400) | text_secondary rgba(60,60,67,0.76) |
-| 操作文字 | 17px | Regular (400) | text_primary rgba(0,0,0,0.90) |
-| 二级标题 | 17px | Medium (500) | text_primary rgba(0,0,0,0.90) |
+| 标题 | 17px | Medium (500) | text_primary var(--text-primary) |
+| 副标题 | 12px | Regular (400) | text_secondary var(--text-secondary) |
+| 操作文字 | 17px | Regular (400) | text_primary var(--text-primary) |
+| 二级标题 | 17px | Medium (500) | text_primary var(--text-primary) |
 
 ### 3.3 对齐方式
 
@@ -136,7 +136,7 @@ B3  返回+标题           → [←]      [二级标题]
     font-size: 17px;
     font-family: 'PingFang SC', sans-serif;
     font-weight: 500;
-    color: var(--text_primary);
+    color: var(--text-primary);
     line-height: 24px;
     text-align: center;
 }
@@ -147,59 +147,29 @@ B3  返回+标题           → [←]      [二级标题]
 }
 ```
 
-### 6.3 文字与操作元素
+### 6.3 元素样式速查表
 
-```css
-.hs-navbar-row .hs-title {
-    font-size: 17px;
-    font-family: 'PingFang SC', sans-serif;
-    font-weight: 500;
-    color: var(--text_primary);
-    line-height: 24px;
-}
-.hs-navbar-row .hs-subtitle {
-    font-size: 12px;
-    font-family: 'PingFang SC', sans-serif;
-    font-weight: 400;
-    color: var(--text_primary_light);
-    line-height: 17px;
-}
-/* 关闭按钮：直接使用 Close_HalfScreen.svg（自带30px灰底圆，不需要外层样式） */
-.hs-navbar-row .hs-close-btn {
-    width: 30px;
-    height: 30px;
-}
-.hs-navbar-row .hs-action-text {
-    font-size: 17px;
-    font-family: 'PingFang SC', sans-serif;
-    font-weight: 400;
-    color: var(--text_primary);
-    line-height: 24px;
-}
-.hs-navbar-row .hs-back-icon {
-    width: 24px;
-    height: 24px;
-}
-.hs-navbar-row .hs-app-icon {
-    width: 24px;
-    height: 24px;
-    margin-right: 8px;
-}
-.hs-navbar-row .hs-icon-24 {
-    width: 24px;
-    height: 24px;
-}
-```
+> 全局字体：`'PingFang SC', sans-serif`
+
+| 选择器 | 关键属性 |
+|--------|---------|
+| `.hs-title` | 17px / 500 / `--text-primary` / line-height: 24px |
+| `.hs-subtitle` | 12px / 400 / `--text-secondary` / line-height: 17px |
+| `.hs-close-btn` | 30×30px（直接使用 `Close_HalfScreen.svg`，自带灰底圆） |
+| `.hs-action-text` | 17px / 400 / `--text-primary` / line-height: 24px |
+| `.hs-back-icon` | 24×24px |
+| `.hs-app-icon` | 24×24px / margin-right: 8px |
+| `.hs-icon-24` | 24×24px |
 
 ---
 
 ## 7. 与浮层内部组件的间距衔接
 
-半屏导航栏固定在半屏浮层顶部，与浮层内部内容区之间插入 **B2（8px）间距组件**：
+半屏导航栏固定在半屏浮层顶部，与浮层内部内容区之间插入 **spacing-s（8px）间距组件**：
 
 | 导航栏类型 | 下方组件 | 间距 | 说明 |
 |-----------|----------|------|------|
-| A1 / A2 / A3 / A4 / B1 / B2 / B3 | 任意内容组件 | **B2（8px）** | 统一紧凑间距，半屏浮层内空间有限 |
+| A1 / A2 / A3 / A4 / B1 / B2 / B3 | 任意内容组件 | **spacing-s（8px）** | 统一紧凑间距，半屏浮层内空间有限 |
 | A3（叠在图片上） | ImageBlock | **0px** | A3 绝对定位叠在图片上方，不占据内容流高度 |
 
 ---
@@ -215,4 +185,4 @@ B3  返回+标题           → [←]      [二级标题]
 ### 8.2 底色规则
 - 半屏导航栏本身为**透明底色**（`background: transparent`）
 - 视觉上跟随半屏浮层面板的底色显示（默认白色 `#FFFFFF`）
-- 当浮层内容区因嵌入 Card/Grouped List 而切换为灰底（`#F0F0F2`）时，导航栏底色需同步调整
+- 当浮层内容区因嵌入 Card/Grouped List 而切换为灰底（`var(--bg-secondary)`）时，导航栏底色需同步调整

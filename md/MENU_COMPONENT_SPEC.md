@@ -62,7 +62,7 @@
 | Container Width | 180px | 菜单容器固定宽度 |
 | Container Radius | 12px | 容器圆角 |
 | Container Background | #FFFFFF | 白色背景 |
-| Container Shadow | 0 8px 32px rgba(0,0,0,0.12) | 浮层投影 |
+| Container Shadow | 0 8px 32px var(--border-weak) | 浮层投影 |
 | Row Height (With Icon) | 52px | 有图标时的行高 |
 | Row Height (No Icon) | 52px | 无图标时的行高 |
 | Row Height (With Checkmark) | 52px | 有勾选时的行高 |
@@ -76,7 +76,7 @@
 | Text Left (With Checkmark) | 20px | 有勾选时文本左侧位置 |
 | Text Font Size | 17px | 文本字号 |
 | Text Font Weight | 400 (Regular) | 文本字重 |
-| Text Color | rgba(0, 0, 0, 0.90) | 文本颜色 |
+| Text Color | var(--text-primary) | 文本颜色 |
 | Text Font Family | PingFang SC | 字体 |
 
 ---
@@ -191,7 +191,7 @@
 ```css
 .menu-outer {
     width: 180px;
-    background: var(--bg_bottom_light);
+    background: var(--bg-bottom);
     border-radius: 12px;
     overflow: hidden;
     box-shadow: 0 8px 32px rgba(0,0,0,0.12);
@@ -229,7 +229,7 @@
     font-size: 17px;
     font-family: 'PingFang SC', sans-serif;
     font-weight: 400;
-    color: var(--text_primary);
+    color: var(--text-primary);
     position: absolute;
     top: 50%;
     transform: translateY(-50%);

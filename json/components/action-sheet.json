@@ -9,9 +9,9 @@
 
   "structure": {
     "overlay": { "color": "rgba(0,0,0,0.50)" },
-    "mainBlock": { "background": { "token": "bg_item", "value": "#FFFFFF" }, "topRadius": 16 },
-    "cancelBlock": { "background": { "token": "bg_item", "value": "#FFFFFF" }, "height": 56, "cancelRow": 56 },
-    "gap": { "height": 10, "color": { "token": "bg_secondary", "value": "#F3F3F7" } }
+    "mainBlock": { "background": { "token": "bg-bottom", "value": "#FFFFFF" }, "topRadius": 16 },
+    "cancelBlock": { "background": { "token": "bg-bottom", "value": "#FFFFFF" }, "height": 56, "cancelRow": 56 },
+    "gap": { "height": 10, "color": { "token": "bg-secondary", "value": "#F2F2F7" } }
   },
 
   "textRules": {
@@ -27,7 +27,7 @@
       "height": 56,
       "fontSize": 14,
       "fontWeight": 400,
-      "color": { "token": "text_secondary", "value": "rgba(60, 60, 67, 0.76)" },
+      "color": { "token": "text-tertiary", "value": "rgba(60, 60, 67, 0.6)" },
       "align": "center",
       "removable": true,
       "divider": "无（位于第一行时）"
@@ -37,7 +37,7 @@
       "height": 56,
       "fontSize": 17,
       "fontWeight": 400,
-      "color": { "token": "text_primary", "value": "rgba(0, 0, 0, 0.90)" },
+      "color": { "token": "text-primary", "value": "rgba(0, 0, 0, 1.0)" },
       "align": "center",
       "removable": true,
       "divider": "顶部 0.5px（非第一行时）"
@@ -47,7 +47,7 @@
       "height": 56,
       "fontSize": 17,
       "fontWeight": 400,
-      "color": { "token": "feedback_error", "value": "#F74C30" },
+      "color": { "token": "accent-red", "value": "#E0462C" },
       "align": "center",
       "removable": true,
       "positionConstraint": "始终位于主区块最后一行",
@@ -58,7 +58,7 @@
       "height": 56,
       "fontSize": 17,
       "fontWeight": 400,
-      "color": { "token": "text_primary", "value": "rgba(0, 0, 0, 0.90)" },
+      "color": { "token": "text-primary", "value": "rgba(0, 0, 0, 1.0)" },
       "align": "center",
       "removable": false
     }
@@ -129,7 +129,7 @@
     "width": 428,
     "topRadius": 16,
     "rowHeight": 56,
-    "divider": { "height": 0.5, "color": { "token": "separator", "value": "rgba(0, 0, 0, 0.08)" }, "position": "非第一行的顶部" }
+    "divider": { "height": 0.5, "color": { "token": "border-weak", "value": "rgba(0, 0, 0, 0.08)" }, "position": "非第一行的顶部" }
   },
 
   "interaction": {

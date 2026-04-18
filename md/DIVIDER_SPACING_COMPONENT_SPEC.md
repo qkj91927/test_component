@@ -13,15 +13,17 @@
 
 ## 子组件清单（共 7 种）
 
-| 分类 | ID | 名称 |
-|------|-----|------|
-| A. 分割线 | A1 | 分割线 Divider |
-| B. 间距 | B1 | 间距 4px |
-| B. 间距 | B2 | 间距 8px |
-| B. 间距 | B3 | 间距 12px |
-| B. 间距 | B4 | 间距 16px |
-| B. 间距 | B5 | 间距 24px |
-| B. 间距 | B6 | 间距 32px |
+| 分类 | ID | 名称 | 高度 |
+|------|-----|------|------|
+| A. 分割线 | A1 | 分割线 Divider | 0.5px |
+| B. 间距 | spacing-xs | 极小间距 | 4px |
+| B. 间距 | spacing-s | 小间距 | 8px |
+| B. 间距 | spacing-m | 中间距 | 12px |
+| B. 间距 | spacing-l | 大间距 | 16px |
+| B. 间距 | spacing-xl | 超大间距 | 24px |
+| B. 间距 | spacing-xxl | 最大间距 | 32px |
+
+---
 
 ## A. 分割线 Divider
 
@@ -30,27 +32,23 @@
 | 属性 | 值 |
 |------|-----|
 | 高度 | 0.5px |
-| 颜色 | `rgba(0, 0, 0, 0.08)` — `--separator` |
+| 颜色 | `var(--border-weak)` |
 | 背景 | 透明（跟随父容器背景） |
 
 ### 使用参数
 
-分割线只有一种基础样式，通栏/缩进/方向不影响基本视觉，仅为使用时的参数变化：
+| 模式 | 宽度 | 使用场景 |
+|------|------|----------|
+| 通栏 | 428px | 分隔独立内容板块 |
+| 居中缩进 | 按需 | 列表行之间、卡片内部行间 |
 
-| 模式 | 宽度 | 偏移 | 使用场景 |
-|------|------|------|----------|
-| 通栏 Full Width | 428px | 无偏移 | 分隔独立内容板块、通栏列表顶底边界 |
-| 居中且左右缩进 | 不固定 | 根据上下组件按需判断 | 列表行之间、卡片内部行间 |
+### 约束
 
-方向支持：水平 (horizontal)、垂直 (vertical)。
+1. 高度固定 0.5px，颜色固定 `var(--border-weak)`
+2. 列表最后一行底部不显示分割线
+3. 通栏/缩进/方向不构成独立变体
 
-### 设计约束
-
-1. 分割线高度固定为 0.5px（Retina 显示屏上的 1 物理像素）
-2. 颜色不可自定义，统一使用系统分隔色 `rgba(0, 0, 0, 0.08)`
-3. 列表最后一行的底部不显示分割线
-4. 同一列表内只使用一种分割线样式
-5. 通栏/缩进/方向不构成独立变体
+---
 
 ## B. 间距 Spacing
 
@@ -58,42 +56,57 @@
 
 | 属性 | 值 |
 |------|-----|
-| 宽度 | 428px（撑满屏幕宽度） |
-| 背景色 | 透明 — `transparent` |
-| 高度 | 4px 的整数倍，共 6 种：4 / 8 / 12 / 16 / 24 / 32px |
+| 宽度 | 428px |
+| 背景 | `transparent` |
+| 高度 | 4px 整数倍，共 6 档 |
 
-### 间距选择建议规则
+### 间距选择规则
 
-| ID | 高度 | 定义 | 典型使用场景 |
-|----|------|------|------------|
-| B1 | 4px | **同组件之间·紧凑** | 标题+副标题（H2+H6 / H2+H7）；辅助信息并列 |
-| B2 | 8px | **同组件之间·标准** / **同类组件相邻** | TextBlock 与 TextBlock；ImageBlock 与 ImageBlock；Message 与 Message；HS_NavBar → 任意内容组件 |
-| B3 | 12px | **同类卡片容器相邻** | Card 与 Card；Grouped List 组与组 |
-| B4 | 16px | **不同组件相邻（默认）** | DataFilter/Search/TextBlock 与 List/Card/Grid；Textfield 与 Grouped List；其他不同组件的默认间距 |
-| B5 | 24px | **不同功能模块之间** | 内容区 → 操作区（TextBlock → ActionCombo）；个人信息区 → 设置列表区 |
-| B6 | 32px | **页面底部留白** | 最后一个组件 → 页面底部/HomeBar；ActionCombo → HomeBar（有 AIOInput 时由其 72px 高度替代） |
+**核心原则**：关系越近间距越小，关系越远间距越大。不确定时使用 spacing-l（16px）作为安全默认值。
+
+#### 主表（原则层）
+
+| ID | 高度 | 语义 | 判断标准 |
+|----|------|------|----------|
+| **spacing-xs** | 4px | 紧贴 | 两个元素**共同构成一个信息单元**（标题+副标题、标签+说明） |
+| **spacing-s** | 8px | 紧凑 | 两个元素**类型相同且并列**（段落与段落、消息与消息） |
+| **spacing-m** | 12px | 容器间 | 两个**独立容器**并列（卡片与卡片、表单组与表单组） |
+| **spacing-l** | 16px | 组件间（默认） | 两个**不同类型组件**相邻，且无更具体规则时 |
+| **spacing-xl** | 24px | 模块间 | 两个组件属于**不同功能模块**（信息区→操作区） |
+| **spacing-xxl** | 32px | 页面底部留白 | 页面**最后一个组件到底部**的留白 |
+
+#### 场景速查表（举例层）
+
+| 上方 → 下方 | 间距 | 归类原则 |
+|-------------|------|---------|
+| StatusBar → NavBar | 0px | 锚定元素，系统级固定拼接 |
+| AIOInput（固定底部） | 0px | 锚定元素，系统级固定拼接 |
+| 通栏列表行之间 | 分割线 | 用分割线代替间距 |
+| H2 标题 + H6 摘要 | spacing-xs | 共同构成信息单元 |
+| 分组标题 ↔ Grouped List ↔ 底部说明 | spacing-xs | 共同构成信息单元 |
+| Textfield 输入行 ↔ 附加说明行 | spacing-xs | 共同构成信息单元 |
+| Card 大标题 ↔ 副标题（C6/C7） | spacing-xs | 共同构成信息单元 |
+| Dialog 标题 → 正文 | spacing-xs | 共同构成信息单元 |
+| ActionCombo A行 → B辅助操作行 | spacing-xs | 共同构成信息单元 |
+| TextBlock + TextBlock | spacing-s | 同类并列 |
+| Message + Message | spacing-s | 同类并列 |
+| Card + Card | spacing-m | 容器并列 |
+| Grouped List 组 + 组 | spacing-m | 容器并列 |
+| NavBar → Search / DataFilter | spacing-l | 组件间（默认） |
+| DataFilter → List / Card | spacing-l | 组件间（默认） |
+| Search → List | spacing-l | 组件间（默认） |
+| TextBlock → Grouped List | spacing-l | 组件间（默认） |
+| TextBlock → ActionCombo | spacing-xl | 内容→操作 |
+| 个人信息区 → 设置列表 | spacing-xl | 不同模块 |
+| 最后组件 → 页面底部 | spacing-xxl | 页面底部留白 |
+
+> **重要**：所有组件仅输出净内容高度，上下间距 100% 由外部间距组件（spacing-xs ~ spacing-xxl）提供。组件自身不含上下 padding。
 
 ### 设计约束
 
-1. 间距高度为 4px 的整数倍，遵循 4px 网格系统
-2. 间距区域始终为透明背景，不可添加任何可见元素
+1. 间距高度为 4px 整数倍，不可使用非标准值（5px、10px、20px 等）
+2. 间距区域始终透明，不可添加可见元素
 3. 间距区域横向撑满屏幕宽度
-4. 不可使用非标准间距值（如 5px、10px、20px 等）
-
-## Figma 属性映射
-
-### Divider
-
-| Figma 属性 | 类型 | 可选值 |
-|------------|------|--------|
-| Width Mode | Enum | `FullWidth` / `InsetLeft` / `InsetBoth` |
-| Orientation | Enum | `Horizontal` / `Vertical` |
-
-### Spacing
-
-| Figma 属性 | 类型 | 可选值 |
-|------------|------|--------|
-| Size | Enum | `4` / `8` / `12` / `16` / `24` / `32` |
 
 ---
 
@@ -104,14 +117,14 @@
 ```css
 .divider-container {
     width: 428px;
-    background: var(--bg_bottom_light);
+    background: var(--bg-bottom);
     position: relative;
     display: flex;
     align-items: center;
 }
 .divider-line {
     height: 0.5px;
-    background: var(--border_light);
+    background: var(--border-weak);
 }
 .divider-line.inset-both {
     width: 396px;
@@ -139,71 +152,24 @@
     transform: translate(-50%, -50%);
     font-size: 10px;
     font-family: 'SF Mono', 'Menlo', monospace;
-    color: rgba(0, 153, 255, 0.6);
+    color: var(--brand-standard);
+    opacity: 0.6;
     pointer-events: none;
     white-space: nowrap;
 }
-.spacing-bg-stripe {
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%;
-    height: 100%;
-    background: repeating-linear-gradient(
-        135deg,
-        rgba(0, 153, 255, 0.15),
-        rgba(0, 153, 255, 0.15) 2px,
-        rgba(0, 153, 255, 0.04) 2px,
-        rgba(0, 153, 255, 0.04) 6px
-    );
-}
 ```
 
----
+## Figma 属性映射
 
-## 组件间间距选择矩阵
+### Divider
 
-以下矩阵定义了不同组件相邻时应使用哪种间距变体，AI 在拼装页面时必须遵循：
+| Figma 属性 | 类型 | 可选值 |
+|------------|------|--------|
+| Width Mode | Enum | `FullWidth` / `InsetBoth` |
+| Orientation | Enum | `Horizontal` / `Vertical` |
 
-### 特殊间距（0px / 固定值）
+### Spacing
 
-| 上方组件 | 下方组件 | 间距 | 说明 |
-|----------|----------|------|------|
-| StatusBar | NavBar | **0px** | 状态栏与导航栏紧贴，无间距 |
-| NavBar | 任意内容组件 | **0px** | 导航栏与内容区紧贴 |
-| NavBar | DataFilter | **0px** | 筛选器紧贴导航栏（iOS 标准模式） |
-| NavBar | Search | **0px** | 搜索框紧贴导航栏 |
-| HS_NavBar（任意变体） | 任意内容组件 | **B2（8px）** | 半屏浮层内统一紧凑间距；A3 叠在图片上时为 0px |
-| HSO-B 把手条 | 半屏浮层内容 | **16px** | 把手型浮层把手条与内容区顶部间隔 16px |
-| AIOInput | — | **0px** | 固定在页面最底部，不使用间距组件 |
-| ActionCombo | HomeBar | **B6（32px）** | 操作行到页面底部安全区，复用"最后组件→页面底部"规则 |
-
-### 同类组件相邻
-
-| 组合场景 | 推荐间距 | 说明 |
-|----------|---------|------|
-| Card 与 Card | **B3（12px）** | 卡片间间隔（灰色背景露出） |
-| Grouped List 组 与 组 | **B3（12px）** | 卡片式列表组间间隔 |
-| List 行 与 List 行 | **0px + 分割线** | 通栏列表行间用分割线而非间距 |
-| Message 与 Message | **B4（16px）** | 消息气泡间间隔（每条消息自身 `padding: 8px 0`，相邻合计 16px） |
-| TextBlock 与 TextBlock | **B2（8px）** | 同级文本块间 |
-| ImageBlock 与 ImageBlock | **B2（8px）** | 同级图片块间 |
-
-### 不同组件相邻
-
-| 组合场景 | 推荐间距 | 说明 |
-|----------|---------|------|
-| DataFilter 与 List/Card/Grid | **B4（16px）** | 不同组件之间 |
-| TextBlock 与 List/Card | **B4（16px）** | 不同组件之间 |
-| Search 与 List/Card/Grid | **B4（16px）** | 不同组件之间 |
-| Textfield 与 Grouped List | **B4（16px）** | 不同功能模块 |
-| TextBlock 与 ActionCombo | **B5（24px）** | 文本内容区与底部操作区属于不同功能模块 |
-| 其他不同组件相邻（默认） | **B4（16px）** | 无特殊规则时的默认间距 |
-
-### 功能模块间
-
-| 组合场景 | 推荐间距 | 说明 |
-|----------|---------|------|
-| 不同功能模块之间 | **B5（24px）** | 如个人信息区 → 设置列表区 |
-| 页面最后一个组件 → 页面底部 | **B6（32px）** | 底部留白（有 AIOInput 时由其 72px 高度替代） |
-
-> **使用原则**：组件内部紧凑（4-8px）→ 同类卡片容器（12px）→ 不同组件（16px）→ 跨功能模块（24px）→ 页面底部（32px），逐层递进。
+| Figma 属性 | 类型 | 可选值 |
+|------------|------|--------|
+| Size | Enum | `xs(4)` / `s(8)` / `m(12)` / `l(16)` / `xl(24)` / `xxl(32)` |

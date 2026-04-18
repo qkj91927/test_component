@@ -36,7 +36,7 @@
 | C1 | 标题 | 17px 粗体居中标题 |
 | C2 | 下拉标题 | 标题文字 + 向下箭头图标 |
 | C3 | 标题+副标题 | 主标题 + 11px 辅助描述 |
-| C4 | 标题+可点击副标题 | 主标题 + 黑色 11px 副标题 (具备点击态) |
+| C4 | 标题+可点击副标题 | 主标题 + `--text-secondary` 11px 副标题 (具备点击态) |
 | C5 | 分段选择 | 分段控制器 (Segmented Control)，胶囊背景 + 选中滑块 |
 
 ### 2.3 右侧区域 (R)
@@ -90,10 +90,10 @@
 - **区域占位**:
   - 左右区域最小宽度: 60px (确保点击热区)
 - **字体规范**:
-  - 标题: `font-size: 17px; font-weight: 600; color: rgba(0, 0, 0, 0.9)`
-  - 副标题 (C3): `font-size: 11px; color: rgba(0, 0, 0, 0.9)`
-  - 描述组 (C4/L6): `font-size: 10px; color: rgba(60, 60, 67, 0.56)`
-  - 动作文字: `font-size: 17px; color: rgba(0, 0, 0, 0.9)`
+  - 标题: `font-size: 17px; font-weight: 600; color: var(--text-primary)`
+  - 副标题 (C3): `font-size: 11px; color: var(--text-secondary)`
+  - 描述组 (C4/L6): `font-size: 10px; color: var(--text-secondary)`; 图标: `var(--icon-secondary)`
+  - 动作文字: `font-size: 17px; color: var(--text-primary)`
 - **图标尺寸**: 24x24px (大图标) / 10x10px (描述组图标)
 - **品牌色**: `#0099FF`
 
@@ -101,239 +101,53 @@
 
 ## 6. CSS 实现代码块
 
-### 6.1 导航栏行
+> 全局字体：`'PingFang SC', -apple-system, sans-serif`。以下省略重复的 `font-family` 声明。
+
+### 6.1 容器与三区域布局
 
 ```css
 .navbar-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 16px;
-    width: 428px;
-    height: 44px;
-    background: transparent;
-    position: sticky;
-    top: 0;
-    z-index: 10;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 16px; width: 428px; height: 44px;
+    background: transparent; position: sticky; top: 0; z-index: 10;
 }
+.navbar-row .left-area  { min-width: 60px; height: 44px; display: flex; align-items: center; justify-content: flex-start; z-index: 2; }
+.navbar-row .middle-area { position: absolute; left: 50%; transform: translateX(-50%); width: 280px; height: 44px;
+    display: flex; align-items: center; justify-content: center; text-align: center; overflow: hidden; z-index: 1; pointer-events: none; }
+.navbar-row .middle-area > * { pointer-events: auto; }
+.navbar-row .right-area { min-width: 60px; height: 44px; display: flex; align-items: center; justify-content: flex-end; gap: 12px; z-index: 2; }
 ```
 
-### 6.2 三区域布局
+### 6.2 元素样式速查表
 
-```css
-.navbar-row .left-area {
-    min-width: 60px;
-    height: 44px;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    z-index: 2;
-}
-.navbar-row .middle-area {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 280px;
-    height: 44px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    overflow: hidden;
-    z-index: 1;
-    pointer-events: none;
-}
-.navbar-row .middle-area > * {
-    pointer-events: auto;
-}
-.navbar-row .right-area {
-    min-width: 60px;
-    height: 44px;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 12px;
-    z-index: 2;
-}
-```
+| 选择器 | 关键属性 |
+|--------|---------|
+| `.nav-title` | 17px / 600 / `--text-primary` / nowrap / line-height: 1.2 |
+| `.nav-subtitle` | 11px / 400 / `--text-secondary` / line-height: 1.2 / margin-top: 1px |
+| `.nav-text` | 17px / 400 / `--text-primary` / cursor: pointer |
+| `.nav-btn` | 72×32px / radius: 16px / bg: `--brand-standard` / 14px 500 / `--text-white` |
+| `.nav-icon` | 24×24px |
+| `.nav-search-bar` | flex:1 / 32px / radius: 8px / bg: `--fill-tertiary` / 14px / `--text-secondary` / margin: 0 8px |
+| `.nav-segmented-control` | 196×36px / radius: 20px / bg: `--fill-tertiary` / padding: 4px |
+| `.nav-segment-item` | flex:1 / 28px / 14px 500 / active: bg `--bg-bottom` / radius: 16px / shadow |
+| `.nav-badge` | 12px 500 / bg: `--border-default` / padding: 2px 6px / radius: 10px |
+| `.nav-badge-neutral` | 14px **500** SF Pro Display / 24×29px / radius: 12px / bg: `--fill-secondary` / **position: absolute; left: 24px; top: 10px** |
+| `.nav-checkbox-selected` | 24×24px（直接使用 `Checkbox_filled.svg`） |
+| `.nav-segment-item` | cursor: pointer / transition: all 0.2s（补充交互属性） |
+| `.clickable:hover` | opacity: 0.7 |
 
-### 6.3 文字与操作元素
+### 6.3 L6 头像组件
 
-```css
-.navbar-row .nav-title {
-    font-size: 17px;
-    font-weight: 600;
-    color: var(--text_primary);
-    white-space: nowrap;
-    line-height: 1.2;
-}
-.navbar-row .nav-subtitle {
-    font-size: 11px;
-    color: var(--text_secondary);
-    line-height: 1.2;
-    margin-top: 1px;
-}
-.navbar-row .nav-text {
-    font-size: 17px;
-    color: var(--text_primary);
-    cursor: pointer;
-    line-height: 24px;
-}
-.navbar-row .nav-btn {
-    background: var(--brand_standard);
-    color: var(--text_allwhite_primary);
-    width: 72px;
-    height: 32px;
-    border-radius: 16px;
-    font-size: 14px;
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-}
-.navbar-row .nav-icon {
-    width: 24px;
-    height: 24px;
-}
-```
-
-### 6.4 头像组件
-
-```css
-.nav-profile {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-.nav-profile-avatar {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    border: 1px solid rgba(0, 0, 0, 0.05);
-}
-.nav-profile-complex {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    height: 44px;
-}
-.nav-profile-avatar-wrapper {
-    width: 36px;
-    height: 36px;
-    position: relative;
-}
-.nav-profile-img {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-}
-.nav-profile-info {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-.nav-profile-name {
-    font-size: 17px;
-    font-weight: 500;
-    color: var(--text_primary);
-    line-height: 1.2;
-}
-.nav-profile-desc-group {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    font-size: 10px;
-    color: var(--text_secondary);
-}
-.navbar-row .nav-subtitle.clickable,
-.nav-profile-desc-group.clickable {
-    cursor: pointer;
-    transition: opacity 0.2s;
-}
-```
-
-### 6.5 搜索栏与分段选择
-
-```css
-.nav-search-bar {
-    flex: 1;
-    height: 32px;
-    background: rgba(0, 0, 0, 0.05);
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    padding: 0 10px;
-    color: var(--text_secondary);
-    font-size: 14px;
-    margin: 0 8px;
-}
-.nav-segmented-control {
-    display: flex;
-    width: 196px;
-    height: 36px;
-    background: var(--fill_standard_secondary);
-    border-radius: 20px;
-    padding: 4px;
-    position: relative;
-    align-items: center;
-}
-.nav-segment-item {
-    flex: 1;
-    height: 28px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--text_primary);
-    z-index: 1;
-}
-.nav-segment-item.active {
-    background: var(--bg_bottom_light);
-    border-radius: 16px;
-    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12), 0 3px 1px var(--fill_standard_primary);
-}
-```
-
-### 6.6 徽章与勾选
-
-```css
-.nav-badge {
-    background: var(--border_standard);
-    color: var(--text_primary);
-    font-size: 12px;
-    padding: 2px 6px;
-    border-radius: 10px;
-    margin-left: 4px;
-    font-weight: 500;
-}
-.nav-badge-neutral {
-    background: var(--border_standard);
-    color: var(--text_primary);
-    font-size: 14px;
-    font-family: "SF Pro Display", -apple-system, sans-serif;
-    padding: 0 6px;
-    height: 24px;
-    min-width: 29px;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.nav-checkbox-selected {
-    width: 24px;
-    height: 24px;
-    background: var(--brand_standard);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--text_allwhite_primary);
-    border: 1.5px solid var(--bg_bottom_light);
-    box-sizing: border-box;
-}
-```
+| 选择器 | 关键属性 |
+|--------|---------|
+| `.nav-profile` | flex / gap: 8px |
+| `.nav-profile-avatar` | 32×32 / radius: 50% / border: 1px rgba(0,0,0,0.05) |
+| `.nav-profile-img` | 36×36 / radius: 50% |
+| `.nav-profile-name` | 17px / 500 / `--text-primary` |
+| `.nav-profile-desc-group` | flex / gap: 4px / 10px / `--text-secondary` |
+| `.nav-profile-desc-group img` | opacity: 0.6（匹配 `--icon-secondary`） |
+| `.nav-profile-dot` | margin: 0 2px（分隔点） |
+| `.clickable` | cursor: pointer / transition: opacity 0.2s |
 
 ---
 
@@ -354,7 +168,32 @@
 
 ---
 
-## 8. 资源文件映射
+## 8. 底部分割线规则
+
+导航栏底部分割线（0.5px，`var(--border-default)`）遵循 iOS 15+ `scrollEdgeAppearance` 设计范式：
+
+### 核心原则
+
+分割线是**功能性视觉提示**——告诉用户"下方有被导航栏遮挡的内容正在滚动"。**静态设计稿中导航栏默认不画分割线**。
+
+### 显示规则
+
+| 状态 | 分割线 | 说明 |
+|------|--------|------|
+| 页面内容**未滚动**（处于顶部） | **无** | 导航栏与下方内容视觉融合，无遮挡感 |
+| 页面内容**向上滚动**至导航栏下方 | **有** | 提示用户有内容被导航栏遮挡 |
+
+### 与下方组件的关系
+
+导航栏分割线与下方组件类型**无关**。无论下方是 Search、DataFilter、TextBlock、List 还是其他组件，分割线的显隐**仅取决于滚动状态**：
+- 内容在顶部 → 透明无线（`scrollEdgeAppearance`）
+- 内容已滚动 → 模糊背景+分割线（`standardAppearance`）
+
+> **注意**：在组件构建器（component-builder.html）中，画布为静态展示，导航栏**不显示底部分割线**。
+
+---
+
+## 9. 资源文件映射
 
 | 用途 | 文件路径 | 尺寸 |
 |------|---------|------|

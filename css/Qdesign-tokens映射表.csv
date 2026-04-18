@@ -1,0 +1,62 @@
+Colors,子分类,Qdesign-Token名称,QUI/QBasicToken名,场景用途,,QUI/QBasic_light_颜色/透明度,,Qdesign_light_颜色/透明度,
+,,,,,,数值,颜色+透明度%,数值,颜色+透明度%
+背景色,,,,,,,,,
+BrandColors,品牌主色,brand-standard,brand_standard,主品牌色：用于主题主视觉、核心强调与关键操作表达。,,0099FF,0099FF 100%,0099FF,0099FF 100%
+BrandColors,品牌主色,brand-light,brand_light,浅品牌色：用于品牌氛围增强、轻强调背景与高亮提示,,#0099ff33,0099FF 20%,#0099ff33,0099FF 20%
+中性色,,,,,,,,,
+GrayColors,中性基色,white,,纯白基色（最亮）,,#ffffff,#FFFFFF,#ffffff,#FFFFFF
+GrayColors,中性基色,black,,纯黑基色（最暗）,,#000000,#000000 100%,#000000,#000000 100%
+彩色语义,,,,,,,,,
+AccentColors,彩色语义,accent-blue,brand_standard,品牌强调/正向主强调，信息反馈色；用于中性提示、说明信息与状态通知,,0099FF,0099FF 100%,0099FF,0099FF 100%
+AccentColors,彩色语义,accent-green,feedback_success,成功态/通过态强调色，成功反馈色；用于成功状态的文字、图标与正向结果提示,,#15D173,#15D173 100%,#15D173,#15D173 100%
+AccentColors,彩色语义,accent-orange,feedback_warning,警示/提醒/活动场景强调色，警示反馈色；用于风险提醒、注意事项与可恢复异常提示,,#FFB300,#FFB300 100%,#FFB300,#FFB300 100%
+AccentColors,彩色语义,accent-red,feedback_error,错误/危险操作强调色，错误反馈色；用于错误状态、失败结果与危险操作提示,,#E0462C,#E0462C 100%,#E0462C,#E0462C 100%
+文本色,,,,,,,,,
+TextColors,基础文本,text-primary,text_primary,一级文本色：页面大标题、主标题、核心正文，，承载最高信息优先级。,,#000000,#000000 90.2%,#000000,000000  100%
+TextColors,基础文本,text-secondary,text_primary_light,二级文本色：跟一级文本做区分，用于副标题与次要说明，区分于一级文本。,,#3c3c43c2,#3C3C43 76%,#3c3c4399,#3C3C43 60%
+TextColors,基础文本,text-tertiary,text_secondary,三级文本色：用于辅助描述与补充信息，降低视觉权重。,,#3c3c438f,#3C3C43 56%,#3c3c434d,#3C3C43 30%
+TextColors,基础文本,text-quaternary,text_tertiary,"四级文本色：作为最低优先级文本。提示语与占位文案,不可交互内容，表达禁用状态.",,#3c3c4342,#3C3C43 25.88%,#3c3c432e,#3C3C43 18%
+TextColors,状态文本,text-white,text_allwhite_primary,白色文本色：用于任意模式下需固定白色显示的文本。,,#FFFFFF,#FFFFFF 100%,#ffffff,#FFFFFF
+TextColors,状态文本,text-error,feedback_error,错误文本色；用于错误、警示等异常状态信息。,,#E0462C,#E0462C 100%,#E0462C,#E0462C 100%
+TextColors,状态文本,text-link,text_link,链接文本色；用于可跳转文本与可点击文字入口。,,#214CA5,#214CA5 100%,#214CA5,#214CA5 100%
+TextColors,状态文本,text-link_dark,text_link_qzone,链接文本色；用于可跳转文本与可点击文字入口。,,#06205acc,#06205A  80%,#06205acc,#06205A  80%
+TextColors,—,—,text_allwhite_secondary,任何主题都保持白色静态二级文本,,#ffffffcc,#FFFFFF 80%,—,—
+TextColors,—,—,text_allwhite_tertiary,任何主题都保持白色静态三级文本,,#ffffff8c,#FFFFFF 54.9%,—,—
+图标色,,,,,,,,,
+IconColors,主要图标,icon-primary,icon_primary,主图标色；用于一级功能图标，通常与一级文本搭配,,#1A1A1A,#1A1A1A 100%,#000000,#000000 100%
+IconColors,次级图标,icon-secondary,icon_secondary,次级图标色；用于常规辅助图标，通常与二级文本搭配,,#929296,#929296 100%,#3c3c4399,#3C3C43 60%
+IconColors,辅助图标,icon-tertiary,icon_tertiary,弱辅助图标色；用于低优先级提示图标，通常与三级/四级文本搭配,,#CCCCCE,#CCCCCE 100%,#3c3c434d,#3C3C43 30%
+IconColors,状态图标,icon-white,icon_allwhite_primary,任意模式保持白色图标：例如按钮上的图标,,#FFFFFF,#FFFFFF 100%,#ffffff,#FFFFFF
+IconColors,状态图标,icon-blue,icon_aio_toolbar_active,任意模式保持白色图标：例如按钮上的图标,,0099FF,0099FF 100%,0099FF,0099FF 100%
+背景色,,,,,,,,,
+BackgroundColors,页面背景,bg-bottom,bg_bottom_light,页面底背景；用于页面默认底色与全局画布承载。,,FFFFFF,FFFFFF 100%,#ffffff,#FFFFFF 100%
+BackgroundColors,页面背景,bg-secondary,bg_middle_standard,次级承载背景；用于卡片、列表、内容区等常规承载面。,,F0F0F2,F0F0F2 100%,#f2f2f7,#F2F2F7 100%
+BackgroundColors,页面背景,bg-top,bg_top_light,顶层浮层背景；用于弹窗、Drawer、Sheet 等浮层容器（含模糊降级场景）。,,FFFFFF,FFFFFF 100%,#ffffff,#FFFFFF 100%
+BackgroundColors,页面背景,bg_bottom_brand,bg_bottom_brand,背景色：带品牌色的背景色,,#EFF4FF,#EFF4FF 100%,#EFF4FF,#EFF4FF 100%
+BackgroundColors,特定背景,bg_select,bg-select-aio1/2/3/4,指定背景色,,EEEDF1,EEEDF1100%,#F0F0F2,#F0F0F2
+填充色,,,,,,,,,
+FillColors,容器填充-灰色透明,fill-gray-primary,bg_toast_nonopaque,深灰透明填充：中性灰色，tosat、tips,,,000000 60%,,000000 64%
+FillColors,容器填充-灰色透明,fill-gray-secondary,overlay_dark,中灰透明填充：NoticeBar,,,000000 50%,,000000 48%
+FillColors,容器填充-灰色透明,fill-gray-tertiary,—,—,,—,—,,000000 24%
+FillColors,容器填充,fill-primary,fill_standard_quaternary,主容器填充：通栏列表与基础承载容器,,,000000 15%,#78787833,#787878 20%
+FillColors,容器填充,fill-secondary,fill_standard_secondary,次容器填充：卡片容器与非通栏内容区,,,000000 10%,#78788029,#787880 16%
+FillColors,容器填充,fill-tertiary,fill_standard_primary,弱填充色：输入框、搜索框,,,0D1031 4%,#7676801f,#767680 12%
+FillColors,容器填充,fill-quaternary,fill_standard_extra,极弱填充色：次级卡片/弱分组背景,,,000000 2%,#76768014,#767680 8%
+FillColors,容器填充-白色,fill-container-white,—,白色的容器填充色,,#ffffff,#FFFFFF,#ffffff,#FFFFFF
+FillColors,容器填充-警示,fill-destructive-strong,destructive,强错误危险提示类的容器填充色：警示按钮填充色,,,F74C30 30%,,F74C30 20%
+FillColors,容器填充-警示,fill-destructive-weak,destructive,弱错误危险提示类的容器填充色：警示tips填充色,,,FFEFF1 100%,,FFEFF1 100%
+feedback 交互叠加,,,,,,,,,
+FeedbackColors,交互叠加,feedback-press,overlay_standard_secondary,按下态叠加：用于常规按下、选中、重点态高强调反馈,,,#FFFFFF 14.9%,#78787833,#787878  20%
+FeedbackColors,交互叠加,feedback-hover,overlay_standard_primary,悬停态叠加：常规交互反馈，一般点击、悬停态的交互反馈,,,#FFFFFF 10.2%,#78788029,#787878  16%
+FeedbackColors,交互叠加,feedback-accent,—,弱交互叠加：轻量反馈与次级状态提示,,,—,#7676801f,#787878  12%
+遮罩,,,,,,,,,
+OverlayColors,遮罩蒙层,overlay-modal,overlay_dark,弹窗遮罩层：弹窗、对话框等需聚焦前景内容的遮罩场景,,,#000000 50.2%,#000000,000000 48%
+OverlayColors,遮罩蒙层,overlay-toast,overlay_light,轻提示遮罩层：Toast、轻提示等低干扰遮罩场景,,,#FFFFFF 3.14%,,000000 4%
+描边,,,,,,,,,
+BorderColors,描边/分割线,border-default,border_standard,标准描边/分割线：用于常规分割线与基础边界（默认优先使用）,,,#000000 10.20%,#c6c6c8,C6C6C8 100%
+BorderColors,描边/分割线,border-weak,border_light,弱描边/分割线：用于列表分隔、次级描边、卡片内部轻分隔，减少视觉干扰,,,#000000 5.1%,#0000001f,000000 12%
+BorderColors,描边/分割线,border-invert,border_allwhite_weak,反色描边/分割线,,,#FFFFFF 20%,—,—
+BorderColors,描边/分割线,border-white,border_superlight,通用纯白色分割线,,#FFFFFF,#FFFFFF 100%,—,—
+阴影,,,,,,,,,
+Shadow,阴影,shadow-standard,—,标准阴影：用于卡片、弹层等常规浮层的层级表达,,—,—,,#000000 20%
+Shadow,阴影,shadow-weak,—,弱阴影：用于菜单、下拉等轻量浮层的轻层级表达,,—,—,,#000000 10%

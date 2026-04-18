@@ -62,8 +62,8 @@
 ### 3.1 一级按钮 (Primary Button)
 | 属性 | 值 |
 | :--- | :--- |
-| 背景色 | `var(--brand_standard)` |
-| 文字色 | `var(--text_allwhite_primary)` |
+| 背景色 | `var(--brand-standard)` |
+| 文字色 | `var(--text-white)` |
 | 字号 | 17px (大) / 14px (小) |
 | 字重 | 600 (大) / 500 (小) |
 | 高度 | 52px (大) / 36px (小) |
@@ -74,8 +74,8 @@
 | 属性 | 值 |
 | :--- | :--- |
 | 背景色 | `transparent` |
-| 描边 | `1px solid var(--border_standard, rgba(60, 60, 67, 0.25))` |
-| 文字色 | `var(--text_primary, rgba(0, 0, 0, 0.90))` |
+| 描边 | `1px solid var(--border-default, rgba(60, 60, 67, 0.25))` |
+| 文字色 | `var(--text-primary, var(--text-primary))` |
 | 字号 | 17px |
 | 字重 | 600 |
 | 高度 | 52px |
@@ -85,7 +85,7 @@
 ### 3.3 图标按钮 (Icon Button)
 | 属性 | 值 |
 | :--- | :--- |
-| 背景色 | `var(--fill_standard_secondary)` |
+| 背景色 | `var(--fill-secondary)` |
 | 尺寸 | 52×52px |
 | 图标尺寸 | 24×24px |
 | 圆角 | 999px |
@@ -99,7 +99,7 @@
 | :--- | :--- |
 | 字号 | 14px |
 | 字重 | 500 |
-| 颜色 | `var(--text_link)` |
+| 颜色 | `var(--text-link)` |
 | 分隔线 | 1×14px, `rgba(0, 0, 0, 0.08)`, 水平间距 8px |
 
 ### 辅助文案
@@ -107,7 +107,7 @@
 | :--- | :--- |
 | 字号 | 14px |
 | 字重 | 400 |
-| 颜色 | `var(--text_primary_light)` |
+| 颜色 | `var(--text-secondary)` |
 
 ### 勾选框 (Checkbox)
 | 属性 | 值 |
@@ -145,16 +145,16 @@
 
 | Token 用途 | CSS 变量 | Light 值 |
 | :--- | :--- | :--- |
-| 品牌主色（一级按钮背景） | `--brand_standard` | `#0099FF` |
-| 白色文字（一级按钮文字） | `--text_allwhite_primary` | `#FFFFFF` |
-| 一级文本（二级按钮/图标文字） | `--text_primary` | `rgba(0, 0, 0, 0.90)` |
-| 二级文本（辅助文案） | `--text_primary_light` | `rgba(60, 60, 67, 0.76)` |
-| 链接色（Action 文字链） | `--text_link` | `#214CA5` |
-| 次容器填充（图标按钮背景） | `--fill_standard_secondary` | `rgba(0, 0, 0, 0.10)` |
-| 标准描边（二级按钮描边） | `--border_standard` | `rgba(60, 60, 67, 0.25)` |
-| 弱描边（B 类分隔线） | `--border_light` | `rgba(0, 0, 0, 0.05)` |
+| 品牌主色（一级按钮背景） | `--brand-standard` | `#0099FF` |
+| 白色文字（一级按钮文字） | `--text-white` | `#FFFFFF` |
+| 一级文本（二级按钮/图标文字） | `--text-primary` | `var(--text-primary)` |
+| 二级文本（辅助文案） | `--text-secondary` | `var(--text-secondary)` |
+| 链接色（Action 文字链） | `--text-link` | `#214CA5` |
+| 次容器填充（图标按钮背景） | `--fill-secondary` | `var(--border-default)` |
+| 标准描边（二级按钮描边） | `--border-default` | `rgba(60, 60, 67, 0.25)` |
+| 弱描边（B 类分隔线） | `--border-weak` | `rgba(0, 0, 0, 0.05)` |
 
-> 颜色权威来源：`css/QQ_color_tokens.css`
+> 颜色权威来源：`css/Qdesign Color Tokens.css`
 
 ---
 
@@ -227,14 +227,14 @@
 ```css
 .action-btn-primary {
     height: 52px;
-    background: var(--brand_standard);
+    background: var(--brand-standard);
     border-radius: 14px;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 17px;
     font-weight: 600;
-    color: var(--text_allwhite_primary);
+    color: var(--text-white);
     flex: 1;
     min-width: 0;
 }
@@ -252,21 +252,21 @@
 .action-btn-secondary {
     height: 52px;
     background: transparent;
-    border: 1px solid var(--border_standard);
+    border: 1px solid var(--border-default);
     border-radius: 14px;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 17px;
     font-weight: 600;
-    color: var(--text_primary);
+    color: var(--text-primary);
     flex: 1;
     min-width: 0;
 }
 .action-icon-btn {
     width: 52px;
     height: 52px;
-    background: var(--fill_standard_secondary);
+    background: var(--fill-secondary);
     border-radius: 999px;
     display: flex;
     align-items: center;
@@ -279,109 +279,32 @@
 }
 ```
 
-### 9.4 宫格操作项 (A6) - 绝对定位
+### 9.4 A5 四宫格 / A6 六图标 / A7 四图标文字 — 定位布局
 
-```css
-/* A6: 四宫格操作 (72px) */
-.action-button-row.grid-row {
-    position: relative;
-    width: 428px;
-    height: 72px;
-    background: transparent;
-    padding: 0;
-}
-.action-grid-item {
-    position: absolute;
-    width: 99px;
-    height: 72px;
-    top: 0px;
-}
-.action-grid-item:nth-child(1) { left: 16px; }
-.action-grid-item:nth-child(2) { left: 115px; }
-.action-grid-item:nth-child(3) { left: 214px; }
-.action-grid-item:nth-child(4) { left: 313px; }
-.action-grid-item-inner {
-    position: absolute;
-    width: 34px;
-    height: 52px;
-    left: 32.5px;
-    top: 10px;
-}
-.action-grid-item-inner img {
-    position: absolute;
-    left: 5px;
-    top: 0px;
-    width: 24px;
-    height: 24px;
-}
-.action-grid-item-inner span {
-    position: absolute;
-    left: 0px;
-    top: 28px;
-    width: 34px;
-    text-align: center;
-    font-size: 17px;
-    font-weight: 400;
-    color: var(--text_primary);
-}
-```
+**A5 四宫格**（容器 428×72px，absolute 定位）：
 
-### 9.5 六图标横排 (A7) 和 四图标文字行 (A8)
+| 选择器 | 属性 |
+|--------|------|
+| `.action-grid-item` | 99×72px，absolute，top: 0 |
+| 4项 left 值 | 16px / 115px / 214px / 313px |
+| `.action-grid-item-inner` | 34×52px，left: 32.5px，top: 10px |
+| inner img | 24×24px，left: 5px，top: 0 |
+| inner span | 17px 400 `--text-primary`，top: 28px，width: 34px，center |
 
-```css
-/* A7: 六图标横排 - 使用绝对定位精确还原 Figma */
-.action-button-row.icon-6-row {
-    position: relative;
-    width: 428px;
-    height: 48px;
-    background: transparent;
-    padding: 0;
-}
-.action-icon-btn-24 {
-    position: absolute;
-    top: 12px;
-    width: 24px;
-    height: 24px;
-}
-.action-icon-btn-24 img {
-    width: 24px;
-    height: 24px;
-}
-/* 6个图标精确位置 */
-.action-icon-btn-24:nth-child(1) { left: 32px; }
-.action-icon-btn-24:nth-child(2) { left: 100px; }
-.action-icon-btn-24:nth-child(3) { left: 168px; }
-.action-icon-btn-24:nth-child(4) { left: 236px; }
-.action-icon-btn-24:nth-child(5) { left: 304px; }
-.action-icon-btn-24:nth-child(6) { left: 372px; }
+**A6 六图标横排**（容器 428×48px，absolute 定位）：
 
-/* A8: 四图标文字行 */
-.action-button-row.icon-text-4-row {
-    padding: 12px 16px;
-    height: 48px;
-    gap: 0;
-    justify-content: flex-start;
-}
-.action-icon-text-item {
-    width: 99px;
-    height: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 4px;
-}
-.action-icon-text-item img {
-    width: 24px;
-    height: 24px;
-    flex-shrink: 0;
-}
-.action-icon-text-item span {
-    font-size: 17px;
-    font-weight: 400;
-    color: var(--text_primary);
-    text-align: center;
-}
-```
+| 选择器 | 属性 |
+|--------|------|
+| `.action-icon-btn-24` | 24×24px，absolute，top: 12px |
+| 6项 left 值 | 32 / 100 / 168 / 236 / 304 / 372 px |
+
+**A7 四图标文字行**（容器 padding: 12px 16px，height: 48px）：
+
+| 选择器 | 属性 |
+|--------|------|
+| `.action-icon-text-item` | 99×24px，flex，center，gap: 4px |
+| img | 24×24px，flex-shrink: 0 |
+| span | 17px 400 `--text-primary`，center |
 
 ### 9.6 混合行与勾选项 (A9)
 
@@ -394,7 +317,7 @@
 .action-mixed-left .action-label {
     font-size: 17px;
     font-weight: 400;
-    color: var(--text_primary);
+    color: var(--text-primary);
 }
 .action-checkbox-item {
     display: flex;
@@ -408,7 +331,7 @@
 .action-checkbox-item span {
     font-size: 17px;
     font-weight: 400;
-    color: var(--text_primary);
+    color: var(--text-primary);
 }
 ```
 
@@ -428,13 +351,13 @@
 .action-row .action-link {
     font-size: 14px;
     font-weight: 500;
-    color: var(--text_link);
+    color: var(--text-link);
     white-space: nowrap;
 }
 .action-row .action-separator {
     width: 1px;
     height: 14px;
-    background: var(--border_light);
+    background: var(--border-weak);
     margin: 0 8px;
     flex-shrink: 0;
 }
@@ -446,11 +369,11 @@
 }
 .action-row .action-text {
     font-size: 14px;
-    color: var(--text_primary_light);
+    color: var(--text-secondary);
 }
 .action-row .action-textlink {
     font-size: 14px;
-    color: var(--text_link);
+    color: var(--text-link);
 }
 ```
 

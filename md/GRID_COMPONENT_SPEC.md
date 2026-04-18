@@ -13,7 +13,7 @@
 容器宽度固定为 `428px`，白色背景。每个宫格项由「**占位内容 + 标题文字（可选）**」上下排列构成。
 
 占位内容根据圆角形式分为两类：
-- **圆角矩形占位**（A1-A6、A8、B1-B5、B7）：使用 `rgba(13, 16, 49, 0.04)` 填充色，`border-radius: 12px`
+- **圆角矩形占位**（A1-A6、A8、B1-B5、B7）：使用 `var(--fill-tertiary)` 填充色，`border-radius: 12px`
 - **正圆占位**（A7、A9、B6、B8）：使用相同填充色，`border-radius: 50%`
 
 **标题文字为可选**，不配置时仅展示占位图/图标，适用于纯视觉快捷操作入口等场景。
@@ -62,7 +62,7 @@
 ## 视觉规格
 
 ### 图片占位（圆角矩形）
-- 空态填充色: `rgba(13, 16, 49, 0.04)`（CSS变量 `--fill-standard`）
+- 空态填充色: `var(--fill-tertiary)`（CSS变量 `--fill-tertiary`）
 - 圆角统一 `12px`（A1-A6、B1-B5、B7）
 - 实际使用时替换为真实图片内容
 
@@ -73,7 +73,7 @@
 ### 标题文字（可选）
 - 字体: PingFang SC
 - 字重: 400
-- 颜色: `rgba(0, 0, 0, 0.90)`
+- 颜色: `var(--text-primary)`
 - 对齐: 居中
 - 行高: 与字号对应（14px→20px, 12px→17px, 10px→14px）
 - **不配置时**：仅渲染占位图/图标，宫格项高度相应减小（去掉文字行高度）
@@ -101,7 +101,7 @@
 ```css
 .grid-container {
     width: 428px;
-    background: var(--bg_bottom_light);
+    background: var(--bg-bottom);
     overflow: hidden;
     position: relative;
 }
@@ -140,7 +140,7 @@
     align-items: center;
 }
 .grid-item-thumb {
-    background: var(--fill_standard_primary);
+    background: var(--fill-tertiary);
 }
 .grid-item-thumb.rounded {
     border-radius: 12px;
@@ -151,7 +151,7 @@
 .grid-item-label {
     font-family: 'PingFang SC', sans-serif;
     font-weight: 400;
-    color: var(--text_primary);
+    color: var(--text-primary);
     text-align: center;
     white-space: nowrap;
     word-wrap: break-word;

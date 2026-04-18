@@ -224,51 +224,70 @@ description: 当用户生成界面（页面/UI/组件）、局部调整界面（
 - 不合法组合必须替换为合法变体
 - 按需通过 Knot 检索对应组件 JSON 结构化数据
   - `keyword`: "<component>.json;组件结构"
+- **⚠️ 涉及半屏浮层（HalfScreenOverlay）时必须先检索模版库**：
+  - 通过 Knot 检索 `HALF_SCREEN_OVERLAY_TEMPLATES.md` 内容
+    - `query`: "半屏浮层 模版 HalfScreen 场景匹配 T-01 T-02 T-03 T-04 T-05 T-06"
+    - `keyword`: "HALF_SCREEN_OVERLAY_TEMPLATES;模版;半屏浮层"
+  - 按核心特征从 T-01~T-06 六档模版中判定最匹配的模版，依据模版结构生成，避免从零搭建导致的结构错误
 
 通过条件：
 
 - 所有已选组件均完成 Knot SPEC 检索
 - 组合合法性检查结论完整
 - 已标记所有需要实现交互行为的组件及其交互描述
+- 涉及半屏浮层时已完成模版库检索与匹配
 
 ### Gate 4：通过 Knot 检索并应用 Token 与主题
 
-- 通过 Knot 检索 `QQ_color_tokens.css` 内容
-  - `query`: "QQ 颜色 Token 定义 color tokens CSS QBasicToken"
-  - `keyword`: "QQ_color_tokens.css;颜色;token;QBasicToken"
-- 通过 Knot 检索 `tokens.css` 内容
-  - `query`: "通用 Token 间距 字号 圆角 CSS"
-  - `keyword`: "tokens.css;间距;字号;圆角"
+- 通过 Knot 检索 `Qdesign Color Tokens.css` 内容（颜色 Token）
+  - `query`: "Qdesign 颜色 Token 定义 color tokens CSS QBasicToken"
+  - `keyword`: "Qdesign Color Tokens.css;颜色;token;QBasicToken"
+- 通过 Knot 检索 `Qdesign Tokens.css` 内容（非颜色 Token：设备/字体/间距/圆角/阴影/动效）
+  - `query`: "Qdesign 通用 Token 间距 字号 圆角 CSS"
+  - `keyword`: "Qdesign Tokens.css;间距;字号;圆角"
+- 按需通过 Knot 检索 `Qdesign-tokens映射表.csv`（Figma 旧名 → CSS 标准名映射，遇到旧命名时查阅）
+  - `keyword`: "Qdesign-tokens映射表;token映射;旧名;新名"
 - 通过 Knot 检索 `DIVIDER_SPACING_COMPONENT_SPEC.md` 内容（布局间距规范）
   - `query`: "分隔与间距 组件间距 布局间距 Divider Spacing 间距档位"
   - `keyword`: "DIVIDER_SPACING_COMPONENT_SPEC;divider-spacing;间距;布局"
   - 重点理解：6 档间距值（4/8/12/16/24/32px）、组件间间距选择规则、分割线使用场景
   - **此规范是页面中组件之间正确分隔的唯一依据，未读取将导致组件间距错误**
 - 在 `<html>` 设置 `data-theme="qq-light"` 或 `data-theme="qq-dark"`
-- 颜色 Token 共 **39 个 QBasicToken**，命名格式 `--token名`（下划线分隔，如 `--brand_standard`、`--text_primary`）
-- **旧命名已废弃**：`--color-xxx`、`--qq-xxx` 等 151 个旧 token 已在 v1.0.5 中移除，禁止使用
-- 颜色仅使用 `QQ_color_tokens.css` 中定义的 QBasicToken 值
-- 非颜色 Token 使用 `tokens.css` 中定义的值
+- 颜色 Token 共 **39 个 QBasicToken**，命名格式 `--token-名`（**连字符分隔**，如 `--bg-secondary`、`--text-primary`、`--bg-bottom`、`--bg-bottom-brand`）
+- **⚠️ 旧命名已废弃**：
+  - `--color-xxx` / `--qq-xxx` 等 151 个旧 token（v1.0.5 前）已移除
+  - **下划线命名（如 `--brand_standard`、`--text_primary`）也已重构为连字符命名**，禁止使用
+- 颜色仅使用 `Qdesign Color Tokens.css` 中定义的 QBasicToken 值（连字符命名）
+- 非颜色 Token 使用 `Qdesign Tokens.css` 中定义的值
 - 组件间间距使用 `DIVIDER_SPACING_COMPONENT_SPEC.md` 中定义的间距档位和选择规则
 - 间距全部为 4px 整数倍
 
 通过条件：
 
 - 不存在自定义颜色值
-- 不存在旧命名 Token（`--color-xxx` / `--qq-xxx`）
+- 不存在旧命名 Token（`--color-xxx` / `--qq-xxx` / 下划线命名如 `--brand_standard`）
+- 颜色 Token 均为连字符命名（`--xxx-yyy`）
 - 不存在非 4px 网格间距
 - 组件间间距选择符合 DIVIDER_SPACING_COMPONENT_SPEC 规则
 
 ### Gate 5：背景色强约束
 
-- 包含 `Grouped List` 或 `Card`：背景强制 `bg_bottom_standard`（`#F0F0F2`）
-- 不包含上述组件：默认 `bg_bottom_light`（`#FFFFFF`）
-- 品牌页可使用 `bg_bottom_brand`（`#EFF4FF`）
-- 冲突时灰底优先
+根据页面包含的组件类型，背景色**强制确定**：
+
+| 背景色 | Token | 色值 | 触发条件 |
+|--------|-------|------|----------|
+| 浅灰色 | `--bg-secondary` | `#F0F0F2` | 页面包含 **Grouped List** 或 **Card** 时必须使用 |
+| AIO 背景 | `--bg-select` | `#F0F0F2` | 页面包含 **Message** 组件时必须使用 |
+| 白色 | `--bg-bottom` | `#FFFFFF` | 默认背景色（不含上述组件时） |
+| 品牌蓝 | `--bg-bottom-brand` | `#EFF4FF` | 品牌定制页面，按业务需要使用 |
+
+- 冲突时灰底优先（`--bg-secondary` / `--bg-select` 优先于 `--bg-bottom`）
+- `--bg-select` 与 `--bg-secondary` 色值相同，可共存
 
 通过条件：
 
 - 背景色选择与触发规则一致
+- 使用新 Token 命名（连字符分隔），禁止使用旧命名 `bg_bottom_standard` / `bg_bottom_light` 等
 
 ### Gate 6：状态栏与导航一致性
 
@@ -353,10 +372,11 @@ description: 当用户生成界面（页面/UI/组件）、局部调整界面（
 
 **C. 版式细节核对**
 
-- [ ] 所有颜色值是否均来自 `QQ_color_tokens.css`？是否存在硬编码颜色？
+- [ ] 所有颜色值是否均来自 `Qdesign Color Tokens.css`？是否存在硬编码颜色？
 - [ ] 所有间距（margin / padding / gap）是否为 4px 整数倍？
 - [ ] 组件间间距是否符合 `DIVIDER_SPACING_COMPONENT_SPEC.md` 中定义的间距档位（4/8/12/16/24/32px）和选择规则？
-- [ ] 字号、字重、行高是否使用 `tokens.css` 中定义的 Token？
+- [ ] 字号、字重、行高是否使用 `Qdesign Tokens.css` 中定义的 Token？
+- [ ] 颜色 Token 是否均为连字符命名（`--xxx-yyy`）？是否存在旧下划线命名（`--brand_standard` 等）或 `--color-xxx` / `--qq-xxx`？
 - [ ] 圆角值是否使用 Token 或 SPEC 中指定的值？
 - [ ] 背景色是否符合 Gate 5 的强约束规则？
 - [ ] 状态栏尺寸（428×54）、时间（9:41）、图标是否完整？

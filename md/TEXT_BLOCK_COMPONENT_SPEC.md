@@ -18,17 +18,49 @@
 | H2 | 一级标题 | 居左 | subtitle | 36px |
 | H3 | 二级标题 | 居左 | aux-title | 34px |
 | H4 | 正文段落 | 居左 | body | 24px（自适应） |
-| H5 | 前缀正文 | 居左 | body | 24px（自适应） |
+| H5 | 前缀正文 | 居左 | prefix-body | 24px（自适应） |
 | H6 | 摘要文本 | 居左 | summary | 20px（自适应） |
-| H7 | 提示文本 | 居左 | hint | 17px（自适应） |
+| H7 | 提示文本 | 居左 | hint | 20px（自适应） |
 | C1 | 大标题 | 居中 | title | 50px |
 | C2 | 一级标题 | 居中 | subtitle | 36px |
 | C3 | 二级标题 | 居中 | aux-title | 34px |
 | C4 | 正文段落 | 居中 | body | 24px（自适应） |
 | C5 | 摘要文本 | 居中 | summary | 20px（自适应） |
-| C6 | 提示文本 | 居中 | hint | 17px（自适应） |
+| C6 | 提示文本 | 居中 | hint | 20px（自适应） |
 
-> **H 类与 C 类的区别**：文字属性（字号、字重、行高、颜色）完全相同，仅 `text-align` 不同（`left` vs `center`）。居中类（C）不包含"前缀正文"变体，因为前缀标识在居中排版中无意义。
+> **H 类与 C 类的区别**：文字属性（字号、字重、行高）完全相同，仅 `text-align` 不同（`left` vs `center`）。颜色方面，H1-H5/C1-C4 使用 `--text-primary`，H6/C5/H7/C6 使用 `--text-secondary`。居中类（C）不包含"前缀正文"变体，因为前缀标识在居中排版中无意义。
+
+### 1.1 H5 前缀正文排版规则
+
+#### 前缀符号类型
+
+| 前缀类型 | 符号 | 适用场景 | 示例 |
+|---------|------|---------|------|
+| 有序列表 | `1.` `2.` `3.` ... | 步骤说明、排序内容 | `1. 打开设置页面` |
+| 无序列表 | `•`（U+2022） | 并列要点、特性列举 | `• 支持多端同步` |
+
+**约束规则**：
+1. 同一列表块内**前缀类型必须统一**（不可混用序号和项目符号）
+2. 前缀符号与正文之间间隔**一个空格**（如 `1. 文本`、`• 文本`）
+3. 前缀正文**必须包含前缀符号**，不可省略（否则应使用 H4 正文段落）
+
+#### 悬挂缩进规则
+
+换行后文本与首行正文左边缘对齐，不与前缀符号对齐：
+
+```
+┌──────────────────────────────────────────┐
+│←16px→│←前缀→│←正文区域──────────────→│←16px→│
+│      │ 1.   │这是前缀正文第一行内容    │      │
+│      │      │第二行文本与首行正文对齐   │      │
+│      │      │第三行文本与首行正文对齐   │      │
+└──────────────────────────────────────────┘
+```
+
+- **前缀宽度**按最长序号动态适配：
+  - 单位数（`1.`~`9.`）/ 无序（`•`）：20px
+  - 双位数（`10.`~`99.`）：28px
+- CSS 实现：`padding-left: 20px` + `position: relative`，前缀符号用绝对定位 `left: 0` 放置在 padding 区域（见 §8 CSS 代码块）
 
 ---
 
@@ -67,7 +99,7 @@
 
 | 属性 | 值 | CSS 变量 |
 |------|------|----------|
-| 颜色 | `#214CA5` | `var(--text_link)` |
+| 颜色 | `#214CA5` | `var(--text-link)` |
 | 字号 | 继承父容器 | — |
 | 字重 | 继承父容器（400） | — |
 | 下划线 | 无 | `text-decoration: none` |
@@ -91,13 +123,13 @@
 ```
 这是正文文本，点击[了解详情](https://...)可查看更多信息。
 ```
-渲染效果：`这是正文文本，点击` <span style="color:#214CA5">了解详情</span> `可查看更多信息。`
+渲染效果：`这是正文文本，点击` <span style="color:var(--text-link)">了解详情</span> `可查看更多信息。`
 
 **提示文本 (H7) 中的 Textlink：**
 ```
 如有疑问，请[联系客服](https://...)或查看[帮助中心](https://...)。
 ```
-渲染效果：`如有疑问，请` <span style="color:#214CA5">联系客服</span> `或查看` <span style="color:#214CA5">帮助中心</span> `。`
+渲染效果：`如有疑问，请` <span style="color:var(--text-link)">联系客服</span> `或查看` <span style="color:var(--text-link)">帮助中心</span> `。`
 
 #### 注意事项
 
@@ -253,7 +285,8 @@ H3 二级标题（卡片标题）
 
 | Token 名称 | CSS 变量 | 值 | 使用变体 |
 |-----------|---------|------|---------| 
-| 主文字色 | `--text-primary` | `rgba(0, 0, 0, 0.90)` | 全部（H1-H7、C1-C6） |
+| 主文字色 | `--text-primary` | `var(--text-primary)` | H1-H5、C1-C4（标题 + 正文 + 前缀正文） |
+| 辅助文字色 | `--text-secondary` | `var(--text-secondary)` | H6/C5（摘要）、H7/C6（提示） |
 | 链接色 | `--text-link` | `#214CA5` | H4/H5/H6/H7/C4/C5/C6 内联 Textlink |
 | 背景色 | — | `transparent` | 全部（组件本身透明，跟随页面背景色） |
 
@@ -296,7 +329,7 @@ H3 二级标题（卡片标题）
     font-family: 'PingFang SC', sans-serif;
     font-size: 26px;
     font-weight: 600;
-    color: var(--text_primary);
+    color: var(--text-primary);
     line-height: 34px;
     word-wrap: break-word;
 }
@@ -308,7 +341,7 @@ H3 二级标题（卡片标题）
     font-family: 'PingFang SC', sans-serif;
     font-size: 22px;
     font-weight: 500;
-    color: var(--text_primary);
+    color: var(--text-primary);
     line-height: 28px;
     word-wrap: break-word;
 }
@@ -320,7 +353,7 @@ H3 二级标题（卡片标题）
     font-family: 'PingFang SC', sans-serif;
     font-size: 18px;
     font-weight: 500;
-    color: var(--text_primary);
+    color: var(--text-primary);
     line-height: 26px;
     word-wrap: break-word;
 }
@@ -331,25 +364,36 @@ H3 二级标题（卡片标题）
 ### 8.3 正文、摘要与提示
 
 ```css
-/* H4/H5/C4 正文段落 17px Regular — padding-top/bottom: 0px */
-/* H5 与 H4 样式相同，仅语义不同（H5 用于带前缀标识的列表项） */
+/* H4/C4 正文段落 17px Regular — padding-top/bottom: 0px */
 .text-block-container .text-block-body {
     font-family: 'PingFang SC', sans-serif;
     font-size: 17px;
     font-weight: 400;
-    color: var(--text_primary);
+    color: var(--text-primary);
     line-height: 24px;
     word-wrap: break-word;
 }
 .text-block-container .text-block-body.center { text-align: center; }
 .text-block-container .text-block-body.left { text-align: left; }
 
+/* H5 前缀正文 17px Regular — 悬挂缩进（前缀符号绝对定位在 padding-left 区域） */
+.text-block-container .text-block-prefix-body {
+    font-family: 'PingFang SC', sans-serif;
+    font-size: 17px;
+    font-weight: 400;
+    color: var(--text-primary);
+    line-height: 24px;
+    word-wrap: break-word;
+    padding-left: 20px;
+    position: relative;
+}
+
 /* H6/C5 摘要文本 14px Regular — padding-top/bottom: 0px */
 .text-block-container .text-block-summary {
     font-family: 'PingFang SC', sans-serif;
     font-size: 14px;
     font-weight: 400;
-    color: var(--text_primary);
+    color: var(--text-secondary);
     line-height: 20px;
     word-wrap: break-word;
 }
@@ -361,8 +405,8 @@ H3 二级标题（卡片标题）
     font-family: 'PingFang SC', sans-serif;
     font-size: 12px;
     font-weight: 400;
-    color: var(--text_primary);
-    line-height: 17px;
+    color: var(--text-secondary);
+    line-height: 20px;
     word-wrap: break-word;
 }
 .text-block-container .text-block-hint.center { text-align: center; }
@@ -375,7 +419,7 @@ H3 二级标题（卡片标题）
 /* Textlink 内联链接色 - 适用于正文、摘要、提示文本 */
 .text-block-container .text-link,
 .text-block-container a {
-    color: var(--text_link);
+    color: var(--text-link);
     text-decoration: none;
     cursor: pointer;
 }

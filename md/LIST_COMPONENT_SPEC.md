@@ -47,9 +47,9 @@
 | R3 | 辅助+图片+箭头 | 文本 + `icons/Thumbnail_32.svg`（32×32 缩略图，圆角4px）+ `icons/chevron_right.svg`（箭头） |
 | R4 | 按钮 | 次级按钮 (Button) |
 | R5 | Action | 蓝色链接文字 |
-| R6 | Icon | 基础操作图标 |
+| R6 | Icon | `icons/empty_icon.svg`（24×24 占位，实际任务中替换为 `icons/QUI_24_icons/<图标名>.svg`） |
 | R7 | 金额 | 粗体数字 (DIN) |
-| R8 | 步数 | 数字 + 步数图标 |
+| R8 | 步数 | 数字 + `icons/heart.svg`（16×16 爱心图标） |
 | R9 | 聊天 | 时间 + 状态图标（`icons/remind_mute.svg`，可替换为其他业务图标，也可不配置） |
 
 ### 2.4 多选状态 (S)
@@ -102,16 +102,16 @@
   - C2/C3: 72px
 - **内边距 (Padding)**: 左右 16px
 - **文字规范**:
-  - 主标题: 17px, `rgba(0,0,0,0.9)`, line-height: 24px
-  - 描述文本: 14px, `rgba(60,60,67,0.76)`, line-height: 20px
-  - 链接文字: `#214CA5`（Token `--color-text-link`）
+  - 主标题: 17px, `var(--text-primary)`, line-height: 24px
+  - 描述文本: 14px, `var(--text-secondary)`, line-height: 20px
+  - 链接文字: `#214CA5`（Token `--text-link`）
 - **间距**: 
   - 左侧区域右间距: 12px（所有 L 类型统一）
   - 右侧区域左间距: 12px
 - **描述行结构（C2/C3）**：默认仅展示描述文本（含可选 textlink），行首 empty.icon 与行尾右箭头**默认不展示**；如需添加，按以下规则可选配：
   - 行首图标：`icons/empty_icon.svg`（16×16px，`flex-shrink:0`）— 可选添加
   - 描述文本：必填，与 textlink 合并为 `.desc-text`（`flex-shrink:1`，超出截断）
-  - textlink：可选，嵌套在 `.desc-text` 内，仅以链接色（`var(--text_link)`）区分，与描述文本紧挨 — 可省略
+  - textlink：可选，嵌套在 `.desc-text` 内，仅以链接色（`var(--text-link)`）区分，与描述文本紧挨 — 可省略
   - 行尾右箭头：`icons/chevron_right.svg`（16×16px，`flex-shrink:0`）— 可选添加
 
 ### 5.1 左侧区域尺寸类
@@ -130,15 +130,15 @@
 | R | 结构 | 样式细节 |
 |---|------|---------|
 | R0/Empty | 无 | 不渲染右侧区域 |
-| R1 辅助+箭头 | 灰色文字（可省略）+ 箭头 SVG | 文字 17px `rgba(60,60,67,0.76)`，margin-right: 4px；辅助文字可选配，省略时仅显示箭头 |
+| R1 辅助+箭头 | 灰色文字（可省略）+ 箭头 SVG | 文字 17px `var(--text-secondary)`，margin-right: 4px；辅助文字可选配，省略时仅显示箭头 |
 | R2 辅助+头像+箭头 | 文字 + 32px 头像 + 箭头 | 头像 margin-right: 8px |
 | R3 辅助+图片+箭头 | 文字 + 32px 图片(圆角4px) + 箭头 | 图片 margin-right: 8px |
 | R4 按钮 | 次级按钮 | padding: 6px 16px, border-radius: 18px, font-size: 14px, font-weight: 500, 背景 `rgba(116,116,128,0.08)` |
 | R5 Action | 蓝色链接文字 | font-size: 17px, color: `#214CA5` |
-| R6 Icon | 操作图标 | — |
+| R6 Icon | `icons/empty_icon.svg`（24×24 占位，实际任务中替换） | — |
 | R7 金额 | 粗体数字 | font-family: "DIN Alternate", font-weight: 700, font-size: 20px |
-| R8 步数 | 数字 + 步数图标 | 数字 20px DIN + 图标列（排名 12px + 16px 图标），margin-left: 4px |
-| R9 聊天 | 时间 + 状态图标（可选） | 时间 12px `rgba(60,60,67,0.56)`, 垂直排列 flex-direction: column, align-items: flex-end；状态图标默认使用 `icons/remind_mute.svg`，可替换为其他业务图标，颜色 token `--color-icon-secondary`，也可不配置 |
+| R8 步数 | 数字 + 爱心图标 | 数字 20px DIN + 图标列（排名 12px + `icons/heart.svg` 16×16），margin-left: 4px |
+| R9 聊天 | 时间 + 状态图标（可选） | 时间 12px `var(--text-secondary)`, 垂直排列 flex-direction: column, align-items: flex-end；状态图标默认使用 `icons/remind_mute.svg`，可替换为其他业务图标，颜色 token `--icon-secondary`，也可不配置 |
 
 ---
 
@@ -153,7 +153,7 @@
 ### 6.3 页面背景色
 通栏式列表的行背景为白色（`#FFFFFF`），与白色页面背景融为一体。因此使用通栏式列表时，页面背景色应使用**默认白色** `#FFFFFF`（Token `bg_bottom_light`）。
 
-> **注意**：如果同一页面还包含卡片式列表（Grouped List），则页面背景色以 `#F0F0F2`（`bg_middle_standard`）为准。
+> **注意**：如果同一页面还包含卡片式列表（Grouped List），则页面背景色以 `var(--bg-secondary)`（`bg_middle_standard`）为准。
 
 ---
 
@@ -167,7 +167,7 @@
     align-items: center;
     padding: 0 16px;
     width: 428px;
-    background: var(--bg_bottom_light);
+    background: var(--bg-bottom);
     position: relative;
 }
 .list-row.c1 { height: 52px; }
@@ -248,7 +248,7 @@ document.addEventListener('click', function(e) {
 }
 .list-row .desc {
     font-size: 14px;
-    color: var(--text_primary_light);
+    color: var(--text-secondary);
     line-height: 20px;
     height: 20px;
     display: flex;
@@ -262,7 +262,7 @@ document.addEventListener('click', function(e) {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    /* textlink 嵌套在内：<span style="color:var(--text_link)">textlink</span> */
+    /* textlink 嵌套在内：<span style="color:var(--text-link)">textlink</span> */
 }
 /* 图标：不压缩，始终完整显示 */
 .list-row .desc img {
@@ -305,49 +305,14 @@ Flex 算法分配顺序：
 3. **描述行**：`<img>` 设 `flex-shrink:0` 不压缩；描述文本与 textlink 合并为单一 `.desc-text` 节点（`flex-shrink:1; min-width:0`），超长时整体截断，textlink 嵌套其中仅以链接色区分，两者紧挨无额外间距
 4. **右区辅助文字**：`max-width:120px` 防止辅助文字过长挤压内容区，超出省略
 
-```css
-.list-row .right-area {
-    margin-left: 12px;
-    display: flex;
-    align-items: center;
-    flex-shrink: 0;
-}
-.list-row .btn-secondary {
-    background: var(--fill_standard_secondary);
-    padding: 6px 16px;
-    border-radius: 18px;
-    font-size: 14px;
-    font-weight: 500;
-}
-.list-row .amount {
-    font-family: "DIN Alternate", sans-serif;
-    font-weight: 700;
-    font-size: 20px;
-}
-.list-row .switch {
-    width: 44px;
-    height: 26px;
-    background: var(--brand_standard);
-    border-radius: 13px;
-    position: relative;
-    transition: background 200ms ease-out;
-}
-.list-row .switch::after {
-    content: '';
-    position: absolute;
-    right: 2px;
-    top: 2px;
-    width: 22px;
-    height: 22px;
-    background: var(--bg_bottom_light);
-    border-radius: 50%;
-    transition: right 200ms ease-out, left 200ms ease-out;
-}
-.list-row .text-link {
-    color: var(--text_link);
-    cursor: pointer;
-}
-```
+**右侧区域特殊元素样式**（`.right-area` 布局见 §7.4）：
+
+| 选择器 | 关键属性 |
+|--------|---------|
+| `.btn-secondary` | padding: 6px 16px / radius: 18px / 14px 500 / bg: `--fill-secondary` |
+| `.amount` | DIN Alternate / 700 / 20px |
+| `.switch` | 44×26px / radius: 13px / bg: `--brand-standard` / 滑块 22px 圆形 |
+| `.text-link` | `--text-link` / cursor: pointer |
 
 ---
 
@@ -365,7 +330,7 @@ Flex 算法分配顺序：
 - 列表行之间的分割线由外部列表容器控制
 - 分割线宽度: 距左 16px 到右侧边缘
 - 分割线高度: 0.5px
-- 颜色: `rgba(0,0,0,0.05)`（Token `--color-separator`）
+- 颜色: `rgba(0,0,0,0.05)`（Token `--border-weak`）
 
 ---
 

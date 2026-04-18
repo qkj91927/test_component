@@ -16,19 +16,18 @@
       }
     ],
     "B_spacing": [
-      { "id": "B1", "name": "间距 4px",  "height": 4,  "usage": "同组件之间·紧凑：标题+副标题、辅助信息并列" },
-      { "id": "B2", "name": "间距 8px",  "height": 8,  "usage": "同组件之间·标准 / 同类组件相邻：TextBlock/ImageBlock/Message 之间；HS_NavBar → 内容组件" },
-      { "id": "B3", "name": "间距 12px", "height": 12, "usage": "同类卡片容器相邻：Card 与 Card；Grouped List 组与组" },
-      { "id": "B4", "name": "间距 16px", "height": 16, "usage": "不同组件相邻（默认）：DataFilter/Search/TextBlock 与 List/Card/Grid；Textfield 与 Grouped List" },
-      { "id": "B5", "name": "间距 24px", "height": 24, "usage": "不同功能模块之间：内容区→操作区（TextBlock→ActionCombo）；个人信息区→设置区" },
-      { "id": "B6", "name": "间距 32px", "height": 32, "usage": "页面底部留白：最后组件→HomeBar/页面底部；ActionCombo→HomeBar（有 AIOInput 时由其 72px 替代）" }
+      { "id": "spacing-xs",  "name": "极小间距 4px",  "height": 4,  "usage": "紧贴：标题与副标题之间" },
+      { "id": "spacing-s",   "name": "小间距 8px",    "height": 8,  "usage": "紧凑：同类组件相邻（TextBlock/Message 之间）" },
+      { "id": "spacing-m",   "name": "中间距 12px",   "height": 12, "usage": "同类容器：Card 与 Card、Grouped List 组与组" },
+      { "id": "spacing-l",   "name": "大间距 16px",   "height": 16, "usage": "默认间距：不同组件相邻" },
+      { "id": "spacing-xl",  "name": "超大间距 24px", "height": 24, "usage": "模块分隔：不同功能模块之间" },
+      { "id": "spacing-xxl", "name": "最大间距 32px", "height": 32, "usage": "页面留白：最后组件 → 页面底部" }
     ]
   },
 
   "dividerStyle": {
     "height": 0.5,
-    "color": { "token": "separator", "value": "rgba(0, 0, 0, 0.08)" },
-    "colorValue": "rgba(0, 0, 0, 0.08)",
+    "color": { "token": "border-weak", "value": "rgba(0, 0, 0, 0.12)" },
     "background": "transparent"
   },
 
@@ -36,7 +35,6 @@
     "description": "分割线基础样式统一，以下为使用时的参数变化，不构成独立变体",
     "width": {
       "fullWidth": { "width": 428, "leftOffset": 0, "desc": "通栏，撑满屏幕宽度" },
-      "insetLeft": { "width": 376, "leftOffset": 52, "desc": "左缩进，与内容文字对齐" },
       "insetBoth": { "width": 396, "leftOffset": 16, "rightOffset": 16, "desc": "居中，左右各缩进16px" }
     },
     "orientation": ["horizontal", "vertical"]
@@ -47,22 +45,25 @@
     "background": "transparent"
   },
 
+  "spacingDecisionFlow": {
+    "description": "关系越近间距越小，关系越远间距越大",
+    "rules": [
+      { "condition": "标题+副标题", "spacing": "spacing-xs", "height": 4 },
+      { "condition": "同类组件相邻", "spacing": "spacing-s", "height": 8 },
+      { "condition": "卡片/列表容器间", "spacing": "spacing-m", "height": 12 },
+      { "condition": "不同组件相邻（默认）", "spacing": "spacing-l", "height": 16 },
+      { "condition": "跨功能模块", "spacing": "spacing-xl", "height": 24 },
+      { "condition": "页面底部留白", "spacing": "spacing-xxl", "height": 32 }
+    ],
+    "zeroSpacing": ["StatusBar→NavBar", "NavBar→下方内容", "AIOInput（固定底部）", "通栏列表行间（用分割线）"]
+  },
+
   "constraints": [
     "分割线高度固定 0.5px（Retina 1 物理像素）",
-    "颜色不可自定义，统一使用 rgba(0,0,0,0.08)",
+    "颜色不可自定义，统一使用 var(--border-weak)",
     "列表最后一行底部不显示分割线",
-    "同一列表内只使用一种分割线样式",
-    "分割线支持通栏/左缩进/居中及水平/垂直方向，但基础样式不变",
     "间距高度为 4px 整数倍（4px 网格系统）",
     "间距区域始终透明，不可添加可见元素",
     "不可使用非标准间距值（5px、10px、20px 等）"
-  ],
-
-  "compositionGuide": {
-    "listItems": "分割线 (A1)，保持视觉连续性",
-    "betweenModules": "间距 (B2-B6)，创造层级区分",
-    "cardInternal": "分割线 (A1) 居中模式，匹配卡片内边距",
-    "navToContent": "分割线 (A1) 通栏模式，标记区域边界",
-    "actionToContent": "间距 (B4/B5)，留白突出操作区"
-  }
+  ]
 }

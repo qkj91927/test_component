@@ -23,20 +23,20 @@
 
   "states": {
     "primary": {
-      "default": { "bg": { "token": "brand_standard", "value": "#0099FF" }, "text": { "token": "text_allwhite", "value": "#FFFFFF" }, "border": "none" },
-      "pressed": { "bg": { "token": "brand_pressed", "value": "#008AE5" }, "text": { "token": "text_allwhite", "value": "#FFFFFF" }, "border": "none" },
-      "loading": { "bg": { "token": "brand_pressed", "value": "#008AE5" }, "text": { "token": "text_allwhite", "value": "#FFFFFF" }, "border": "none" },
+      "default": { "bg": { "token": "brand-standard", "value": "#0099FF" }, "text": { "token": "text-white", "value": "#FFFFFF" }, "border": "none" },
+      "pressed": { "bg": { "token": "brand-standard", "value": "#008AE5" }, "text": { "token": "text-white", "value": "#FFFFFF" }, "border": "none" },
+      "loading": { "bg": { "token": "brand-standard", "value": "#008AE5" }, "text": { "token": "text-white", "value": "#FFFFFF" }, "border": "none" },
       "disabled": { "bg": "rgba(0,153,255,0.50)", "text": "rgba(255,255,255,0.50)", "border": "none" }
     },
     "secondary": {
-      "default": { "bg": "transparent", "text": { "token": "text_primary", "value": "rgba(0,0,0,0.90)" }, "border": "rgba(60,60,67,0.25) 1px" },
-      "pressed": { "bg": "rgba(204,204,204,0.30)", "text": { "token": "text_primary", "value": "rgba(0,0,0,0.90)" }, "border": "rgba(60,60,67,0.25) 1px" },
-      "loading": { "bg": "rgba(204,204,204,0.30)", "text": { "token": "text_primary", "value": "rgba(0,0,0,0.90)" }, "border": "rgba(60,60,67,0.25) 1px" },
+      "default": { "bg": "transparent", "text": { "token": "text-primary", "value": "rgba(0,0,0,1.0)" }, "border": "rgba(60,60,67,0.25) 1px" },
+      "pressed": { "bg": "rgba(204,204,204,0.30)", "text": { "token": "text-primary", "value": "rgba(0,0,0,1.0)" }, "border": "rgba(60,60,67,0.25) 1px" },
+      "loading": { "bg": "rgba(204,204,204,0.30)", "text": { "token": "text-primary", "value": "rgba(0,0,0,1.0)" }, "border": "rgba(60,60,67,0.25) 1px" },
       "disabled": { "bg": "rgba(204,204,204,0.30)", "text": "rgba(0,0,0,0.30)", "border": "rgba(60,60,67,0.12) 1px", "opacity": 0.30 }
     },
     "error": {
-      "default": { "bg": "transparent", "text": { "token": "feedback_error", "value": "#E0462C" }, "border": "rgba(60,60,67,0.25) 1px" },
-      "pressed": { "bg": "rgba(204,204,204,0.30)", "text": { "token": "feedback_error", "value": "#E0462C" }, "border": "rgba(60,60,67,0.25) 1px" },
+      "default": { "bg": "transparent", "text": { "token": "accent-red", "value": "#E0462C" }, "border": "rgba(60,60,67,0.25) 1px" },
+      "pressed": { "bg": "rgba(204,204,204,0.30)", "text": { "token": "accent-red", "value": "#E0462C" }, "border": "rgba(60,60,67,0.25) 1px" },
       "disabled": { "bg": "transparent", "text": "rgba(224,70,44,0.30)", "border": "rgba(60,60,67,0.12) 1px" }
     }
   },

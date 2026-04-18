@@ -1,0 +1,278 @@
+/*
+ * Qdesign Color Tokens (CSS Custom Properties)
+ * Source: Qdesign-tokens映射表.csv
+ * Updated: 2026-04-15
+ *
+ * 命名规范：Qdesign-Token，连字符分隔（如 --brand-standard、--text-primary）
+ *
+ * 使用方法:
+ *   <link rel="stylesheet" href="css/Qdesign Color Tokens.css">
+ *   默认为 Light 主题，切换主题请在 <html> 上设置:
+ *     data-theme="qq-light" | "qq-dark"
+ *
+ * Token 分类（共 39 个）：
+ *   品牌色        brand-standard / brand-light
+ *   反馈语义色     accent-green / accent-orange / accent-red
+ *   文本色        text-primary / text-secondary / text-tertiary / text-quaternary /
+ *                text-white / text-allwhite-secondary / text-allwhite-tertiary /
+ *                text-link / text-link-dark
+ *   图标色        icon-primary / icon-secondary / icon-tertiary /
+ *                icon-white / icon-blue
+ *   背景色        bg-bottom / bg-secondary / bg-top /
+ *                bg-bottom-brand / bg-select / fill-gray-primary
+ *   填充色        fill-tertiary / fill-secondary /
+ *                fill-primary / fill-quaternary /
+ *                fill-destructive-strong / fill-destructive-weak
+ *   交互叠加      feedback-press / feedback-hover
+ *   遮罩          overlay-modal / overlay-toast
+ *   描边/分割线    border-default / border-weak /
+ *                border-invert / border-white
+ *
+ * ══════════════════════════════════════════════════════════
+ * 交互状态着色规则（全局约束，所有组件统一遵守）
+ * ══════════════════════════════════════════════════════════
+ *
+ * 【规则 1】Hover 态 — 叠加遮罩，不改变前景色
+ *   所有可交互元素的 hover 态，禁止直接修改 color / background 色值，
+ *   而是在元素上叠加 --feedback-hover 遮罩背景。
+ *   文字色、图标色、边框色等前景属性保持默认态不变。
+ *
+ *   实现方式 A（推荐 — 伪元素叠加，不影响原背景）：
+ *     .element         → position: relative
+ *     .element:hover::after → content:''; position:absolute; inset:0;
+ *                             background: var(--feedback-hover);
+ *                             border-radius: inherit; pointer-events: none;
+ *
+ *   实现方式 B（元素无背景色时可简写）：
+ *     .element:hover   → background: var(--feedback-hover)
+ *
+ * 【规则 2】Pressed 态 — 叠加遮罩，不改变前景色
+ *   同 hover 态规则，使用 --feedback-press 替代 --feedback-hover。
+ *     .element:active::after → background: var(--feedback-press)
+ *
+ * 【规则 3】Disabled 态 — 保持正常色值 + opacity: 0.3
+ *   所有 disabled 态禁止单独定义新色值或硬编码半透明颜色。
+ *   直接复用该元素默认态的全部颜色 token，仅在最外层添加 opacity: 0.3。
+ *
+ *   示例（一级按钮）：
+ *     默认态  → background: var(--brand-standard); color: var(--text-white)
+ *     禁用态  → 颜色属性不变，仅追加 opacity: 0.3; pointer-events: none
+ *
+ *   示例（error 按钮）：
+ *     默认态  → border: 1px solid var(--border-default); color: var(--accent-red)
+ *     禁用态  → 颜色属性不变，仅追加 opacity: 0.3; pointer-events: none
+ *
+ *   此规则适用于所有组件类型（按钮、输入框、开关、选项卡等），
+ *   确保 disabled 视觉效果与正常态颜色完全关联，
+ *   修改 token 色值时 disabled 态自动跟随，无需额外维护。
+ *
+ * 【规则 4】禁止事项
+ *   ✗ 禁止为 hover/pressed/disabled 单独硬编码 rgba() 色值
+ *   ✗ 禁止为 disabled 态定义独立的颜色变量或 token
+ *   ✗ 禁止在 hover 态直接修改 color 属性值
+ *   ✓ hover/pressed 一律用 feedback-hover / feedback-press 叠加
+ *   ✓ disabled 一律用 opacity: 0.3 + pointer-events: none
+ *
+ * ══════════════════════════════════════════════════════════
+ */
+
+/* ————— QUI Basic Light (39 tokens) ————— */
+[data-theme="qq-light"] {
+
+  /* ── 品牌色 ── */
+  /* 主品牌色：主题主视觉、核心强调与关键操作 */
+  --brand-standard: #0099ff;
+  /* 浅品牌色：品牌氛围增强、轻强调背景与高亮提示 */
+  --brand-light: rgba(0, 153, 255, 0.2);
+
+  /* ── 反馈语义色 ── */
+  /* 成功态：成功状态的文字、图标与正向结果提示 */
+  --accent-green: #15d173;
+  /* 警示态：风险提醒、注意事项与可恢复异常提示 */
+  --accent-orange: #ffb300;
+  /* 错误态：错误状态、失败结果与危险操作提示 */
+  --accent-red: #e0462c;
+
+  /* ── 文本色 ── */
+  /* 一级文本：页面大标题、主标题、核心正文 */
+  --text-primary: #000000;
+  /* 二级文本：副标题与次要说明，区分于一级文本 */
+  --text-secondary: rgba(60, 60, 67, 0.6);
+  /* 三级文本：辅助描述与补充信息 */
+  --text-tertiary: rgba(60, 60, 67, 0.3);
+  /* 四级文本：提示语、占位文案、禁用状态 */
+  --text-quaternary: rgba(60, 60, 67, 0.18);
+  /* 白色静态一级文本：任意模式固定白色显示 */
+  --text-white: #ffffff;
+  /* 白色静态二级文本：任意主题保持白色 */
+  --text-allwhite-secondary: rgba(255, 255, 255, 0.8);
+  /* 白色静态三级文本：任意主题保持白色 */
+  --text-allwhite-tertiary: rgba(255, 255, 255, 0.549);
+  /* 链接文本：可跳转文本与可点击文字入口 */
+  --text-link: #214ca5;
+  /* 空间链接文本：QZone 场景链接文字 */
+  --text-link-dark: rgba(6, 32, 90, 0.8);
+
+  /* ── 图标色 ── */
+  /* 主图标：一级功能图标，通常与一级文本搭配 */
+  --icon-primary: #000000;
+  /* 次级图标：常规辅助图标，通常与二级文本搭配 */
+  --icon-secondary: rgba(60, 60, 67, 0.6);
+  /* 弱辅助图标：低优先级提示图标，与三/四级文本搭配 */
+  --icon-tertiary: rgba(60, 60, 67, 0.3);
+  /* 白色图标：任意模式固定白色，如按钮上的图标 */
+  --icon-white: #ffffff;
+  /* AIO 工具栏激活图标 */
+  --icon-blue: #0099ff;
+
+  /* ── 背景色 ── */
+  /* 页面底背景：页面默认底色与全局画布承载 */
+  --bg-bottom: #ffffff;
+  /* 次级承载背景：卡片、列表、内容区等常规承载面 */
+  --bg-secondary: #f2f2f7;
+  /* 顶层浮层背景：弹窗、Drawer、Sheet 等浮层容器 */
+  --bg-top: #ffffff;
+  /* 品牌背景：带品牌色调的页面背景 */
+  --bg-bottom-brand: #eff4ff;
+  /* AIO 指定背景色 */
+  --bg-select: #f0f0f2;
+  /* Toast 背景（毛玻璃降级）：Toast、轻提示等 */
+  --fill-gray-primary: rgba(0, 0, 0, 0.64);
+
+  /* ── 填充色 ── */
+  /* 弱填充：输入框、搜索框填充 */
+  --fill-tertiary: rgba(118, 118, 128, 0.12);
+  /* 次容器填充：卡片容器与非通栏内容区 */
+  --fill-secondary: rgba(120, 120, 128, 0.16);
+  /* 主容器填充：通栏列表与基础承载容器 */
+  --fill-primary: rgba(120, 120, 128, 0.2);
+  /* 极弱填充：次级卡片/弱分组背景 */
+  --fill-quaternary: rgba(118, 118, 128, 0.08);
+  /* 强警示填充：警示按钮填充色 */
+  --fill-destructive-strong: rgba(247, 76, 48, 0.2);
+  /* 弱警示填充：警示 tips 填充色 */
+  --fill-destructive-weak: #ffeff1;
+
+  /* ── 交互叠加 ── */
+  /* 按下态叠加：常规按下、选中、重点态高强调反馈 */
+  --feedback-press: rgba(120, 120, 120, 0.2);
+  /* 悬停态叠加：一般点击、悬停态的交互反馈 */
+  --feedback-hover: rgba(120, 120, 128, 0.16);
+
+  /* ── 遮罩 ── */
+  /* 弹窗遮罩：弹窗、对话框等需聚焦前景内容的遮罩 */
+  --overlay-modal: rgba(0, 0, 0, 0.48);
+  /* 轻提示遮罩：Toast、轻提示等低干扰遮罩 */
+  --overlay-toast: rgba(0, 0, 0, 0.04);
+
+  /* ── 描边 / 分割线 ── */
+  /* 标准描边：常规分割线与基础边界 */
+  --border-default: #c6c6c8;
+  /* 弱描边：列表分隔、次级描边、卡片内部轻分隔 */
+  --border-weak: rgba(0, 0, 0, 0.12);
+  /* 反色描边：沉浸式场景的弱分割线/描边 */
+  --border-invert: rgba(255, 255, 255, 0.2);
+  /* 纯白描边：通用纯白色分割线 */
+  --border-white: #ffffff;
+
+  /* ── 阴影 ── */
+  /* 菜单阴影：伴随式非模态浮层 */
+  --shadow-menu: 0 8px 32px rgba(0, 0, 0, 0.12);
+}
+
+/* ————— QUI Basic Dark (39 tokens) ————— */
+/*
+ * 推导依据说明：
+ *   🔵 算法推导 — 透明度反转类（黑→白/白→黑）、静态色不变
+ *   🟡 旧版保留 — 沿用旧 Qdesign Color Tokens.css dark 值，视觉已验证
+ *   🔴 新推导    — 无旧版参考，按反色逻辑推导
+ */
+[data-theme="qq-dark"] {
+
+  /* ── 品牌色 ── */
+  /* 🟡 暗背景品牌色降亮约 8%，防止刺眼 */
+  --brand-standard: #0082db;
+  /* 🟡 品牌底色暗化，透明度保持 */
+  --brand-light: rgba(0, 102, 204, 0.2);
+
+  /* ── 反馈语义色（静态，永不随主题变化）── */
+  --accent-green: #15d173;  /* 🔵 静态 */
+  --accent-orange: #ffb300;  /* 🔵 静态 */
+  --accent-red: #e0462c;    /* 🔵 静态 */
+
+  /* ── 文本色（底色反转，透明度与 light 同步）── */
+  /* 🔵 黑→白，100% 透明度同步 */
+  --text-primary: rgba(255, 255, 255, 1.0);
+  /* 🔵 深灰→浅灰，60% 透明度同步 */
+  --text-secondary: rgba(235, 235, 245, 0.6);
+  /* 🔵 深灰→浅灰，30% 透明度同步 */
+  --text-tertiary: rgba(235, 235, 245, 0.3);
+  /* 🔵 深灰→浅灰，18% 透明度同步 */
+  --text-quaternary: rgba(235, 235, 245, 0.18);
+  --text-white: #ffffff;                    /* 🔵 静态白色 */
+  --text-allwhite-secondary: rgba(255, 255, 255, 0.8); /* 🔵 静态 */
+  --text-allwhite-tertiary: rgba(255, 255, 255, 0.549);/* 🔵 静态 */
+  /* 🟡 深蓝→浅蓝，暗背景提亮约 40% 保证对比度 */
+  --text-link: #7a95cc;
+  /* 🟡 深蓝→浅蓝半透明 */
+  --text-link-dark: rgba(192, 209, 255, 0.6);
+
+  /* ── 图标色 ── */
+  /* 🔵 黑→白，对称反转 */
+  --icon-primary: #ffffff;
+  /* 🔵 基色反转+透明度同步 60% */
+  --icon-secondary: rgba(235, 235, 245, 0.6);
+  /* 🔵 基色反转+透明度同步 30% */
+  --icon-tertiary: rgba(235, 235, 245, 0.3);
+  --icon-white: #ffffff;  /* 🔵 静态 */
+  /* 🟡 品牌激活色暗化 */
+  --icon-blue: #0073bf;
+
+  /* ── 背景色（层级由深到浅）── */
+  /* 🟡 页面底背景：近黑深灰 */
+  --bg-bottom: #1a1c1e;
+  /* 🔵 次级承载背景：iOS 标准暗色 secondary */
+  --bg-secondary: #1c1c1e;
+  /* 🟡 顶层浮层背景：比底背景浅，弹窗浮出感 */
+  --bg-top: #2f3033;
+  /* 🟡 品牌背景暗化 */
+  --bg-bottom-brand: #0f1113;
+  /* 🔵 AIO 指定背景：同 dark secondary */
+  --bg-select: #1c1c1e;
+  /* 🔵 暗背景 Toast，透明度同步提升 */
+  --fill-gray-primary: rgba(190, 190, 190, 0.36);
+
+  /* ── 填充色（基色保持灰色系，暗色透明度提升）── */
+  /* 🔵 暗色透明度 ×2，保持视觉感知 */
+  --fill-tertiary: rgba(118, 118, 128, 0.24);
+  /* 🔵 暗色透明度 ×2 */
+  --fill-secondary: rgba(120, 120, 128, 0.32);
+  /* 🔵 暗色透明度 ×~1.8 */
+  --fill-primary: rgba(120, 120, 128, 0.36);
+  /* 🔵 暗色透明度提升至可感知 */
+  --fill-quaternary: rgba(118, 118, 128, 0.18);
+  --fill-destructive-strong: rgba(247, 76, 48, 0.25); /* 🔵 透明度同步调低 */
+  /* 🔴 无旧版，按反色逻辑推导暗红深色 */
+  --fill-destructive-weak: #3d1a18;
+
+  /* ── 交互叠加（暗色透明度提升）── */
+  --feedback-press: rgba(120, 120, 120, 0.36); /* 🔵 暗色透明度提升 */
+  --feedback-hover: rgba(120, 120, 128, 0.28); /* 🔵 暗色透明度提升 */
+
+  /* ── 遮罩（暗色略加深）── */
+  --overlay-modal: rgba(0, 0, 0, 0.56);          /* 🔵 暗色遮罩加深 */
+  --overlay-toast: rgba(0, 0, 0, 0.08);          /* 🔵 暗色略加深 */
+
+  /* ── 描边 / 分割线（与 light 对称）── */
+  /* 🔵 实色→iOS 标准暗色分隔线 */
+  --border-default: #38383a;
+  /* 🔵 黑→白，透明度同步 12% */
+  --border-weak: rgba(255, 255, 255, 0.12);
+  --border-invert: rgba(255, 255, 255, 0.2); /* 🔵 静态 */
+  /* 🟡 纯白→半透明白，暗背景避免过于刺眼 */
+  --border-white: rgba(255, 255, 255, 0.8);
+
+  /* ── 阴影（暗色加深投影） ── */
+  /* ── 阴影（暗色加深投影） ── */
+  --shadow-menu:   0 8px 32px rgba(0, 0, 0, 0.28);  /* 🔵 暗色投影加深 */
+}

@@ -40,11 +40,11 @@
       "circle": "50%，用于正圆占位（A7/A8/A9、B6/B8）"
     },
     "labelOptional": true,
-    "thumbFill": { "token": "fill_standard_primary", "value": "rgba(13, 16, 49, 0.04)" }
+    "thumbFill": { "token": "fill-tertiary", "value": "rgba(118, 118, 128, 0.12)" }
   },
 
   "style": {
-    "titleText": { "font": "PingFang SC", "fontWeight": 400, "color": { "token": "text_primary", "value": "rgba(0, 0, 0, 0.90)" }, "align": "center" },
+    "titleText": { "font": "PingFang SC", "fontWeight": 400, "color": { "token": "text-primary", "value": "rgba(0, 0, 0, 1.0)" }, "align": "center" },
     "lineHeightMap": { "14px": 20, "12px": 17, "10px": 14 }
   },
 

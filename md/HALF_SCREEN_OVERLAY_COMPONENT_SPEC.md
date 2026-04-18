@@ -15,7 +15,7 @@
 ```
 ┌───────────────────────────────────┐  ← height: 926px (default)
 │  Overlay                          │
-│  var(--overlay_dark)        │
+│  var(--overlay-modal)        │
 │                                   │
 │                                   │
 ├───────────────────────────────────┤  ← border-radius: 20px
@@ -35,7 +35,7 @@
 ```
 ┌───────────────────────────────────┐
 │  Overlay                          │
-│  var(--overlay_dark)        │
+│  var(--overlay-modal)        │
 │                                   │
 │                                   │
 ├───────────────────────────────────┤  ← border-radius: 20px
@@ -96,7 +96,7 @@ Transition: triggered when top < 100px
 
 | 元素 | 色值 | Token |
 |------|------|-------|
-| 遮罩层 | rgba(0, 0, 0, 0.50) | 叠加色-overlay_dark |
+| 遮罩层 | var(--overlay-modal) | `--overlay-modal` |
 | 面板背景 | #FFFFFF | 背景色-Primary |
 | 关闭按钮背景 | rgba(0, 0, 0, 0.04) | 来自 `Close_HalfScreen.svg` 内部，无需代码设置 |
 | 把手指示条 | rgba(60, 60, 67, 0.30) | — |
@@ -106,7 +106,7 @@ Transition: triggered when top < 100px
 ### 4.1 标准型（HSO-A）
 
 - **导航区域**：使用 **HS_NavBar** 组件（详见 `HS_NAVBAR_COMPONENT_SPEC.md`），默认 **A3**，可按业务替换为 **A1 / A2 / A4**（一级导航）或 **B1 / B2 / B3**（二级导航）
-- **HS_NavBar → 内容区间距**：**B2（8px）**（A3 叠在图片上时为 0px）
+- **HS_NavBar → 内容区间距**：**spacing-s（8px）**（A3 叠在图片上时为 0px）
 - **面板高度范围**：360px ~ 720px，默认 420px
 - **内容区高度**：`sheetHeight - navbarHeight - 34(HomeBar)`，其中 navbarHeight：A1/A3/A4/B1-B3 = 54px，A2 = 65px。默认 420px 时（A3）为 **332px**，超出内容区可滚动
 - **适用场景**：需要明确关闭操作的内容展示、表单填写
@@ -215,7 +215,7 @@ Transition: triggered when top < 100px
     width: 428px;
     height: 926px;               /* iPhone 屏幕高度 */
     position: relative;
-    background: var(--叠加色-overlay_dark, var(--overlay_dark));  /* 遮罩色 */
+    background: var(--overlay-modal);  /* 遮罩色 */
     overflow: hidden;
 }
 ```
@@ -229,7 +229,7 @@ Transition: triggered when top < 100px
     left: 0;
     width: 428px;
     height: /* sheetHeight */;
-    background: var(--bg_bottom_light);
+    background: var(--bg-bottom);
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
     overflow: hidden;
@@ -244,7 +244,7 @@ Transition: triggered when top < 100px
     width: 428px;  /* 或 100% */
     min-height: 360px;   /* 标准型最小高度 */
     max-height: 720px;
-    background: var(--bg_bottom_light);
+    background: var(--bg-bottom);
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
     overflow: hidden;
@@ -264,14 +264,14 @@ Transition: triggered when top < 100px
     align-items: center;
     justify-content: flex-end;
     padding: 0 16px;
-    background: var(--bg_bottom_light);
+    background: var(--bg-bottom);
     box-sizing: border-box;
 }
 .hs-overlay-close-btn-a3 {
     width: 30px;
     height: 30px;
     border-radius: 50%;
-    background: var(--fill_standard_primary);
+    background: var(--fill-tertiary);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -291,7 +291,7 @@ Transition: triggered when top < 100px
 .hs-overlay-handle-indicator {
     width: 36px;
     height: 5px;
-    background: var(--text_tertiary);
+    background: var(--text-quaternary);
     border-radius: 2.5px;
 }
 ```
@@ -303,7 +303,7 @@ Transition: triggered when top < 100px
     width: 428px;
     height: 34px;
     position: relative;
-    background: var(--bg_bottom_light);
+    background: var(--bg-bottom);
 }
 .hs-overlay-homebar {
     width: 144px;
@@ -312,7 +312,7 @@ Transition: triggered when top < 100px
     left: 50%;
     transform: translateX(-50%);
     bottom: 8px;
-    background: var(--text_primary);
+    background: var(--text-primary);
     border-radius: 2.5px;
 }
 ```
@@ -324,16 +324,16 @@ Transition: triggered when top < 100px
 > **⚠️ 导航栏适用范围**：半屏导航栏（HS_NavBar）**仅适用于标准型（HSO-A）**。把手型（HSO-B）半屏态顶部为把手条，不使用导航栏；上滑进入全屏态后，把手条隐藏，显示全屏导航栏（NavBar），左侧必须为 L3 关闭，中间/右侧可按业务配置（两者交叉动画过渡，详见 §6.6）。
 
 ### 9.1 半屏导航栏底色
-半屏导航栏组件（HS_NavBar）本身为**透明底色**（`background: transparent`），颜色跟随半屏浮层面板的底色显示。默认面板底色为白色（`#FFFFFF` / `--color-bg-item`），因此导航栏视觉上呈现白底。
+半屏导航栏组件（HS_NavBar）本身为**透明底色**（`background: transparent`），颜色跟随半屏浮层面板的底色显示。默认面板底色为白色（`#FFFFFF` (`--bg-bottom`)），因此导航栏视觉上呈现白底。
 
 ### 9.2 内嵌组件的页面背景色约束
 当以下组件嵌入半屏浮层内容区时，需要调整浮层内容区的背景色，规则与全屏页面完全一致：
 
 | 内嵌组件 | 内容区背景色 | Token | 说明 |
 |----------|------------|-------|------|
-| Grouped List（卡片式列表） | `#F0F0F2` | `bg_middle_standard` | 白色卡片需灰底形成层级分离 |
-| Card（卡片） | `#F0F0F2` | `bg_middle_standard` | 同上 |
-| Message（消息） | `#F0F0F2` | `--bg_select_aio` | AIO 背景色 |
+| Grouped List（卡片式列表） | `var(--bg-secondary)` | `bg_middle_standard` | 白色卡片需灰底形成层级分离 |
+| Card（卡片） | `var(--bg-secondary)` | `bg_middle_standard` | 同上 |
+| Message（消息） | `var(--bg-secondary)` | `--bg-select` | AIO 背景色 |
 | 其他组件（List/Textfield/Button 等） | `#FFFFFF` | `bg_bottom_light` | 默认白底 |
 
 > **常用场景模版**：见 `md/HALF_SCREEN_OVERLAY_TEMPLATES.md`。执行半屏浮层相关设计任务时，请优先查阅该文档，判断是否可直接使用或小幅修改已有模版。

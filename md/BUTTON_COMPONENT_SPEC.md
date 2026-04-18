@@ -61,29 +61,29 @@
 
 | 状态 | 背景色 | 文字色 | 描边 |
 |:-----|:-------|:-------|:-----|
-| 默认 | `#0099FF` | `#FFFFFF` | 无 |
-| 按下 | `#008AE5` | `#FFFFFF` | 无 |
-| 加载 | `#008AE5` | `#FFFFFF` | 无 |
-| 不可点击 | `rgba(0, 153, 255, 0.50)` | `rgba(255, 255, 255, 0.50)` | 无 |
+| 默认 | `var(--brand-standard)` | `var(--text-white)` | 无 |
+| 按下 | 默认态 + `var(--feedback-press)` 叠加 | `var(--text-white)` | 无 |
+| 加载 | 同按下态 | `var(--text-white)` | 无 |
+| 不可点击 | 同默认态，整体 `opacity: 0.3` | 同默认态 | 无 |
 
 ### 4.2 二级按钮 (Secondary)
 
 | 状态 | 背景色 | 文字色 | 描边 |
 |:-----|:-------|:-------|:-----|
-| 默认 | 透明 | `rgba(0, 0, 0, 0.90)` | `rgba(60, 60, 67, 0.25)` 1px |
-| 按下 | `rgba(204, 204, 204, 0.30)` | `rgba(0, 0, 0, 0.90)` | `rgba(60, 60, 67, 0.25)` 1px |
-| 加载 | `rgba(204, 204, 204, 0.30)` | `rgba(0, 0, 0, 0.90)` | `rgba(60, 60, 67, 0.25)` 1px |
-| 不可点击 | `rgba(204, 204, 204, 0.30)` | `rgba(0, 0, 0, 0.30)` | `rgba(60, 60, 67, 0.12)` 1px |
+| 默认 | 透明 | `var(--text-primary)` | `var(--border-default)` 1px |
+| 按下 | `var(--feedback-press)` | `var(--text-primary)` | `var(--border-default)` 1px |
+| 加载 | `var(--feedback-press)` | `var(--text-primary)` | `var(--border-default)` 1px |
+| 不可点击 | 同默认态，整体 `opacity: 0.3` | 同默认态 | 同默认态 |
 
-> 二级按钮不可点击态整体叠加 `opacity: 0.30`。
+> 二级按钮不可点击态：颜色属性全部复用默认态，仅追加 `opacity: 0.3; pointer-events: none`。
 
 ### 4.3 警示按钮 (Error)
 
 | 状态 | 背景色 | 文字色 | 描边 |
 |:-----|:-------|:-------|:-----|
-| 默认 | 透明 | `#E0462C` | `rgba(60, 60, 67, 0.25)` 1px |
-| 按下 | `rgba(204, 204, 204, 0.30)` | `#E0462C` | `rgba(60, 60, 67, 0.25)` 1px |
-| 不可点击 | 透明 | `rgba(224, 70, 44, 0.30)` | `rgba(60, 60, 67, 0.12)` 1px |
+| 默认 | 透明 | `var(--accent-red)` | `var(--border-default)` 1px |
+| 按下 | `var(--feedback-press)` | `var(--accent-red)` | `var(--border-default)` 1px |
+| 不可点击 | 同默认态，整体 `opacity: 0.3` | 同默认态 | 同默认态 |
 
 ---
 
@@ -196,75 +196,20 @@
 }
 ```
 
-### 8.3 一级按钮 Primary
+### 8.3 类型 × 状态样式差异表
 
-```css
-.btn-comp.type-primary.state-default {
-    background: var(--brand_standard);
-    color: var(--text_allwhite_primary);
-}
-.btn-comp.type-primary.state-pressed {
-    background: var(--brand_standard);
-    color: var(--text_allwhite_primary);
-}
-.btn-comp.type-primary.state-loading {
-    background: var(--brand_standard);
-    color: var(--text_allwhite_primary);
-}
-.btn-comp.type-primary.state-disabled {
-    background: rgba(0, 153, 255, 0.50);
-    color: rgba(255, 255, 255, 0.50);
-    cursor: not-allowed;
-}
-```
+各类型公共属性：`display: flex; align-items: center; justify-content: center`（继承基础类）。描边统一 `1px solid var(--border-default)`。
 
-### 8.4 二级按钮 Secondary
-
-```css
-.btn-comp.type-secondary.state-default {
-    background: transparent;
-    border: 1px solid var(--border_standard);
-    color: var(--text_primary);
-}
-.btn-comp.type-secondary.state-pressed {
-    background: var(--feedback_press);
-    border: 1px solid var(--border_standard);
-    color: var(--text_primary);
-}
-.btn-comp.type-secondary.state-loading {
-    background: var(--feedback_press);
-    border: 1px solid var(--border_standard);
-    color: var(--text_primary);
-}
-.btn-comp.type-secondary.state-disabled {
-    background: var(--feedback_press);
-    border: 1px solid var(--border_light);
-    color: rgba(0, 0, 0, 0.30);
-    opacity: 0.30;
-    cursor: not-allowed;
-}
-```
-
-### 8.5 警示按钮 Error
-
-```css
-.btn-comp.type-error.state-default {
-    background: transparent;
-    border: 1px solid var(--border_standard);
-    color: var(--feedback_error);
-}
-.btn-comp.type-error.state-pressed {
-    background: var(--feedback_press);
-    border: 1px solid var(--border_standard);
-    color: var(--feedback_error);
-}
-.btn-comp.type-error.state-disabled {
-    background: transparent;
-    border: 1px solid var(--border_light);
-    color: rgba(247, 76, 48, 0.30);
-    cursor: not-allowed;
-}
-```
+| 类型 | 状态 | background | border | color | 额外 |
+|------|------|-----------|--------|-------|------|
+| **一级 Primary** | 默认/按下/加载 | `--brand-standard` | 无 | `--text-white` | 按下/加载叠加 `--feedback-press` |
+| | 不可点击 | `--brand-standard` | 无 | `--text-white` | `opacity: 0.3; pointer-events: none` |
+| **二级 Secondary** | 默认 | transparent | ✓ | `--text-primary` | — |
+| | 按下/加载 | `--feedback-press` | ✓ | `--text-primary` | — |
+| | 不可点击 | transparent | ✓ | `--text-primary` | `opacity: 0.3; pointer-events: none` |
+| **警示 Error** | 默认 | transparent | ✓ | `--accent-red` | — |
+| | 按下 | `--feedback-press` | ✓ | `--accent-red` | — |
+| | 不可点击 | transparent | ✓ | `--accent-red` | `opacity: 0.3; pointer-events: none` |
 
 ### 8.6 加载动画
 

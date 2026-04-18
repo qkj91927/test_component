@@ -26,11 +26,11 @@
 
 | 状态 | 编号 | 说明 | 视觉特征 |
 |------|------|------|----------|
-| 默认态 | 1 | 未获得焦点 | placeholder 文字，浅灰色 rgba(60,60,67,0.26) |
+| 默认态 | 1 | 未获得焦点 | placeholder 文字，浅灰色 var(--text-quaternary) |
 | 激活态 | 2 | 获得焦点但未输入 | 蓝色光标 #0099FF + placeholder |
 | 输入态 | 3 | 正在输入文字 | 实际文字 + 光标 + 清除按钮，字数统计显示 "已输入/总数" |
 | 完成态 | 4 | 输入完成，失去焦点 | 实际文字，无光标无清除按钮 |
-| 错误态 | 5 | 输入超限或格式错误 | 文字超长截断 + 光标 + 清除按钮，字数统计红色 #F74C30 |
+| 错误态 | 5 | 输入超限或格式错误 | 文字超长截断 + 光标 + 清除按钮，字数统计红色 `#E0462C`（`--accent-red`）|
 
 ---
 
@@ -68,20 +68,28 @@
 
 | 状态 | 说明 | 视觉特征 |
 |------|------|----------|
-| 默认态 | 未获得焦点 | 无光标 + placeholder 灰色（`rgba(60,60,67,0.26)`）；完成指示器（如有）`opacity: 0.3` |
+| 默认态 | 未获得焦点 | 无光标 + placeholder 灰色（`var(--text-quaternary)`）；完成指示器（如有）`opacity: 0.3` |
 | 激活态 | 获得焦点但未输入 | 蓝色光标在左 + placeholder 灰色；完成指示器（如有）`opacity: 0.3` |
 | 输入态 | 正在输入文字 | 黑色文字 + 光标在末尾；字数统计更新；完成指示器（如有）`opacity: 1` |
 | 完成态 | 输入完成，失去焦点 | 无光标 + 黑色文字；完成指示器（如有）`opacity: 1` |
-| 错误态 | 字数超限 | 黑色文字 + 光标 + 字数统计红色（`var(--feedback_error)`）；完成指示器（如有）`opacity: 1` |
+| 错误态 | 字数超限 | 黑色文字 + 光标 + 字数统计红色（`--accent-red`，`#E0462C`）；完成指示器（如有）`opacity: 1` |
 
 **完成指示器**：使用 `icons/done.svg`（40×40px，含蓝色圆形+白色对勾）；默认态/激活态设 `opacity: 0.3` 表示 disabled，输入态/完成态/错误态设 `opacity: 1`。
 
 **E 类背景色约束**：
 
-| 容器类型 | 组件底色 | 页面背景色约束 |
+| 变体范围 | 组件底色 | 页面背景色约束 |
 |----------|---------|---------------|
-| 通栏式 | transparent（透明） | 跟随页面背景色 |
-| 卡片式 | #FFFFFF（白色） | 需搭配 `bg_middle_standard`（#F0F0F2），与卡片式列表背景色约束一致 |
+| E5/E6 通栏式 | `transparent`（透明） | 跟随页面背景色 |
+| E1-E4 卡片式 | `#FFFFFF`（白色） | 必须使用 `--bg-secondary`（`var(--bg-secondary)`），与卡片式列表背景色约束一致 |
+
+**A-D 类背景色约束**：
+
+| 变体范围 | 组件底色 | 页面背景色约束 |
+|----------|---------|---------------|
+| A/B/C/D 单行/多行输入框 | `#FFFFFF`（白色圆角容器）| 必须使用 `--bg-secondary`（`var(--bg-secondary)`），与卡片式列表背景色约束一致 |
+
+> **统一规则**：除 E5/E6 通栏式外，所有 Textfield 变体（A/B/C/D 及 E1-E4）均使用白色背景，须搭配灰色页面底（`var(--bg-secondary)`）形成视觉层级分离。
 
 ---
 
@@ -97,7 +105,7 @@
 | 中间输入区域宽度 | 364px |
 | 底部附加说明行高度 | 24px |
 | 组件总高度 | 80px (56 + 24) |
-| 底部分割线 | 宽 364px，高 0.5px |
+| 底部分割线 | 宽 364px，高 0.5px（**仅嵌入 Grouped List 时由列表容器添加，单独使用无分割线**） |
 
 ### 5.2 有标题型（B 类型）
 
@@ -112,7 +120,7 @@
 | 属性 | 数值 |
 |------|------|
 | 国家代码前缀 | "中国+86 " |
-| 前缀颜色 | #214CA5（text_link） |
+| 前缀颜色 | `#214CA5`（`--text-link`） |
 | 号码输入区宽度 | 275px |
 
 ### 5.4 多行文本域（D 类型）
@@ -123,8 +131,10 @@
 | 文本域高度 | 197px（含 16px 上下内边距） |
 | 文本内容区高度 | 144px |
 | 圆角 | 12px（左上/左下、右上/右下） |
-| 字数统计位置 | 右下角 |
-| 底部附加说明行高度 | 24px |
+| 字数统计位置 | 文本域内右下角 |
+| 底部附加说明行高度 | 24px（**可隐藏**） |
+
+> **附加说明行可隐藏**：D 类的底部附加说明文字可被隐藏（字数统计在文本域内右下角，不受影响）。隐藏时组件总高度从 221px 自适应为 197px。
 
 ### 5.5 复合输入框（E 类型）
 
@@ -147,7 +157,7 @@ E 类由 Figma 三个属性变量组合定义，对应 E1-E6 六种子类型：
 | 圆角 | `24px` | 无 |
 | Padding | `24px 16px 16px` | `24px 16px 16px` |
 | 底部操作栏 | 有 | **无** |
-| 页面背景约束 | 需搭配 `#F0F0F2`（`--color-bg-bottom-standard`） | 跟随页面背景色 |
+| 页面背景约束 | 需搭配 `var(--bg-secondary)`（`--bg-secondary`） | 跟随页面背景色 |
 
 ---
 
@@ -159,7 +169,7 @@ E 类由 Figma 三个属性变量组合定义，对应 E1-E6 六种子类型：
 **HasImage = true（含图片行）**
 - 文字区下方显示图片行，`margin-top: 16px`
 - 图片行布局：`overflow-x: auto`（横向滚动），**不显示滚动条**（`scrollbar-width: none` / `::-webkit-scrollbar { display: none }`）
-- **添加按钮**：始终在最左侧，88×88px，`background: rgba(13,16,49,0.04)`，`border-radius: 16px`，居中 `+` 图标 24px
+- **添加按钮**：始终在最左侧，88×88px，`background: var(--fill-tertiary)`，`border-radius: 16px`，居中 `icons/QUI_24_icons/add.svg`（24×24px，颜色 `var(--text-tertiary)`）
 - **图片占位**：`icons/Thumbnail_88.svg`，88×88px，`border-radius: 12px`，间距 12px
 - **不影响底部操作栏按钮数量**
 
@@ -193,8 +203,8 @@ E 类由 Figma 三个属性变量组合定义，对应 E1-E6 六种子类型：
 | `HasFinish = true`（E3/E4） | 20px | 28px |
 | `HasFinish = false`（E1/E2/E5/E6） | 17px | 24px |
 
-- 颜色：`--color-text-primary`（`rgba(0,0,0,0.90)`）
-- 光标：`inline-block`，1px 宽，`height: 1.2em`，颜色 `--color-brand-standard`（`#0099FF`），`vertical-align: text-bottom`
+- 颜色：`--text-primary`（`var(--text-primary)`）
+- 光标：`inline-block`，1px 宽，`height: 1.2em`，颜色 `--brand-standard`（`#0099FF`），`vertical-align: text-bottom`
 - 支持 `word-break: break-all` 换行
 
 **底部操作栏（card 类型）**
@@ -208,8 +218,8 @@ E 类由 Figma 三个属性变量组合定义，对应 E1-E6 六种子类型：
 | E3 卡片·完成 | true | **2 个** |
 | E4 卡片·图片+完成 | true | **2 个** |
 
-- 操作按钮：icon 24px + 文字 17px，`padding: 8px 12px`，`background: rgba(13,16,49,0.04)`，`border-radius: 24px`，按钮间距 12px
-- 字数统计：12px，`--color-text-tertiary`（`rgba(60,60,67,0.56)`），超限时变 `--color-feedback-error`（`#F74C30`），位于操作栏右侧
+- 操作按钮：icon 24px + 文字 17px，`padding: 8px 12px`，`background: var(--fill-tertiary)`，`border-radius: 24px`，按钮间距 12px
+- 字数统计：12px，`--text-tertiary`（`var(--text-tertiary)`），超限时变 `--accent-red`（`#E0462C`），位于操作栏右侧
 
 **组件总尺寸**：总宽度 428px，总高度 420px，各元素间距 `margin-top: 16px`
 
@@ -221,22 +231,22 @@ E 类由 Figma 三个属性变量组合定义，对应 E1-E6 六种子类型：
 
 | 用途 | 颜色值 | CSS 变量 |
 |------|--------|----------|
-| Placeholder 文字 | rgba(60,60,67,0.26) | --text_tertiary |
-| 输入文字 | rgba(0,0,0,0.90) | --text_primary |
-| 标题文字 | rgba(0,0,0,0.90) | --text_primary |
-| 附加说明 | rgba(60,60,67,0.56) | --text_secondary |
-| 字数统计（正常） | rgba(60,60,67,0.56) | --text_secondary |
-| 字数统计（超限） | #F74C30 | --feedback_error |
-| 国家代码前缀 | #214CA5 | --text_link |
+| Placeholder 文字 | `var(--text-quaternary)` | `--text-quaternary` |
+| 输入文字 | `var(--text-primary)` | `--text-primary` |
+| 标题文字 | `var(--text-primary)` | `--text-primary` |
+| 附加说明 | `var(--text-tertiary)` | `--text-tertiary` |
+| 字数统计（正常） | `var(--text-tertiary)` | `--text-tertiary` |
+| 字数统计（超限） | `#E0462C` | `--accent-red` |
+| 国家代码前缀 | `#214CA5` | `--text-link` |
 
 ### 6.2 功能颜色
 
 | 用途 | 颜色值 | CSS 变量 |
 |------|--------|----------|
-| 光标 | #0099FF | --brand_standard |
-| 清除按钮 | #929296 | --icon_secondary |
-| 分割线 | rgba(0,0,0,0.10) | --border_standard |
-| 输入框背景 | white | --fill_light_secondary |
+| 光标 | `#0099FF` | `--brand-standard` |
+| 清除按钮 | `var(--text-secondary)` | `--icon-secondary` |
+| 分割线 | `var(--border-default)` | `--border-default` |
+| 输入框背景 | `#FFFFFF` | `--bg-bottom` |
 
 ---
 
@@ -256,14 +266,14 @@ E 类由 Figma 三个属性变量组合定义，对应 E1-E6 六种子类型：
 
 ### 8.1 光标（Cursor）
 - 尺寸：1 × 18px
-- 颜色：#0099FF（品牌蓝）
+- 颜色：`#0099FF`（`--brand-standard`）
 - 仅在 **激活态** 和 **输入态/错误态** 显示
 
 ### 8.2 清除按钮（Clear）
 - 文件：`icons/close_input.svg`
 - 尺寸：20 × 20px
 - 形状：圆形实心底 + 白色 X
-- 颜色：#929296（次要图标色）
+- 颜色：`var(--text-secondary)`（`--icon-secondary`）
 - 仅在 **输入态** 和 **错误态** 显示
 
 ### 8.3 圆角装饰（Left/Right Round）
@@ -289,6 +299,10 @@ E 类由 Figma 三个属性变量组合定义，对应 E1-E6 六种子类型：
 ### 9.2 附加说明行
 
 - 所有类型均支持底部附加说明行
+- **附加说明行可隐藏**：在实际设计场景中，附加说明行可根据业务需要隐藏：
+  - **A/B/C 类**：附加说明文字 + 字数统计作为整体隐藏，组件高度从 80px → 56px
+  - **D 类**：仅附加说明文字隐藏（字数统计在文本域内右下角，不受影响），组件高度从 221px → 197px
+  - 隐藏后组件高度自适应，无需手动调整
 - 字数统计在附加说明行右侧显示（单行类型）
 - 多行文本域的字数统计在文本域内右下角显示
 - 字数统计格式：默认/激活态显示 "N字"，输入/完成/错误态显示 "已输入/N字"
@@ -347,7 +361,7 @@ E 类由 Figma 三个属性变量组合定义，对应 E1-E6 六种子类型：
 .textfield-mid {
     width: 364px;
     height: 56px;
-    background: var(--bg_bottom_light);
+    background: var(--bg-bottom);
     position: relative;
 }
 ```
@@ -359,32 +373,32 @@ E 类由 Figma 三个属性变量组合定义，对应 E1-E6 六种子类型：
 .textfield-placeholder {
     font-size: 17px;
     font-weight: 400;
-    color: var(--text_tertiary);
+    color: var(--text-quaternary);
 }
 /* 输入文字 */
 .textfield-input-text {
     font-size: 17px;
     font-weight: 400;
-    color: var(--text_primary);
+    color: var(--text-primary);
 }
 /* 标题（B类有标题型） */
 .textfield-title {
     font-size: 17px;
     font-weight: 400;
-    color: var(--text_primary);
+    color: var(--text-primary);
     width: 90px;
 }
 /* 电话前缀（C类） */
 .textfield-prefix {
     font-size: 17px;
     font-weight: 400;
-    color: var(--text_link);
+    color: var(--text-link);
 }
 /* 光标 */
 .textfield-cursor {
     width: 1px;
     height: 18px;
-    background: var(--brand_standard);
+    background: var(--brand-standard);
 }
 /* 清除按钮 */
 .textfield-clear {
@@ -406,15 +420,15 @@ E 类由 Figma 三个属性变量组合定义，对应 E1-E6 六种子类型：
 .textfield-helper {
     font-size: 14px;
     font-weight: 400;
-    color: var(--text_secondary);
+    color: var(--text-tertiary);
 }
 .textfield-char-count {
     font-size: 14px;
     font-weight: 400;
-    color: var(--text_secondary);
+    color: var(--text-tertiary);
 }
 .textfield-char-count.error {
-    color: var(--feedback_error);
+    color: var(--accent-red);
 }
 ```
 
@@ -429,20 +443,20 @@ E 类由 Figma 三个属性变量组合定义，对应 E1-E6 六种子类型：
 .textfield-multiline-left {
     width: 16px;
     height: 197px;
-    background: var(--bg_bottom_light);
+    background: var(--bg-bottom);
     border-top-left-radius: 12px;
     border-bottom-left-radius: 12px;
 }
 .textfield-multiline-mid {
     width: 364px;
     height: 197px;
-    background: var(--bg_bottom_light);
+    background: var(--bg-bottom);
     position: relative;
 }
 .textfield-multiline-right {
     width: 16px;
     height: 197px;
-    background: var(--bg_bottom_light);
+    background: var(--bg-bottom);
     border-top-right-radius: 12px;
     border-bottom-right-radius: 12px;
 }
@@ -460,7 +474,7 @@ E 类由 Figma 三个属性变量组合定义，对应 E1-E6 六种子类型：
     bottom: 16px;
     text-align: right;
     font-size: 12px;
-    color: var(--text_secondary);
+    color: var(--text-tertiary);
 }
 ```
 
@@ -471,7 +485,7 @@ E 类由 Figma 三个属性变量组合定义，对应 E1-E6 六种子类型：
 .atf-card {
     width: 396px;
     margin: 0 16px;
-    background: #ffffff;
+    background: var(--bg-bottom);
     border-radius: 24px;
     padding: 24px 16px 16px;
     box-sizing: border-box;
@@ -490,7 +504,7 @@ E 类由 Figma 三个属性变量组合定义，对应 E1-E6 六种子类型：
     width: 100%;
     min-height: 60px;
     word-break: break-all;
-    color: var(--text_primary);
+    color: var(--text-primary);
     line-height: 24px; /* 17px字号 */
 }
 .atf-text-area.has-finish {
@@ -506,7 +520,7 @@ E 类由 Figma 三个属性变量组合定义，对应 E1-E6 六种子类型：
     display: inline-block;
     width: 1px;
     height: 1.2em;
-    background: var(--brand_standard);
+    background: var(--brand-standard);
     vertical-align: text-bottom;
     margin-left: 1px;
     animation: atf-blink 1s step-end infinite;
@@ -532,7 +546,7 @@ E 类由 Figma 三个属性变量组合定义，对应 E1-E6 六种子类型：
     width: 88px;
     height: 88px;
     flex-shrink: 0;
-    background: rgba(13, 16, 49, 0.04);
+    background: var(--fill-tertiary);
     border-radius: 12px;
     display: flex;
     align-items: center;
@@ -557,21 +571,21 @@ E 类由 Figma 三个属性变量组合定义，对应 E1-E6 六种子类型：
     align-items: center;
     gap: 4px;
     padding: 8px 12px;
-    background: rgba(13, 16, 49, 0.04);
+    background: var(--fill-tertiary);
     border-radius: 24px;
     font-size: 17px;
-    color: var(--text_primary);
+    color: var(--text-primary);
     white-space: nowrap;
 }
 /* 字数统计 */
 .atf-char-count {
     margin-left: auto;
     font-size: 12px;
-    color: var(--text_secondary);
+    color: var(--text-tertiary);
     white-space: nowrap;
 }
 .atf-char-count.error {
-    color: var(--feedback_error);
+    color: var(--accent-red);
 }
 /* 完成指示器（done.svg，40×40px） */
 .atf-done {
@@ -606,6 +620,6 @@ Textfield 常嵌入 Grouped List 行中作为表单输入项：
 
 | 错误类型 | 提示方式 | 说明 |
 |----------|---------|------|
-| 字数超限 | 字数统计变为红色 `#F74C30` | 格式："已输入/N字"，超限数字高亮 |
-| 格式错误（C类电话号码） | 底部附加说明行显示红色提示 | 文字："请输入正确的手机号码"，字号 14px，颜色 `--color-feedback-error`（#F74C30） |
-| 必填未填 | 底部附加说明行显示红色提示 | 文字："此项为必填项"，字号 14px，颜色 `--color-feedback-error` |
+| 字数超限 | 字数统计变为红色 `#E0462C`（`--accent-red`）| 格式："已输入/N字"，超限数字高亮 |
+| 格式错误（C类电话号码） | 底部附加说明行显示红色提示 | 文字："请输入正确的手机号码"，字号 14px，颜色 `--accent-red`（`#E0462C`）|
+| 必填未填 | 底部附加说明行显示红色提示 | 文字："此项为必填项"，字号 14px，颜色 `--accent-red`（`#E0462C`）|

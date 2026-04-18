@@ -16,36 +16,23 @@
 ### 按需读取（每组件 ~6K tokens）
 3. **`md/<COMPONENT>_SPEC.md`** — 使用哪个组件就读哪个，**约束规则在这里**
 4. **`json/components/<component>.json`** — 该组件的结构化数据（精确数值）
-5. **`md/HALF_SCREEN_OVERLAY_TEMPLATES.md`** — 半屏浮层场景模版库（任务涉及半屏浮层时必读）
-
-### 模版匹配机制（半屏浮层场景）
-
-任务涉及半屏浮层时，**在读取组件规范之前，优先查阅 `HALF_SCREEN_OVERLAY_TEMPLATES.md`**，按核心特征判定最匹配的模版：
-
-| 模版 | 核心特征 | 典型场景 |
-|------|---------|---------|
-| T-01 | 大面积图片 + 简短文字 + 操作按钮 | 功能亮点引导、onboarding |
-| T-02 | 纯文字/图文混排长内容 + 无操作按钮 | 帮助说明、变更公告 |
-| T-03 | 用户确认/同意 + 勾选项/权限列表 + 双按钮 | 权限申请、协议确认 |
-| T-04 | 卡片式列表为主体 + 跳转/开关 + 二级导航栏 | 偏好设置、筛选配置 |
-| T-05 | 大状态图标（✓/✗/ℹ） + 居中标题说明 | 操作成功/失败/警告 |
-| T-06 | 文本输入 + 系统键盘 + 小面板 | 表单填写、搜索弹窗 |
+5. **`md/HALF_SCREEN_OVERLAY_TEMPLATES.md`** — 半屏浮层场景模版库（任务涉及半屏浮层时必读，含模版匹配机制）
 
 ### 可选（上下文充裕时）
-5. **`css/QQ_color_tokens.css`**（39 QBasicTokens）— 完整颜色 Token 定义，按需查阅
-6. **`css/tokens.css`**（2.2K tokens）— 非颜色 Token，信息已在各 MD 中内联覆盖
+5. **`css/Qdesign Color Tokens.css`**（39 QBasicTokens）— 完整颜色 Token 定义，按需查阅
+6. **`css/Qdesign Tokens.css`**（2.2K tokens）— 非颜色 Token（设备/字体/间距/圆角/阴影/动效），信息已在各 MD 中内联覆盖
 
 ---
 
 ## 一、设备与系统框架
 
-### 1.1 设备基准（生成界面的默认尺寸）
+### 1.1 设备基准
 
 | 属性 | 值 |
 |------|------|
 | 设备平台 | iOS（iPhone 14 Pro Max 基准） |
-| 屏幕宽度 | **428px** |
-| 屏幕高度 | 926px （不能出现整个界面级的滚动条） |
+| 屏幕宽度 | **428px** （不使用整个页面级的滚动条）|
+| 屏幕高度 | 926px （不使用整个页面级的滚动条）|
 | 默认字体 | PingFang SC |
 | 网格基准 | 4px（所有间距值必须为 4px 的整数倍） |
 
@@ -88,7 +75,7 @@ iOS 底部小横条，**系统级元素，全局唯一**。
 | 安全区高度 | 34px |
 | 指示条尺寸 | 144 × 5px |
 | 指示条圆角 | 2.5px |
-| 指示条颜色 | `rgba(0, 0, 0, 0.90)`（`--text_primary`） |
+| 指示条颜色 | `var(--text-primary)`（`--text-primary`） |
 | 指示条位置 | 水平居中，距底部 8px |
 | 背景色 | 透明（叠加在页面内容之上） |
 
@@ -112,14 +99,14 @@ iOS 底部小横条，**系统级元素，全局唯一**。
 .home-bar-indicator {
     width: 144px;
     height: 5px;
-    background: var(--text_primary);
+    background: var(--text-primary);
     border-radius: 2.5px;
 }
 ```
 
 ---
 
-## 二、组件文件索引
+## 二、资源包结构
 
 ```
 QUI-Basic-1.0/
@@ -127,12 +114,13 @@ QUI-Basic-1.0/
 ├── component-matrix.html        ← 组件矩阵（所有子组件变体的可视化预览总览）
 ├── component-builder.html       ← 组件搭建器（拖拽式页面构建，所见即所得）
 ├── css/
-│   ├── tokens.css               ← 全局设计 Token（设备 / 字体 / 间距 / 圆角 / 阴影 / 动效）
-│   └── QQ_color_tokens.css      ← QUI Basic 颜色 Token（39个 QBasicToken，qq-light / qq-dark 双主题）
+│   ├── Qdesign Tokens.css       ← 全局设计 Token（设备 / 字体 / 间距 / 圆角 / 阴影 / 动效）
+│   ├── Qdesign Color Tokens.css ← QUI Basic 颜色 Token（39个 QBasicToken，qq-light / qq-dark 双主题）
+│   └── Qdesign-tokens映射表.csv  ← Token 命名映射参考（Figma 旧名 → CSS 标准名）
 ├── json/
 │   ├── index.json               ← 全局索引 + Token 定义 + 组合规则 + 背景色约束
-│   └── components/              ← 各组件的结构化数据（20 个 JSON 文件）
-├── md/                          ← 各组件的设计规范文档（20 个 MD 文件，含硬性约束）
+│   └── components/              ← 各组件的结构化数据（21 个 JSON 文件）
+├── md/                          ← 各组件的设计规范文档（22 个 MD 文件，含硬性约束 + 模版库）
 ├── icons/
 │   ├── *.svg                    ← 结构图标（占位/功能性，29 枚）
 │   ├── placeholder_*.svg        ← 通用图片占位图（横版/竖版/正方形，3 枚 SVG）
@@ -155,10 +143,7 @@ QUI-Basic-1.0/
 | `search.svg` | 24px | 搜索图标 |
 | `more_upright.svg` | 24px | 更多操作 |
 | `network.svg` / `wifi.svg` / `battery.svg` | - | 系统状态栏图标（信号/WiFi/电池） |
-| `heart.svg` / `doc.svg` / `secondary.svg` / `remind_mute.svg` | 24px | 功能性图标（收藏/文档/辅助等） |
-| `done.svg` | 24px | 完成/确认图标 |
-| `loading.svg` | 24px | 加载动画（Button/Toast 加载态 spinner） |
-| `Thumbnail_88.svg` | 88px | 大尺寸缩略图占位图 |
+| `heart.svg` / `like.svg` / `star.svg` / `doc.svg` / `secondary.svg` / `remind_mute.svg` | 24px | 功能性图标（收藏/点赞/文档/辅助等） |
 
 ---
 
@@ -186,7 +171,7 @@ QUI-Basic-1.0/
 | 操作 | `textfield` | 输入框 Textfield | 50 | `TEXTFIELD_COMPONENT_SPEC.md` | `textfield.json` |
 | 操作 | `aio_input` | AIO 输入框 AIOInput | 3 | `AIO_INPUT_COMPONENT_SPEC.md` | `ai-input.json` |
 | 操作 | `toast` | 轻提示 Toast | 5 | `TOAST_COMPONENT_SPEC.md` | `toast.json` |
-| 模态 | `action_sheet` | 操作面板 ActionSheet | 22 | `ACTION_SHEET_COMPONENT_SPEC.md` | `action-sheet.json` |
+| 模态 | `action_sheet` | 操作面板 ActionSheet | 42 | `ACTION_SHEET_COMPONENT_SPEC.md` | `action-sheet.json` |
 | 模态 | `dialog` | 对话框 Dialog | 15 | `DIALOG_COMPONENT_SPEC.md` | `dialog.json` |
 | 模态 | `half_screen_overlay` | 半屏浮层 HalfScreenOverlay | 2 | `HALF_SCREEN_OVERLAY_COMPONENT_SPEC.md` | `half-screen-overlay.json` |
 
@@ -211,7 +196,7 @@ QUI-Basic-1.0/
 |------|---------------------------|-------------|
 | **定位** | 精确数值源（机器可读） | 设计意图 + 约束规则（人/AI 可读） |
 | **包含** | 尺寸、间距、变体列表、状态定义、交互参数（**不含颜色**） | 组件概述、ASCII结构图、约束规则、交互行为、布局规则、使用场景 |
-| **权威性** | 所有精确数值（px/字重等）以 JSON 为准；**颜色以 `css/QQ_color_tokens.css` 为准** | 变体数量、约束规则、组合合法性以 MD 为准 |
+| **权威性** | 所有精确数值（px/字重等）以 JSON 为准；**颜色以 `css/Qdesign Color Tokens.css` 为准** | 变体数量、约束规则、组合合法性以 MD 为准 |
 | **互引** | 每个 JSON 含 `"spec"` 字段指向对应 MD | MD 尺寸表精简为属性+值两列，颜色/字体引用 JSON |
 
 ### 快速引用规则
@@ -220,7 +205,7 @@ QUI-Basic-1.0/
 2. **查变体数量**：以 MD 文档中的"变体矩阵"为准，JSON `totalVariants` 为辅助校验
 3. **查约束规则**：**仅在 MD 中定义**（JSON 的 `constraints` 为摘要）
 4. **查精确数值**：JSON 的 `layout` / `style` / `states` / `dimensions` 字段
-5. **查颜色 Token**：`css/QQ_color_tokens.css` 为**唯一权威来源**，JSON 不再声明颜色
+5. **查颜色 Token**：`css/Qdesign Color Tokens.css` 为**唯一权威来源**，JSON 不再声明颜色
 6. **跳转关联文件**：JSON 的 `"spec"` 字段 → 对应 MD 文档路径
 
 ---
@@ -251,7 +236,7 @@ QUI-Basic-1.0/
 | 规则 | 说明 |
 |------|------|
 | 模态组件不可嵌套 | ActionSheet、Dialog、HalfScreenOverlay 三者之间不可互相嵌套 |
-| 背景色互斥 | Card/Grouped List/Message 要求灰底（#F0F0F2），不可与白底组件同页使用白底 |
+| 背景色互斥 | Card/Grouped List/Message 要求灰底（var(--bg-secondary)），不可与白底组件同页使用白底 |
 | AIOInput 固定底部 | AIOInput 固定在页面底部，不可嵌入其他组件内部 |
 
 ---
@@ -262,18 +247,18 @@ QUI-Basic-1.0/
 
 | 背景色 | Token | 色值 | 触发条件 |
 |--------|-------|------|----------|
-| 浅灰色 | `--bg_middle_standard` | `#F0F0F2` | 页面包含**卡片式列表（Grouped List）**或**卡片（Card）**时必须使用 |
-| AIO背景色 | `--bg_select_aio` | `#F0F0F2` | 页面包含**消息（Message）**组件时必须使用 |
-| 白色 | `--bg_bottom_light` | `#FFFFFF` | 默认背景色，仅当页面不包含卡片式列表、卡片和消息组件时使用 |
-| 品牌蓝 | `--bg_bottom_brand` | `#EFF4FF` | 品牌定制页面，按业务需要使用 |
+| 浅灰色 | `--bg-secondary` | `var(--bg-secondary)` | 页面包含**卡片式列表（Grouped List）**或**卡片（Card）**时必须使用 |
+| AIO背景色 | `--bg-select` | `var(--bg-secondary)` | 页面包含**消息（Message）**组件时必须使用 |
+| 白色 | `--bg-bottom` | `#FFFFFF` | 默认背景色，仅当页面不包含卡片式列表、卡片和消息组件时使用 |
+| 品牌蓝 | `--bg-bottom-brand` | `#EFF4FF` | 品牌定制页面，按业务需要使用 |
 
-> **优先级规则**：当页面同时包含需要灰色背景和白色背景的组件时，以灰色背景（`#F0F0F2`）为准。消息组件的 AIO 背景色（`--bg_select_aio`）与卡片/卡片式列表的灰色背景（`--bg_middle_standard`）色值相同，可共存。
+> **优先级规则**：当页面同时包含需要灰色背景和白色背景的组件时，以灰色背景（`var(--bg-secondary)`）为准。消息组件的 AIO 背景色（`--bg-select`）与卡片/卡片式列表的灰色背景（`--bg-secondary`）色值相同，可共存。
 
 ---
 
 ## 七、动效系统索引
 
-动效 Token 定义在 `css/tokens.css` 的第 5 节，覆盖以下 9 类交互动效：
+动效 Token 定义在 `css/Qdesign Tokens.css` 的第 5 节，覆盖以下 9 类交互动效：
 
 | 动效类别 | Token 前缀 | 时长 | 缓动曲线 | 适用组件 |
 |----------|-----------|------|---------|---------|
@@ -296,3 +281,54 @@ QUI-Basic-1.0/
 > **使用方法**：在 CSS 中通过 `var(--anim-xxx-duration)` 和 `var(--anim-xxx-easing)` 引用，确保动效参数全局一致。
 
 ---
+
+## 八、⚠️ 生成前强制检查清单
+
+在输出任何 UI 组件 HTML 之前，**必须按以下步骤逐项验证**：
+
+### 步骤 1：读取组件规范
+- 确认要使用的组件，读取其 `md/<COMPONENT>_SPEC.md`
+- 重点阅读文档中的 **"属性约束"** 章节
+
+### 步骤 2：检查组合合法性
+- 通栏式列表 → 检查 `LIST_COMPONENT_SPEC.md` §3 属性约束（L×C×R 组合过滤）
+- 卡片式列表 → 检查 `GROUPED_LIST_COMPONENT_SPEC.md` §3 属性约束（L×R 组合 + 嵌套规则）
+- 导航栏 → 检查 `NAVBAR_COMPONENT_SPEC.md` §3 属性约束（L×C×R 强绑定）
+- 模态组件 → 检查各自 SPEC 中的控件联动规则
+
+### 步骤 3：检查颜色 Token
+- **⚠️ 颜色唯一权威来源**：`css/Qdesign Color Tokens.css` 是全局颜色 Token 的**唯一定义处**，AI 和开发者均以此为准。`json/index.json` 不再声明颜色快照（已移除）
+- `css/Qdesign Tokens.css` 仅包含非颜色 Token（设备/字体/间距/圆角/阴影/动效）
+- 颜色 Token 共 **39 个 QBasicToken**，命名格式 `--token名`（下划线分隔）
+- 所有颜色值必须使用 Token 定义的值，禁止自行编造色值
+- 页面背景色须遵守上方"第六章 页面背景色约束"规则
+
+### 步骤 4：检查通用规则
+- 同一通栏式列表内所有行的 L/C/R 组合必须一致
+- 模态组件（ActionSheet / Dialog / HalfScreenOverlay）之间不可嵌套
+- 分割线不在列表最后一行底部显示
+- **⚠️ 间距与分隔（必读）**：页面中组件之间必须添加间距或分割线，否则无法正确分隔组件。间距值必须为 4px 的整数倍，共 6 档（4/8/12/16/24/32px），组件间间距选择规则**必须阅读** `DIVIDER_SPACING_COMPONENT_SPEC.md`
+
+### 步骤 5：图标使用规则
+
+**已绑定图标（不可替换）**：
+- 组件 MD / JSON 中已绑定具体 SVG 文件名的图标（如 `chevron_right.svg`、`tick.svg`、`Close_HalfScreen.svg`、`search.svg` 等）是**固定图标**，在实际设计任务中**不能更换为其他文件**
+- 这些图标承载固定的交互语义（返回、关闭、勾选、展开等），更换会导致用户认知混乱
+
+**占位图标（必须替换）**：
+- `empty_icon.svg` 是**通用占位图标**，在实际设计任务中**必须替换**为 `icons/QUI_24_icons/` 中的真实图标
+- 图标库位于 `icons/QUI_24_icons/`，共 437 枚 24px SVG 图标
+- 引用路径格式：`icons/QUI_24_icons/<图标名>.svg`
+
+**头像 / 缩略图占位（保持占位图）**：
+- `Avatar_32/40/52.svg` 和 `Thumbnail_24/32/40/52.svg` 是**占位资源**，在生成时**保持占位图即可，不替换为真实图片**
+- 占位图用于标示该区域的语义（头像、缩略图），保持相同尺寸和圆角规则（头像 `border-radius: 50%`，缩略图按组件规范）
+
+### 步骤 6：输出审查与完善建议
+- 完成设计任务后，审视最终方案，以清单形式附在回复末尾，涵盖以下维度：
+  - **缺失组件**：当前 21 个母组件无法覆盖的设计需求（如需要但不存在的组件类型）
+  - **缺失变体**：现有组件的变体不足以满足场景（如缺少某种尺寸、状态或布局）
+  - **不合理之处**：组件规范与实际设计需求之间的冲突或不适配
+ 
+- 无问题的维度注明"无缺失"
+
