@@ -46,10 +46,10 @@
 
 | 元素 | 字号 | 字重 | 颜色 |
 |------|------|------|------|
-| 标题 | 17px | Medium (500) | text_primary var(--text-primary) |
-| 副标题 | 12px | Regular (400) | text_secondary var(--text-secondary) |
-| 操作文字 | 17px | Regular (400) | text_primary var(--text-primary) |
-| 二级标题 | 17px | Medium (500) | text_primary var(--text-primary) |
+| 标题 | 17px | Medium (500) | `var(--text-primary)` |
+| 副标题 | 12px | Regular (400) | `var(--text-secondary)` |
+| 操作文字 | 17px | Regular (400) | `var(--text-primary)` |
+| 二级标题 | 17px | Medium (500) | `var(--text-primary)` |
 
 ### 3.3 对齐方式
 

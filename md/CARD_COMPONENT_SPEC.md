@@ -38,12 +38,12 @@
 | 外层宽度 | 428px | 设备宽度 |
 | 内容宽度 | 396px | 左右各缩进 16px |
 | 圆角 | 24px | 统一圆角 |
-| 背景色 | `#FFFFFF` (`bg_bottom_light`) | 白色容器 |
+| 背景色 | `#FFFFFF` (`--bg-bottom`) | 白色容器 |
 | 溢出裁剪 | `overflow: hidden` | 图片撑满不超出 |
 
 ### 3.2 页面背景色约束
 
-卡片组件为圆角白色容器，**页面背景色必须使用** `var(--bg-secondary)` (`bg_middle_standard`)，与卡片式列表(Grouped List)规则一致，白色卡片需要灰色底形成视觉层级分离。
+卡片组件为圆角白色容器，**页面背景色必须使用** `var(--bg-secondary)`，与卡片式列表(Grouped List)规则一致，白色卡片需要灰色底形成视觉层级分离。
 
 ---
 
@@ -62,8 +62,8 @@
 | 头像与标题间距 | 8px |
 | 标题字号 | 17px |
 | 标题字重 | 400 (Regular) |
-| 标题颜色 | `var(--text-primary)` (text_primary) |
-| 底部分割线 | 宽 364px，左起 16px，0.5px solid `var(--border-weak)` (`--border-weak`) |
+| 标题颜色 | `var(--text-primary)` |
+| 底部分割线 | 宽 364px，左起 16px，0.5px solid `var(--border-weak)` |
 
 ### 4.2 图片区域（Card Image）
 
@@ -85,7 +85,7 @@
 | 背景色 | `#FFFFFF` |
 | 内边距 | 上 12px，左右 16px |
 | 标题字号 | 17px / 400 / `var(--text-primary)` |
-| 描述字号 | 14px / 400 / `var(--text-secondary)` (text_secondary) |
+| 描述字号 | 14px / 400 / `var(--text-secondary)` |
 | 描述行距 | 20px |
 | 描述最大行数 | 2 行 |
 | 右侧图标尺寸 | 52×52px，圆角 12px |
@@ -101,7 +101,7 @@
 | 高度 | 40px |
 | 背景色 | `#FFFFFF` |
 | 左边距 | 16px |
-| 字号 | 12px / 400 / `var(--text-secondary)` (text_secondary) |
+| 字号 | 12px / 400 / `var(--text-secondary)` |
 
 ### 4.5 九宫格图片区域（Card Grid）
 
@@ -128,12 +128,12 @@
 | 左右内边距 | 16px |
 | 左侧图标（C9）| 52×52px，圆角 12px |
 | 图标与文字间距 | 12px |
-| 标题字号 | 17px / 400 / text_primary |
-| 描述字号 | 12px / 400 / text_secondary |
+| 标题字号 | 17px / 400 / `var(--text-primary)` |
+| 描述字号 | 12px / 400 / `var(--text-secondary)` |
 | 按钮尺寸 | 72×36px |
 | 按钮背景 | `rgba(116,116,128,0.08)` (btn_bg) |
 | 按钮圆角 | 9999px（胶囊型） |
-| 按钮文字 | 14px / 500 / text_primary |
+| 按钮文字 | 14px / 500 / `var(--text-primary)` |
 
 ### 4.7 大标题区域（Card Big Title）
 
@@ -142,9 +142,9 @@
 | 属性 | 值 |
 |------|------|
 | 背景色 | `#FFFFFF` |
-| 标题字号 | 22px / 600 (Semibold) / text_primary |
+| 标题字号 | 22px / 600 (Semibold) / `var(--text-primary)` |
 | 标题行高 | 28px |
-| 副标题字号 | 17px / 400 / text_secondary |
+| 副标题字号 | 17px / 400 / `var(--text-secondary)` |
 | 副标题行高 | 24px |
 | 标题与副标题间距 | 4px（spacing-xs） |
 | 上内边距 | 20px（从头像行底部算起） |
@@ -160,7 +160,7 @@
 | 按钮高度 | 52px |
 | 背景色 | `rgba(116,116,128,0.08)` (`--fill-tertiary`) |
 | 圆角 | 999px |
-| 文字 | 17px / 600 / text_primary |
+| 文字 | 17px / 600 / `var(--text-primary)` |
 | 外部上下间距 | 16px |
 
 ### 4.9 键值对行（Card KV Row）
@@ -172,8 +172,8 @@
 | 行高 | 24px |
 | 左右内边距 | 16px |
 | 标签宽度 | 84px（固定） |
-| 标签样式 | 17px / 400 / text_secondary |
-| 值样式 | 17px / 400 / text_primary |
+| 标签样式 | 17px / 400 / `var(--text-secondary)` |
+| 值样式 | 17px / 400 / `var(--text-primary)` |
 | 行间距 | 8px |
 | 容器上内边距 | 8px |
 | 容器下内边距 | 8px |
@@ -189,7 +189,7 @@
 | 背景色 | `#FFFFFF` |
 | 内容区域 | 364px 宽，左右各 16px |
 | 顶部分割线 | 364px 宽，0.5px solid separator |
-| 标题样式 | 17px / 400 / text_primary |
+| 标题样式 | 17px / 400 / `var(--text-primary)` |
 | 箭头图标 | 8×16px，颜色 `rgba(60,60,67,0.75)` |
 
 ### 4.11 Markdown 内容区域（Card Markdown Content）
@@ -362,16 +362,16 @@ H7 提示文本（如有疑问，请[联系客服]）
 
 ## 7. Token 映射
 
-| Token | CSS 变量 | 值 |
-|-------|----------|------|
-| text_primary | `--text-primary` | `var(--text-primary)` |
-| text_primary_light | `--text-secondary` | `var(--text-secondary)` |
-| text_link | `--text-link` | `#214CA5` |
-| border_light | `--border-weak` | `var(--border-weak)` |
-| border_standard | `--border-default` | `var(--border-default)` |
-| bg_bottom_light | `--bg-bottom` | `#FFFFFF` |
-| fill_standard_primary | `--fill-tertiary` | `var(--fill-tertiary)` |
-| bg_middle_standard | 页面背景 | `var(--bg-secondary)` |
+| CSS 变量 | 值 | 用途 |
+|----------|------|------|
+| `--text-primary` | `var(--text-primary)` | 标题、正文、按钮文字 |
+| `--text-secondary` | `var(--text-secondary)` | 描述、副标题、辅助行、标签 |
+| `--text-link` | `var(--text-link)` | 链接色文字 |
+| `--border-weak` | `var(--border-weak)` | 卡片内分割线 |
+| `--border-default` | `var(--border-default)` | 描边 |
+| `--bg-bottom` | `#FFFFFF` | 卡片容器背景 |
+| `--fill-tertiary` | `var(--fill-tertiary)` | 按钮背景、占位图背景 |
+| `--bg-secondary` | `var(--bg-secondary)` | 页面背景色（必须） |
 
 ---
 

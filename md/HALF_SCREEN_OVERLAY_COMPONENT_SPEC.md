@@ -331,9 +331,9 @@ Transition: triggered when top < 100px
 
 | 内嵌组件 | 内容区背景色 | Token | 说明 |
 |----------|------------|-------|------|
-| Grouped List（卡片式列表） | `var(--bg-secondary)` | `bg_middle_standard` | 白色卡片需灰底形成层级分离 |
-| Card（卡片） | `var(--bg-secondary)` | `bg_middle_standard` | 同上 |
-| Message（消息） | `var(--bg-secondary)` | `--bg-select` | AIO 背景色 |
-| 其他组件（List/Textfield/Button 等） | `#FFFFFF` | `bg_bottom_light` | 默认白底 |
+| Grouped List（卡片式列表） | `var(--bg-secondary)` | `--bg-secondary` | 白色卡片需灰底形成层级分离 |
+| Card（卡片） | `var(--bg-secondary)` | `--bg-secondary` | 同上 |
+| Message（消息） | `var(--bg-secondary)` | `--bg-secondary` | AIO 背景色 |
+| 其他组件（List/Textfield/Button 等） | `#FFFFFF` | `--bg-bottom` | 默认白底 |
 
 > **常用场景模版**：见 `md/HALF_SCREEN_OVERLAY_TEMPLATES.md`。执行半屏浮层相关设计任务时，请优先查阅该文档，判断是否可直接使用或小幅修改已有模版。

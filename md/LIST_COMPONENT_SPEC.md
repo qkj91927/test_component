@@ -151,9 +151,9 @@
 不同类型的列表必须通过**结构级切换**展示，例如：Tab、Segment Control、Filter 等视图级切换控件。每个切换状态对应一种独立的列表子组件类型。
 
 ### 6.3 页面背景色
-通栏式列表的行背景为白色（`#FFFFFF`），与白色页面背景融为一体。因此使用通栏式列表时，页面背景色应使用**默认白色** `#FFFFFF`（Token `bg_bottom_light`）。
+通栏式列表的行背景为白色（`#FFFFFF`），与白色页面背景融为一体。因此使用通栏式列表时，页面背景色应使用**默认白色** `#FFFFFF`（Token `--bg-bottom`）。
 
-> **注意**：如果同一页面还包含卡片式列表（Grouped List），则页面背景色以 `var(--bg-secondary)`（`bg_middle_standard`）为准。
+> **注意**：如果同一页面还包含卡片式列表（Grouped List），则页面背景色以 `var(--bg-secondary)`（`--bg-secondary`）为准。
 
 ---
 

@@ -128,7 +128,7 @@ Flex 算法分配顺序：
 ```css
 .form-container {
     width: 428px;
-    background: var(--bg-secondary);        /* ⚠️ 必须使用 bg_middle_standard，不可用白色 */
+    background: var(--bg-secondary);        /* ⚠️ 必须使用 --bg-secondary，不可用白色 */
     padding: 12px 16px;
     display: flex;
     flex-direction: column;
