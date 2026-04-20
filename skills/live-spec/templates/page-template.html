@@ -1,0 +1,213 @@
+<!--
+  页面底座模板（428×926 iPhone 14 Pro Max）
+  ========================================
+  用法：
+    1. 拷贝为 <page-name>.html
+    2. 在 .content-scroll 内填入你的组件
+    3. 所有组件必须遵循 Basic 1.0/md/*.md 的约束
+
+  ⚠️ 已内置硬性规则：
+    R1: body background: transparent
+    R2: device 用 border 不用 box-shadow
+-->
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="qq-light">
+<head>
+<meta charset="UTF-8" />
+<title>{{PAGE_NAME}}</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="Basic 1.0/css/Qdesign Color Tokens.css" />
+<style>
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body {
+    margin: 0; padding: 0;
+    font-family: 'PingFang SC', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+    /* R1: 必须 transparent，不要灰色 */
+    background: transparent;
+    color: var(--text-primary);
+  }
+  body {
+    min-height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    padding: 40px 0;
+  }
+
+  /* 设备外壳 428×926 */
+  .device {
+    position: relative;
+    width: 428px; height: 926px;
+    background: var(--bg-bottom); /* 默认白，含 Card/Grouped List 时改为 var(--bg-secondary) */
+    overflow: hidden;
+    border-radius: 48px;
+    /* R2: 用 border 不用 box-shadow */
+    border: 6px solid #1a1a1a;
+  }
+
+  /* StatusBar 54px */
+  .status-bar { width: 428px; height: 54px; position: relative; flex-shrink: 0; background: transparent; }
+  .sb-time { position: absolute; left: 0; top: 21px; width: 152px; text-align: center; }
+  .sb-time span {
+    font-family: 'SF Pro', -apple-system, sans-serif;
+    font-size: 17px; font-weight: 590; color: var(--text-primary);
+  }
+  .sb-notch {
+    position: absolute; left: 152px; top: 11px;
+    width: 124px; height: 37px; border-radius: 20px; background: #000;
+  }
+  .sb-icons { position: absolute; right: 18px; top: 19px; display: flex; align-items: center; gap: 6px; }
+  .sb-icons img { height: 12px; display: block; }
+
+  /* 可滚动内容区（status 54 + navbar 44 = 98；home bar 34） */
+  .content-scroll {
+    position: absolute;
+    left: 0; right: 0;
+    top: 98px;
+    bottom: 34px;
+    overflow-y: auto; overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+  }
+  .content-scroll::-webkit-scrollbar { display: none; }
+
+  /* Home Bar 34px */
+  .home-bar {
+    position: absolute; left: 0; bottom: 0;
+    width: 428px; height: 34px;
+    display: flex; align-items: flex-end; justify-content: center;
+    padding-bottom: 8px; background: transparent; z-index: 10;
+  }
+  .home-bar-indicator {
+    width: 144px; height: 5px;
+    background: var(--text-primary); border-radius: 2.5px;
+  }
+
+  /* ===== Edit 模式样式（R8，由父页通过 postMessage 切换） ===== */
+  body.edit-mode [data-component] {
+    cursor: pointer;
+    transition: outline 0.1s;
+  }
+  body.edit-mode [data-component]:hover {
+    outline: 1.5px dashed #0099ff;
+    outline-offset: -1px;
+  }
+  body.edit-mode [data-component].selected {
+    outline: 2px solid #0099ff;
+    outline-offset: -1px;
+  }
+</style>
+</head>
+<body>
+
+<div class="device">
+
+  <!-- StatusBar（系统级，所有页面必有） -->
+  <div class="status-bar" data-component="StatusBar" data-variant="系统">
+    <div class="sb-time"><span>9:41</span></div>
+    <div class="sb-notch"></div>
+    <div class="sb-icons">
+      <img src="Basic 1.0/icons/network.svg" alt="" />
+      <img src="Basic 1.0/icons/wifi.svg" alt="" />
+      <img src="Basic 1.0/icons/battery.svg" alt="" />
+    </div>
+  </div>
+
+  <!-- ⚠️ 在此处插入 NavBar（44px），记得加 data-component="NavBar" data-variant="Lx·Cx·Rx" -->
+  <!-- TEMPLATE:NAVBAR -->
+
+  <!-- 可滚动内容区 -->
+  <div class="content-scroll">
+    <!-- ⚠️ 在此处按顺序插入各母组件 + Spacing，每个组件容器都要加 data-component + data-variant -->
+    <!-- TEMPLATE:CONTENT -->
+  </div>
+
+  <!-- Home Bar（系统级，所有页面必有） -->
+  <div class="home-bar" data-component="Home Bar" data-variant="系统">
+    <div class="home-bar-indicator"></div>
+  </div>
+
+</div>
+
+<script>
+  /* =====================================================
+   *  Edit 模式通信脚本（R8 硬性规则 · 固定不改）
+   *  协议详见: .codebuddy/skills/live-spec/references/edit-mode-protocol.md
+   * ===================================================== */
+  (function () {
+    let editMode = false;
+    let selectedEl = null;
+
+    // ⚠️ 每次新建页面，必须根据实际使用的组件补齐下表
+    // key = data-component 的值；value = 展示在 Inspector 的 token 表
+    // 可编辑字段（W/H/MinH/PaddingX/Gap/Radius/LineHeight）由 Inspector 的 TOKEN_META 决定
+    const COMPONENT_TOKENS = {
+      'StatusBar':  { W: '428 px', H: '54 px', Fill: 'transparent', TimeFont: 'SF Pro 17/590' },
+      'NavBar':     { W: '428 px', H: '44 px', PaddingX: '16 px', TitleFont: '17/600', Color: 'text-primary', Fill: 'transparent' },
+      'Search':     { W: '396 px', H: '36 px', Radius: '12 px', Fill: 'fill-tertiary', Align: 'center', PlaceholderFont: '17/400' },
+      'TextBlock':  { W: '428 px', MinH: '36 px', PaddingX: '16 px', TitleFont: '20/600', Color: 'text-primary', LineHeight: '28 px' },
+      'Grid':       { W: '428 px', H: '112 px', Gap: '16 px', ThumbSize: '60 × 60', Radius: '50%', LabelFont: '12/400' },
+      'Plain List': { RowW: '428 px', RowH: '60 px', PaddingX: '16 px', AvatarSize: '42 × 42', AvatarRadius: '50%', TitleFont: '17/400', DividerInset: '70 / 0' },
+      'Grouped List': { W: '396 px', Radius: '12 px', Fill: 'bg-bottom', RowH: '56 px' },
+      'Home Bar':   { W: '428 px', H: '34 px', Indicator: '144 × 5', Radius: '2.5 px', Color: 'text-primary' }
+    };
+
+    function sendSelection(el) {
+      if (!el) {
+        parent.postMessage({ source: 'figma-canvas', type: 'DESELECT' }, '*');
+        return;
+      }
+      const rect = el.getBoundingClientRect();
+      const name = el.dataset.component;
+      parent.postMessage({
+        source: 'figma-canvas',
+        type: 'SELECT',
+        component: name,
+        variant: el.dataset.variant || '',
+        tokens: COMPONENT_TOKENS[name] || {},
+        rect: { x: rect.left, y: rect.top, w: rect.width, h: rect.height }
+      }, '*');
+    }
+
+    function onClick(e) {
+      if (!editMode) return;
+      const el = e.target.closest('[data-component]');
+      if (!el) return;
+      e.preventDefault(); e.stopPropagation();
+      if (selectedEl) selectedEl.classList.remove('selected');
+      selectedEl = el;
+      el.classList.add('selected');
+      sendSelection(el);
+    }
+
+    function onScrollOrResize() {
+      if (editMode && selectedEl) sendSelection(selectedEl);
+    }
+
+    document.addEventListener('click', onClick, true);
+    window.addEventListener('scroll', onScrollOrResize, true);
+    window.addEventListener('resize', onScrollOrResize);
+
+    window.addEventListener('message', function (ev) {
+      const msg = ev.data || {};
+      if (msg.source !== 'figma-inspector') return;
+      if (msg.type === 'ENTER_EDIT') {
+        editMode = true;
+        document.body.classList.add('edit-mode');
+      } else if (msg.type === 'EXIT_EDIT') {
+        editMode = false;
+        document.body.classList.remove('edit-mode');
+        if (selectedEl) selectedEl.classList.remove('selected');
+        selectedEl = null;
+        parent.postMessage({ source: 'figma-canvas', type: 'DESELECT' }, '*');
+      } else if (msg.type === 'APPLY_STYLE' && selectedEl) {
+        for (const [prop, val] of Object.entries(msg.styles || {})) {
+          selectedEl.style.setProperty(prop, val);
+        }
+        sendSelection(selectedEl);
+      }
+    });
+
+    parent.postMessage({ source: 'figma-canvas', type: 'READY' }, '*');
+  })();
+</script>
+
+</body>
+</html>

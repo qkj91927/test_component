@@ -1,0 +1,736 @@
+<!--
+  LiveSpec · 工作台模板
+  ========================================
+  用法：
+    1. 拷贝此文件为 <page-name>-inspector.html
+    2. 替换 iframe 的 src 为你的 <page-name>.html
+    3. 替换 Tab 1 (Style) 与 Tab 2 (组件) 中的 Token 为实际数值
+    4. 所有 CSS/JS 保持不变
+
+  ⚠️ 硬性规则（详见 SKILL.md）：
+    R1: iframe 内 body 必须 background: transparent
+    R2: 设备外壳用 border 不用 box-shadow
+    R3: 必须 Grid 布局保宽
+    R4: 响应式下 Inspector 置顶
+    R5: 颜色 Token 来源唯一（Qdesign Color Tokens.css）
+    R6: Inspector 必须是 Tab 双面板
+    R7: 左右双列必须独立滚动
+    R8: Edit 模式 postMessage 协议（详见 references/edit-mode-protocol.md）
+-->
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="qq-light">
+<head>
+<meta charset="UTF-8" />
+<title>{{PAGE_NAME}} · LiveSpec</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="Basic 1.0/css/Qdesign Color Tokens.css" />
+<style>
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    font-family: 'PingFang SC', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+    background: #ffffff;
+    color: #1a1a1a;
+  }
+
+  /* ===== Grid 布局骨架（R3 硬性规则） ===== */
+  /* R7: html/body 锁定视口高度并禁止整页滚动，让 canvas 和 inspector 各自独立滚动 */
+  html, body { height: 100%; overflow: hidden; }
+  body {
+    display: grid;
+    grid-template-columns: minmax(480px, 1fr) 420px;
+    grid-template-rows: 44px 1fr;
+    grid-template-areas:
+      "topbar topbar"
+      "canvas inspector";
+  }
+
+  /* ===== 顶部全局工具栏 ===== */
+  .topbar {
+    grid-area: topbar;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 14px;
+    background: #ffffff;
+    border-bottom: 1px solid #e5e5ea;
+    z-index: 20;
+  }
+  .topbar-left, .topbar-right { display: flex; align-items: center; gap: 4px; }
+
+  .tb-icon {
+    width: 28px; height: 28px; border-radius: 6px;
+    display: inline-flex; align-items: center; justify-content: center;
+    color: #8a8a8e; font-size: 13px; cursor: pointer; user-select: none;
+    transition: background 0.15s, color 0.15s;
+  }
+  .tb-icon:hover { background: #f0f0f2; color: #333; }
+  .tb-icon.disabled { color: #d0d0d4; cursor: not-allowed; }
+  .tb-icon.disabled:hover { background: transparent; color: #d0d0d4; }
+
+  .tb-chip {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 5px 12px; border-radius: 999px;
+    font-size: 12px; font-weight: 500; color: #1a1a1a;
+    cursor: pointer; border: 1px solid transparent; user-select: none;
+    transition: background 0.15s, border-color 0.15s;
+  }
+  .tb-chip:hover { background: #f5f5f7; }
+  .tb-chip.has-border { border-color: #e5e5ea; background: #fff; }
+
+  .tb-toggle {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 4px 10px 4px 12px; border-radius: 999px;
+    cursor: pointer; font-size: 12px; font-weight: 500; color: #1a1a1a;
+  }
+  .tb-toggle:hover { background: #f5f5f7; }
+  .tb-toggle .switch {
+    width: 26px; height: 16px; border-radius: 999px;
+    background: #0099ff; position: relative; transition: background 0.2s;
+  }
+  .tb-toggle .switch::after {
+    content: ''; position: absolute; width: 12px; height: 12px; border-radius: 50%;
+    background: #fff; top: 2px; right: 2px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.15); transition: all 0.2s;
+  }
+  .tb-toggle.off .switch { background: #d0d0d4; }
+  .tb-toggle.off .switch::after { right: auto; left: 2px; }
+
+  .tb-chip.comment::before {
+    content: ''; width: 14px; height: 14px;
+    background: no-repeat center/contain url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231a1a1a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z'/></svg>");
+  }
+  .tb-chip.edit {
+    background: #e0462c; color: #fff; padding: 5px 14px 5px 10px;
+  }
+  .tb-chip.edit:hover { background: #cf3b22; }
+  .tb-chip.edit::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: #fff; }
+  .tb-chip.draw::before {
+    content: ''; width: 14px; height: 14px;
+    background: no-repeat center/contain url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231a1a1a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M12 19l7-7 3 3-7 7-3-3z'/><path d='M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z'/></svg>");
+  }
+  .tb-chip.zoom {
+    background: #1a1a1a; color: #fff;
+    font-family: 'SF Mono', 'Menlo', monospace;
+  }
+  .tb-chip.zoom:hover { background: #333; }
+  .tb-chip.zoom::before {
+    content: ''; width: 12px; height: 12px;
+    background: no-repeat center/contain url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'><circle cx='11' cy='11' r='7'/><line x1='21' y1='21' x2='16.65' y2='16.65'/></svg>");
+  }
+  .tb-divider { width: 1px; height: 18px; background: #e5e5ea; margin: 0 6px; }
+
+  /* ===== 左侧画布（独立滚动，不跟随右侧 Inspector） ===== */
+  .canvas {
+    grid-area: canvas;
+    background: #F3F3F5;
+    display: flex; align-items: flex-start; justify-content: center;
+    padding: 48px 24px;
+    overflow: auto;
+    position: relative;
+    min-height: 0;  /* R7: 配合 grid 实现独立滚动 */
+    height: 100%;
+  }
+  .canvas iframe {
+    width: 460px; height: 960px;
+    border: none; background: transparent;
+    flex-shrink: 0; color-scheme: light;
+  }
+
+  /* ===== 右侧 Inspector（独立滚动） ===== */
+  .inspector {
+    grid-area: inspector;
+    width: 420px; flex-shrink: 0;
+    border-left: 1px solid #e5e5ea;
+    background: #ffffff;
+    overflow: hidden;
+    display: flex; flex-direction: column;
+    min-height: 0; height: 100%;  /* R7 */
+  }
+
+  /* Tab */
+  .tabs {
+    display: flex;
+    padding: 12px 16px 0 16px; gap: 4px;
+    border-bottom: 1px solid #e5e5ea;
+    background: #ffffff;
+    flex-shrink: 0;
+  }
+  .tab {
+    padding: 8px 14px;
+    font-size: 12px; font-weight: 500;
+    color: #8a8a8e; cursor: pointer;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    transition: color 0.15s;
+  }
+  .tab:hover { color: #333; }
+  .tab.active { color: #1a1a1a; border-bottom-color: #1a1a1a; }
+
+  .tab-panel { display: none; flex: 1; overflow-y: auto; padding: 16px 14px 80px 14px; }
+  .tab-panel.active { display: block; }
+
+  .section-title {
+    font-size: 10px; font-weight: 600;
+    letter-spacing: 0.08em; color: #9a9a9e;
+    text-transform: uppercase;
+    margin: 18px 0 8px 2px;
+  }
+  .section-title:first-child { margin-top: 0; }
+
+  .row { display: grid; gap: 6px; margin-bottom: 6px; }
+  .row.cols-2 { grid-template-columns: 1fr 1fr; }
+  .row.cols-1 { grid-template-columns: 1fr; }
+
+  .field {
+    display: flex; align-items: center;
+    padding: 0 10px; height: 30px;
+    background: #ffffff;
+    border: 1px solid #E5E5EA;
+    border-radius: 4px;
+    font-size: 12px; gap: 6px; min-width: 0;
+  }
+  .field .lbl { color: #5a5a5e; flex-shrink: 0; }
+  .field .val {
+    margin-left: auto; color: #1a1a1a;
+    font-family: 'SF Mono', 'Menlo', ui-monospace, monospace;
+    font-size: 11px; white-space: nowrap;
+    overflow: hidden; text-overflow: ellipsis;
+  }
+  .field .val.mixed { color: #9a9a9e; font-style: italic; font-family: inherit; font-size: 12px; }
+  .field .val.dropdown::after {
+    content: ' ›'; color: #9a9a9e; margin-left: 4px;
+    display: inline-block; transform: rotate(90deg); font-family: inherit;
+  }
+
+  .swatch {
+    width: 14px; height: 14px; border-radius: 2px;
+    border: 1px solid rgba(0,0,0,0.08); flex-shrink: 0;
+  }
+  .swatch.transparent {
+    background-image:
+      linear-gradient(45deg, #ccc 25%, transparent 25%),
+      linear-gradient(-45deg, #ccc 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, #ccc 75%),
+      linear-gradient(-45deg, transparent 75%, #ccc 75%);
+    background-size: 6px 6px;
+    background-position: 0 0, 0 3px, 3px -3px, -3px 0;
+  }
+
+  /* Padding 盒子 */
+  .padding-box {
+    background: #fff; border: 1px solid #E5E5EA;
+    border-radius: 4px; margin-bottom: 6px; overflow: hidden;
+  }
+  .padding-head {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 10px; height: 30px;
+    font-size: 12px; color: #5a5a5e; cursor: pointer;
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+  }
+  .padding-head .arrow { color: #9a9a9e; font-size: 10px; }
+  .padding-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 1px; background: rgba(0,0,0,0.06);
+  }
+  .padding-grid .cell {
+    display: flex; align-items: center;
+    padding: 0 10px; height: 30px;
+    background: #fff; font-size: 12px; gap: 6px;
+  }
+  .padding-grid .cell .lbl { color: #5a5a5e; }
+  .padding-grid .cell .val {
+    margin-left: auto; font-family: 'SF Mono', 'Menlo', monospace; font-size: 11px;
+  }
+
+  /* 组件 Tab 卡片 */
+  .comp-card {
+    background: #fff;
+    border: 1px solid rgba(0,0,0,0.08);
+    border-radius: 6px; padding: 10px 10px 6px 10px;
+    margin-bottom: 10px;
+  }
+  .comp-card .comp-head {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 8px;
+  }
+  .comp-card .comp-name {
+    font-size: 12px; font-weight: 600; color: #1a1a1a;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .comp-card .comp-name .dot {
+    width: 6px; height: 6px; border-radius: 50%; background: #0099ff;
+  }
+  .comp-card .comp-tag {
+    font-size: 10px; padding: 2px 6px;
+    background: #eef4ff; color: #214ca5;
+    border-radius: 3px; font-weight: 500;
+  }
+
+  /* 响应式（R4 硬性规则：Inspector 置顶；此时恢复整页滚动） */
+  @media (max-width: 860px) {
+    html, body { height: auto; overflow: visible; }
+    body {
+      grid-template-columns: 1fr;
+      grid-template-rows: 44px auto auto;
+      grid-template-areas:
+        "topbar"
+        "inspector"
+        "canvas";
+    }
+    .inspector {
+      width: 100%; height: auto;
+      border-left: none; border-bottom: 1px solid #e5e5ea;
+    }
+    .canvas { padding: 20px 10px; height: auto; }
+  }
+
+  /* ===== R8 · Edit 模式（固定 CSS） ===== */
+  .tb-chip.edit.active { background: #0099ff; }
+  .tb-chip.edit.active:hover { background: #0088e6; }
+
+  .selection-overlay { position: absolute; pointer-events: none; z-index: 5; }
+  .selection-overlay .sel-box {
+    position: absolute; inset: 0;
+    border: 2px solid #0099ff;
+    box-shadow: 0 0 0 1px rgba(255,255,255,0.6);
+  }
+  .selection-overlay .sel-label {
+    position: absolute; left: 0; top: -22px;
+    background: #0099ff; color: #fff;
+    font-size: 11px; font-weight: 500;
+    padding: 2px 8px; border-radius: 3px; white-space: nowrap;
+  }
+
+  .selection-card {
+    padding: 12px 14px;
+    background: #f0f7ff;
+    border-bottom: 1px solid #c5e0ff;
+    flex-shrink: 0; display: none;
+  }
+  .inspector.edit-mode .selection-card.visible { display: block; }
+  .selection-card .sc-head {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 8px;
+  }
+  .selection-card .sc-name {
+    font-size: 13px; font-weight: 600; color: #1a1a1a;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .selection-card .sc-name::before {
+    content: ''; width: 6px; height: 6px; border-radius: 50%; background: #0099ff;
+  }
+  .selection-card .sc-variant {
+    font-size: 10px; padding: 2px 6px;
+    background: #0099ff; color: #fff; border-radius: 3px;
+  }
+  .selection-card .sc-hint {
+    font-size: 11px; color: #5a7899; margin-top: 2px;
+  }
+
+  .edit-empty {
+    padding: 20px 14px;
+    font-size: 12px; color: #8a8a8e;
+    text-align: center; display: none;
+  }
+  .inspector.edit-mode.no-selection .edit-empty { display: block; }
+  .inspector.edit-mode.no-selection .tab-panel { display: none !important; }
+  .inspector.edit-mode.no-selection .tabs { display: none; }
+
+  .edit-panel {
+    flex: 1; overflow-y: auto;
+    padding: 12px 14px 80px 14px;
+    display: none;
+  }
+  .inspector.edit-mode.has-selection .edit-panel { display: block; }
+  .inspector.edit-mode.has-selection .tab-panel { display: none !important; }
+  .inspector.edit-mode.has-selection .tabs { display: none; }
+
+  .field.editable { background: #fff; cursor: text; }
+  .field.editable input {
+    flex: 1; min-width: 0;
+    border: none; outline: none; background: transparent;
+    text-align: right;
+    font-family: 'SF Mono', 'Menlo', monospace;
+    font-size: 11px; color: #1a1a1a; padding: 0;
+  }
+  .field.editable:focus-within {
+    border-color: #0099ff;
+    box-shadow: 0 0 0 2px rgba(0,153,255,0.15);
+  }
+</style>
+</head>
+<body>
+
+<!-- ========== 顶部全局工具栏 ========== -->
+<div class="topbar">
+  <div class="topbar-left">
+    <span class="tb-icon" title="重置">↺</span>
+    <span class="tb-icon" title="撤销">↶</span>
+    <span class="tb-icon disabled" title="重做">↷</span>
+  </div>
+  <div class="topbar-right">
+    <span class="tb-toggle" id="tweaksToggle">Tweaks<span class="switch"></span></span>
+    <span class="tb-chip comment has-border">Comment</span>
+    <span class="tb-chip edit" id="editToggle">Edit</span>
+    <span class="tb-chip draw">Draw</span>
+    <div class="tb-divider"></div>
+    <span class="tb-chip zoom">100%</span>
+  </div>
+</div>
+
+<!-- ========== 左侧：画布（嵌入目标页面） ========== -->
+<div class="canvas" id="canvasWrap">
+  <!-- ⚠️ 替换 src 为你的实际页面文件名 -->
+  <iframe src="{{PAGE_FILE}}" id="stage" title="{{PAGE_NAME}}" allowtransparency="true"></iframe>
+  <!-- R8: Edit 模式选中框 overlay -->
+  <div id="selectionOverlay" class="selection-overlay" style="display:none;">
+    <div class="sel-box"></div>
+    <div class="sel-label"></div>
+  </div>
+</div>
+
+<!-- ========== 右侧：Inspector 面板 ========== -->
+<aside class="inspector" id="inspector">
+
+  <!-- R8: Edit 模式 · 选中卡 -->
+  <div class="selection-card" id="selectionCard">
+    <div class="sc-head">
+      <div class="sc-name" id="scName">—</div>
+      <div class="sc-variant" id="scVariant">—</div>
+    </div>
+    <div class="sc-hint">点击画布中的其他组件可切换选中</div>
+  </div>
+
+  <!-- R8: Edit 模式 · 空态 -->
+  <div class="edit-empty">
+    <div style="font-size: 28px; margin-bottom: 8px; color:#0099ff;">◉</div>
+    <div style="font-size:13px; color:#333;">请在左侧画布点击任一组件</div>
+    <div style="margin-top: 6px; color:#a0a0a4; font-size:11px;">即可在此查看并修改其参数</div>
+  </div>
+
+  <!-- R8: Edit 模式 · 动态参数面板 -->
+  <div class="edit-panel" id="editPanel"></div>
+
+  <div class="tabs">
+    <div class="tab active" data-tab="style">Style</div>
+    <div class="tab" data-tab="component">组件</div>
+  </div>
+
+  <!-- ========== Tab 1 · Style ========== -->
+  <div class="tab-panel active" id="panel-style">
+
+    <div class="section-title">Typography</div>
+    <div class="row cols-1">
+      <div class="field"><span class="lbl">Font</span><span class="val dropdown">PingFang SC</span></div>
+    </div>
+    <div class="row cols-2">
+      <div class="field"><span class="lbl">Size</span><span class="val mixed">Mixed</span></div>
+      <div class="field"><span class="lbl">Weight</span><span class="val mixed dropdown">Mixed</span></div>
+    </div>
+    <div class="row cols-2">
+      <div class="field">
+        <span class="lbl">Color</span>
+        <span class="swatch transparent"></span>
+        <span class="val mixed">Mixed</span>
+      </div>
+      <div class="field"><span class="lbl">Align</span><span class="val dropdown">left</span></div>
+    </div>
+    <div class="row cols-2">
+      <div class="field"><span class="lbl">Line</span><span class="val mixed">Mixed</span></div>
+      <div class="field"><span class="lbl">Tracking</span><span class="val">0 px</span></div>
+    </div>
+
+    <div class="section-title">Size</div>
+    <div class="row cols-2">
+      <div class="field"><span class="lbl">Width</span><span class="val">428 px</span></div>
+      <div class="field"><span class="lbl">Height</span><span class="val">926 px</span></div>
+    </div>
+
+    <div class="section-title">Layout</div>
+    <div class="row cols-2">
+      <div class="field"><span class="lbl">Gap</span><span class="val mixed">Mixed</span></div>
+      <div class="field"><span class="lbl">Direction</span><span class="val dropdown">column</span></div>
+    </div>
+    <div class="row cols-2">
+      <div class="field"><span class="lbl">Justify</span><span class="val dropdown">flex-start</span></div>
+      <div class="field"><span class="lbl">Align</span><span class="val dropdown">stretch</span></div>
+    </div>
+
+    <div class="section-title">Box</div>
+    <div class="row cols-2">
+      <div class="field">
+        <span class="lbl">Fill</span>
+        <span class="swatch" style="background:#ffffff"></span>
+        <span class="val">#FFFFFF</span>
+      </div>
+      <div class="field"><span class="lbl">Opacity</span><span class="val">1</span></div>
+    </div>
+
+    <div class="padding-box">
+      <div class="padding-head"><span>Padding</span><span class="arrow">▲</span></div>
+      <div class="padding-grid">
+        <div class="cell"><span class="lbl">T</span><span class="val">0 px</span></div>
+        <div class="cell"><span class="lbl">R</span><span class="val">16 px</span></div>
+        <div class="cell"><span class="lbl">B</span><span class="val">0 px</span></div>
+        <div class="cell"><span class="lbl">L</span><span class="val">16 px</span></div>
+      </div>
+    </div>
+
+    <div class="row cols-1">
+      <div class="field"><span class="lbl">Margin</span><span class="val dropdown">0 px</span></div>
+    </div>
+    <div class="row cols-1">
+      <div class="field"><span class="lbl">Border</span><span class="val dropdown">0 px</span></div>
+    </div>
+    <div class="row cols-1">
+      <div class="field"><span class="lbl">Radius</span><span class="val dropdown">0 px</span></div>
+    </div>
+
+    <div class="section-title">Color Tokens</div>
+    <!-- ⚠️ 只列本页实际用到的 token，保持 3-10 个 -->
+    <!-- TEMPLATE:COLOR_TOKENS -->
+
+    <div class="section-title">Spacing Scale</div>
+    <div class="row cols-2">
+      <div class="field"><span class="lbl">xs</span><span class="val">4 px</span></div>
+      <div class="field"><span class="lbl">s</span><span class="val">8 px</span></div>
+    </div>
+    <div class="row cols-2">
+      <div class="field"><span class="lbl">m</span><span class="val">12 px</span></div>
+      <div class="field"><span class="lbl">l</span><span class="val">16 px</span></div>
+    </div>
+    <div class="row cols-2">
+      <div class="field"><span class="lbl">xl</span><span class="val">24 px</span></div>
+      <div class="field"><span class="lbl">xxl</span><span class="val">32 px</span></div>
+    </div>
+
+    <div class="section-title">Typography Scale</div>
+    <div class="row cols-2">
+      <div class="field"><span class="lbl">Title2</span><span class="val">20 / 600</span></div>
+      <div class="field"><span class="lbl">Headline</span><span class="val">17 / 600</span></div>
+    </div>
+    <div class="row cols-2">
+      <div class="field"><span class="lbl">Body</span><span class="val">17 / 400</span></div>
+      <div class="field"><span class="lbl">Callout</span><span class="val">16 / 400</span></div>
+    </div>
+    <div class="row cols-2">
+      <div class="field"><span class="lbl">Subhead</span><span class="val">15 / 400</span></div>
+      <div class="field"><span class="lbl">Caption1</span><span class="val">12 / 400</span></div>
+    </div>
+  </div>
+
+  <!-- ========== Tab 2 · 组件 ========== -->
+  <div class="tab-panel" id="panel-component">
+    <!-- ⚠️ 每个母组件一张 .comp-card；参考下方示例结构 -->
+    <!-- TEMPLATE:COMPONENT_CARDS -->
+
+    <!-- === 示例卡片（可复制粘贴修改） === -->
+    <div class="comp-card">
+      <div class="comp-head">
+        <div class="comp-name"><span class="dot"></span>X. 组件名</div>
+        <span class="comp-tag">变体 ID</span>
+      </div>
+      <div class="row cols-2">
+        <div class="field"><span class="lbl">W</span><span class="val">428 px</span></div>
+        <div class="field"><span class="lbl">H</span><span class="val">XX px</span></div>
+      </div>
+      <div class="padding-box">
+        <div class="padding-head"><span>Padding</span><span class="arrow">▲</span></div>
+        <div class="padding-grid">
+          <div class="cell"><span class="lbl">T</span><span class="val">0 px</span></div>
+          <div class="cell"><span class="lbl">R</span><span class="val">16 px</span></div>
+          <div class="cell"><span class="lbl">B</span><span class="val">0 px</span></div>
+          <div class="cell"><span class="lbl">L</span><span class="val">16 px</span></div>
+        </div>
+      </div>
+      <div class="row cols-2">
+        <div class="field"><span class="lbl">文本</span><span class="val">17/600</span></div>
+        <div class="field"><span class="lbl">Color</span><span class="val">text-primary</span></div>
+      </div>
+    </div>
+  </div>
+
+</aside>
+
+<script>
+  // Tab 切换
+  document.querySelectorAll('.tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      const target = tab.dataset.tab;
+      document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t === tab));
+      document.querySelectorAll('.tab-panel').forEach(p => {
+        p.classList.toggle('active', p.id === 'panel-' + target);
+      });
+    });
+  });
+
+  // Padding 折叠
+  document.querySelectorAll('.padding-head').forEach(head => {
+    head.addEventListener('click', () => {
+      const box = head.parentElement;
+      const grid = box.querySelector('.padding-grid');
+      const arrow = head.querySelector('.arrow');
+      const collapsed = grid.style.display === 'none';
+      grid.style.display = collapsed ? 'grid' : 'none';
+      arrow.textContent = collapsed ? '▲' : '▼';
+    });
+  });
+
+  // Tweaks 开关
+  const tweaks = document.getElementById('tweaksToggle');
+  if (tweaks) tweaks.addEventListener('click', () => tweaks.classList.toggle('off'));
+
+  /* =====================================================
+   *  R8 · Edit 模式通信脚本（固定不改）
+   *  协议详见: edit-mode-protocol.md
+   * ===================================================== */
+  (function () {
+    const editBtn = document.getElementById('editToggle');
+    const inspector = document.getElementById('inspector');
+    const iframe = document.getElementById('stage');
+    const overlay = document.getElementById('selectionOverlay');
+    const selBox = overlay.querySelector('.sel-box');
+    const selLabel = overlay.querySelector('.sel-label');
+    const selectionCard = document.getElementById('selectionCard');
+    const scName = document.getElementById('scName');
+    const scVariant = document.getElementById('scVariant');
+    const editPanel = document.getElementById('editPanel');
+
+    let editOn = false;
+    let currentSelection = null;
+
+    // 可编辑 token 白名单：key = 组件 tokens 的字段名，value = 对应 CSS 属性
+    const TOKEN_META = {
+      W: { cssProp: 'width' },
+      H: { cssProp: 'height' },
+      RowW: { cssProp: 'width' },
+      RowH: { cssProp: 'height' },
+      MinH: { cssProp: 'min-height' },
+      PaddingX: { cssProp: 'padding-left-right' },
+      Gap: { cssProp: 'gap' },
+      Radius: { cssProp: 'border-radius' },
+      LineHeight: { cssProp: 'line-height' }
+    };
+
+    function applyEditMode(on) {
+      editOn = on;
+      editBtn.classList.toggle('active', on);
+      inspector.classList.toggle('edit-mode', on);
+      if (!on) {
+        inspector.classList.remove('has-selection', 'no-selection');
+        overlay.style.display = 'none';
+        currentSelection = null;
+        selectionCard.classList.remove('visible');
+      } else if (!currentSelection) {
+        inspector.classList.add('no-selection');
+      }
+      iframe.contentWindow.postMessage({
+        source: 'figma-inspector',
+        type: on ? 'ENTER_EDIT' : 'EXIT_EDIT'
+      }, '*');
+    }
+
+    editBtn.addEventListener('click', () => applyEditMode(!editOn));
+
+    function drawOverlay(rect) {
+      if (!rect) { overlay.style.display = 'none'; return; }
+      const iframeRect = iframe.getBoundingClientRect();
+      const canvasRect = iframe.parentElement.getBoundingClientRect();
+      const left = (iframeRect.left - canvasRect.left) + rect.x;
+      const top  = (iframeRect.top  - canvasRect.top)  + rect.y;
+      overlay.style.display = 'block';
+      overlay.style.left = left + 'px';
+      overlay.style.top  = top + 'px';
+      overlay.style.width  = rect.w + 'px';
+      overlay.style.height = rect.h + 'px';
+    }
+
+    function renderEditPanel(component, variant, tokens) {
+      selectionCard.classList.add('visible');
+      scName.textContent = component;
+      scVariant.textContent = variant || '—';
+
+      const editables = [], readonlys = [];
+      for (const [k, v] of Object.entries(tokens)) {
+        (TOKEN_META[k] ? editables : readonlys).push([k, v]);
+      }
+
+      const parts = [];
+      parts.push('<div class="section-title">尺寸 / 布局（可编辑）</div>');
+      if (editables.length === 0) {
+        parts.push('<div class="field"><span class="lbl">—</span><span class="val">该组件无可编辑数值</span></div>');
+      } else {
+        for (let i = 0; i < editables.length; i += 2) {
+          parts.push('<div class="row cols-2">');
+          for (let j = i; j < Math.min(i + 2, editables.length); j++) {
+            const [k, v] = editables[j];
+            parts.push(`<div class="field editable"><span class="lbl">${k}</span><input type="text" value="${v}" data-key="${k}" /></div>`);
+          }
+          parts.push('</div>');
+        }
+      }
+      if (readonlys.length > 0) {
+        parts.push('<div class="section-title">样式（只读）</div>');
+        for (let i = 0; i < readonlys.length; i += 2) {
+          parts.push('<div class="row cols-2">');
+          for (let j = i; j < Math.min(i + 2, readonlys.length); j++) {
+            const [k, v] = readonlys[j];
+            parts.push(`<div class="field"><span class="lbl">${k}</span><span class="val">${v}</span></div>`);
+          }
+          parts.push('</div>');
+        }
+      }
+      parts.push('<div class="section-title">提示</div>');
+      parts.push('<div class="field" style="height:auto; padding:8px 10px;"><span class="val" style="font-family:inherit; font-size:11px; color:#5a7899; white-space:normal; text-align:left; margin:0; line-height:1.5;">修改尺寸字段后按 <b>Enter</b> 生效（如 "440 px"）。修改不会持久化，刷新后复原。</span></div>');
+
+      editPanel.innerHTML = parts.join('');
+
+      editPanel.querySelectorAll('input[data-key]').forEach(inp => {
+        const submit = () => applyStyleUpdate(inp.dataset.key, inp.value.trim());
+        inp.addEventListener('keydown', e => { if (e.key === 'Enter') { inp.blur(); submit(); } });
+        inp.addEventListener('blur', submit);
+      });
+    }
+
+    function applyStyleUpdate(key, val) {
+      const meta = TOKEN_META[key];
+      if (!meta) return;
+      const cssVal = String(val).replace(/\s+/g, '');
+      const styles = {};
+      if (meta.cssProp === 'padding-left-right') {
+        styles['padding-left'] = cssVal;
+        styles['padding-right'] = cssVal;
+      } else {
+        styles[meta.cssProp] = cssVal;
+      }
+      iframe.contentWindow.postMessage({
+        source: 'figma-inspector',
+        type: 'APPLY_STYLE',
+        styles
+      }, '*');
+    }
+
+    window.addEventListener('message', (ev) => {
+      const msg = ev.data || {};
+      if (msg.source !== 'figma-canvas') return;
+      if (msg.type === 'SELECT') {
+        currentSelection = msg;
+        inspector.classList.remove('no-selection');
+        inspector.classList.add('has-selection');
+        drawOverlay(msg.rect);
+        selLabel.textContent = msg.component + (msg.variant ? '  ·  ' + msg.variant : '');
+        renderEditPanel(msg.component, msg.variant, msg.tokens);
+      } else if (msg.type === 'DESELECT') {
+        currentSelection = null;
+        inspector.classList.add('no-selection');
+        inspector.classList.remove('has-selection');
+        overlay.style.display = 'none';
+        selectionCard.classList.remove('visible');
+      } else if (msg.type === 'READY') {
+        if (editOn) iframe.contentWindow.postMessage({ source: 'figma-inspector', type: 'ENTER_EDIT' }, '*');
+      }
+    });
+  })();
+</script>
+
+</body>
+</html>
